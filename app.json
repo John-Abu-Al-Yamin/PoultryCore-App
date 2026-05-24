@@ -4,6 +4,7 @@
     "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
+    "direction": "rtl",
     "icon": "./assets/images/icon.png",
     "scheme": "app",
     "userInterfaceStyle": "automatic",
@@ -38,7 +39,9 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-secure-store",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

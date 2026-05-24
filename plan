@@ -1,0 +1,192 @@
+﻿# PoultryCore App — Implementation Plan
+
+## Phase 0: Foundation (Week 1)
+Project scaffolding, theme, navigation skeleton, auth flow
+
+### Task 0.1 — Project Cleanup & Setup
+- [ ] Remove placeholder app/index.tsx content
+- [ ] Configure app.json (name, slug, scheme)
+- [ ] Setup .env file with EXPO_PUBLIC_API_URL
+- [ ] Install dependencies: expo-secure-store, async-storage, react-hook-form + zod
+- [ ] Create folder structure (app/, constants/, lib/, types/, hooks/, contexts/, components/)
+
+### Task 0.2 — Theme System
+- [ ] Create constants/colors.ts (lightColors + darkColors from PRD)
+- [ ] Create constants/spacing.ts
+- [ ] Create constants/typography.ts
+- [ ] Create hooks/useThemeColor.ts
+- [ ] Create contexts/ThemeContext.tsx
+
+### Task 0.3 — API Client
+- [ ] Create lib/api.ts (base HTTP client with token management)
+- [ ] Create lib/storage.ts (token get/set/delete via expo-secure-store)
+- [ ] Create lib/utils.ts (currency/formatters)
+
+### Task 0.4 — Auth Context & Navigation
+- [ ] Create contexts/AuthContext.tsx (login, register, logout, user state)
+- [ ] Create app/_layout.tsx (root Stack: auth | tabs)
+- [ ] Create app/index.tsx (splash/redirect based on auth state)
+- [ ] Create app/(auth)/_layout.tsx (Stack for auth screens)
+- [ ] Create app/(auth)/login.tsx
+- [ ] Create app/(auth)/register.tsx
+
+### Task 0.5 — Tab Navigator Setup
+- [ ] Create app/(tabs)/_layout.tsx (bottom tabs: dashboard, barns, purchases, sales, more)
+- [ ] Create placeholders for all tab screens
+- [ ] Create More modal/action sheet with links to remaining screens
+
+---
+
+## Phase 1: Core Screens (Week 2-3)
+CRUD for primary entities: Barns, Batches, Sales, Purchases
+
+### Task 1.1 — Barns
+- [ ] Create types/models.ts (Barn, Batch, Sale, Purchase, etc.)
+- [ ] Create types/api.ts (API response types)
+- [ ] Create hooks/useBarns.ts
+- [ ] Create components/forms/BarnForm.tsx
+- [ ] Create app/(tabs)/barns/_layout.tsx (Stack)
+- [ ] Create app/(tabs)/barns/index.tsx (list + pull-to-refresh + FAB + swipe-delete)
+- [ ] Create app/(tabs)/barns/create.tsx
+- [ ] Create app/(tabs)/barns/[id]/index.tsx (detail + batches list)
+- [ ] Create app/(tabs)/barns/[id]/edit.tsx
+
+### Task 1.2 — Batches
+- [ ] Create hooks/useBatches.ts
+- [ ] Create components/forms/BatchForm.tsx
+- [ ] Create app/(tabs)/barns/[id]/batches/create.tsx
+- [ ] Create app/(tabs)/barns/[id]/batches/[batchId]/index.tsx (detail + quick actions)
+- [ ] Create app/(tabs)/barns/[id]/batches/[batchId]/edit.tsx (close batch)
+
+### Task 1.3 — Sales
+- [ ] Create hooks/useSales.ts
+- [ ] Create components/forms/SaleForm.tsx
+- [ ] Create app/(tabs)/sales/_layout.tsx
+- [ ] Create app/(tabs)/sales/index.tsx (list + filters)
+- [ ] Create app/(tabs)/sales/create.tsx
+
+### Task 1.4 — Purchases
+- [ ] Create hooks/usePurchases.ts
+- [ ] Create components/forms/PurchaseForm.tsx
+- [ ] Create app/(tabs)/purchases/_layout.tsx
+- [ ] Create app/(tabs)/purchases/index.tsx (list + filters)
+- [ ] Create app/(tabs)/purchases/create.tsx
+
+---
+
+## Phase 2: Supporting Screens (Week 4)
+Expenses, Deaths, Customers, Suppliers
+
+### Task 2.1 — Expenses
+- [ ] Create hooks/useExpenses.ts
+- [ ] Create components/forms/ExpenseForm.tsx
+- [ ] Create app/(tabs)/expenses/_layout.tsx
+- [ ] Create app/(tabs)/expenses/index.tsx
+- [ ] Create app/(tabs)/expenses/create.tsx
+- [ ] Create batch-scoped expenses screen
+
+### Task 2.2 — Deaths
+- [ ] Create hooks/useDeaths.ts
+- [ ] Create components/forms/DeathForm.tsx
+- [ ] Create app/(tabs)/deaths/_layout.tsx
+- [ ] Create app/(tabs)/deaths/index.tsx
+- [ ] Create app/(tabs)/deaths/create.tsx
+- [ ] Create batch-scoped deaths screen
+
+### Task 2.3 — Customers
+- [ ] Create hooks/useCustomers.ts
+- [ ] Create components/forms/CustomerForm.tsx
+- [ ] Create app/(tabs)/customers/_layout.tsx
+- [ ] Create app/(tabs)/customers/index.tsx
+- [ ] Create app/(tabs)/customers/create.tsx
+- [ ] Create app/(tabs)/customers/[id].tsx (detail + transaction history)
+
+### Task 2.4 — Suppliers
+- [ ] Create hooks/useSuppliers.ts
+- [ ] Create components/forms/SupplierForm.tsx
+- [ ] Create app/(tabs)/suppliers/_layout.tsx
+- [ ] Create app/(tabs)/suppliers/index.tsx
+- [ ] Create app/(tabs)/suppliers/create.tsx
+- [ ] Create app/(tabs)/suppliers/[id].tsx (detail + transaction history)
+
+---
+
+## Phase 3: Financial Features (Week 5)
+Payments, Dashboard, Business logic
+
+### Task 3.1 — Payments
+- [ ] Create hooks/usePayments.ts
+- [ ] Create components/forms/PaymentForm.tsx
+- [ ] Create app/(tabs)/payments/_layout.tsx
+- [ ] Create app/(tabs)/payments/index.tsx (collections + supplier payments tabs)
+- [ ] Create app/(tabs)/payments/create.tsx
+
+### Task 3.2 — Dashboard
+- [ ] Create hooks/useDashboard.ts (aggregated API)
+- [ ] Build app/(tabs)/dashboard.tsx: summary cards, debts, profit, quick actions
+
+### Task 3.3 — Business Logic Helpers
+- [ ] Create utils/calculations.ts (totalCost, payables, receivables, profit, stock)
+- [ ] Create utils/formatters.ts (currency, date, number)
+
+---
+
+## Phase 4: Reports & Shared UI (Week 6)
+
+### Task 4.1 — Reports
+- [ ] Create app/(tabs)/reports/_layout.tsx
+- [ ] Create app/(tabs)/reports/index.tsx (P&L, stock, debts, batch/barn performance)
+- [ ] Install and integrate chart library
+
+### Task 4.2 — Shared UI Components
+- [ ] Build Button, Card, Input, Select, Badge, LoadingSpinner
+- [ ] Build EmptyState, ErrorState
+- [ ] Build SummaryCard, DebtBadge, PaymentStatusBadge, ConfirmDialog
+
+### Task 4.3 — Loading / Empty / Error States
+- [ ] Add loading spinner to all list screens
+- [ ] Add empty state with CTA to all list screens
+- [ ] Add error state with retry to all list screens
+- [ ] Add loading state on form submit for all form screens
+
+### Task 4.4 — Global Error Handling
+- [ ] Add global 401 interceptor redirect to login
+- [ ] Add network error handling
+- [ ] Add toast/snackbar for success/error feedback
+
+---
+
+## Phase 5: QA & Launch (Week 7)
+
+### Task 5.1 — Testing
+- [ ] Test all CRUD flows end-to-end
+- [ ] Test auth flow (login, register, logout, token expiry)
+- [ ] Test dark mode
+- [ ] Test offline/network error states
+- [ ] Test empty states
+
+### Task 5.2 — Polish
+- [ ] Review all screens for consistent spacing/typography
+- [ ] Add haptic feedback (expo-haptics) on key actions
+- [ ] Optimize FlatLists
+- [ ] Add pull-to-refresh on all lists
+- [ ] Add keyboard avoidance on all forms
+
+### Task 5.3 — Build & Deploy
+- [ ] Configure EAS Build
+- [ ] Create development build
+- [ ] Create production build (APK/IPA)
+- [ ] Submit to stores or distribute via EAS
+
+---
+
+## Dependency Installation Order
+
+Phase 0: npx expo install expo-secure-store @react-native-async-storage/async-storage
+         npm install react-hook-form zod @hookform/resolvers
+
+Phase 4: npx expo install react-native-svg
+         npm install victory-native
+
+Optional: npx expo install react-native-toast-message
+          npx expo install @react-native-community/datetimepicker
