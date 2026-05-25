@@ -1,23 +1,40 @@
 import "../global.css";
 import { useCallback } from "react";
-import { View } from "react-native";
-import {  Stack } from "expo-router";
+import { Stack } from "expo-router";
 import Toast from "react-native-toast-message";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 import { useFonts } from "@expo-google-fonts/tajawal";
-import { ThemeProvider } from "@/src/contexts/ThemeContext";
+import { ThemeProvider, useTheme } from "@/src/contexts/ThemeContext";
 import TanstackProvider from "@/src/providers/TanstackProvider";
-import { toastConfig } from "@/src/components/ToastConfig";
+// import { toastConfig } from "@/src/components/ToastConfig";
 
 import { fonts, setDefaultFont } from "@/src/config/fonts";
 import { enableRTL } from "@/src/config/rtl";
 import { initSplash } from "@/src/config/splash";
 
-
 enableRTL();
 setDefaultFont();
 initSplash();
+
+function ThemeAwareStatusBar() {
+  const { theme } = useTheme();
+  return <StatusBar style={theme === "dark" ? "light" : "dark"} />;
+}
+
+function ThemedStack() {
+  const { colors } = useTheme();
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: colors.background },
+      }}
+    />
+  );
+}
 
 export default function RootLayout() {
   const [loaded, error] = useFonts(fonts);
@@ -31,13 +48,21 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayout}>
-      <TanstackProvider>
-        <ThemeProvider>
-          <Stack />
-          <Toast config={toastConfig} />
-        </ThemeProvider>
-      </TanstackProvider>
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView
+        className="bg-background-light dark:bg-background-dark"
+        style={{ flex: 1 }}
+        edges={["top", "bottom"]}
+        onLayout={onLayout}
+      >
+        <TanstackProvider>
+          <ThemeProvider>
+            <ThemeAwareStatusBar />
+            <ThemedStack />
+            {/* <Toast config={toastConfig} /> */}
+          </ThemeProvider>
+        </TanstackProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

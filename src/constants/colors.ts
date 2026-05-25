@@ -5,6 +5,7 @@ export const lightColors = {
   card: "#FFFFFF",
   text: "#242424",
   muted: "#F5F5F5",
+  mutedForeground: "#6B7280",
   border: "#EAEAEA",
   success: "#16a34a",
   error: "#9a3412",
@@ -18,8 +19,10 @@ export const darkColors = {
   card: "#111111",
   text: "#FAFAFA",
   muted: "#3F3F3F",
+  mutedForeground: "#9CA3AF",
   border: "#FFFFFF1A",
   success: "#22c55e",
   error: "#f87171",
   warning: "#fbbf24",
 };
+

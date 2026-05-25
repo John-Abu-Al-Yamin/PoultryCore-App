@@ -1,6 +1,8 @@
 import * as SecureStore from "expo-secure-store";
+import type { User } from "@/src/types";
 
 const TOKEN_NAME = "Realestate_TOKEN";
+const USER_KEY = "Realestate_USER";
 
 // Save token
 const setAuthToken = async (token: string) => {
@@ -22,6 +24,31 @@ const checkAuthToken = async (): Promise<boolean> => {
 const removeAuthToken = async () => {
   await SecureStore.deleteItemAsync(TOKEN_NAME);
 };
+// ================= USER =================
+
+const setUser = async (user: User) => {
+  await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
+};
+
+const getUser = async (): Promise<User | null> => {
+  const raw = await SecureStore.getItemAsync(USER_KEY);
+  if (!raw) return null;
+  return JSON.parse(raw) as User;
+};
+
+const removeUser = async () => {
+  await SecureStore.deleteItemAsync(USER_KEY);
+};
 
 export default getAuthToken;
-export { checkAuthToken, removeAuthToken, setAuthToken };
+
+export {
+  setAuthToken,
+  getAuthToken,
+  checkAuthToken,
+  removeAuthToken,
+
+  setUser,
+  getUser,
+  removeUser,
+};

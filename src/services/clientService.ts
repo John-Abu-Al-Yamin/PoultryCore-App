@@ -3,7 +3,7 @@ import getAuthToken from "./cookies";
 import type { RequestConfig } from "../types/api";
 
 const clientApi = axios.create({
-  baseURL: "https://getsimt.com/api/v1/admin",
+  baseURL: "http://192.168.100.8:8000/api",
 });
 
 export const request = async <T = unknown>(

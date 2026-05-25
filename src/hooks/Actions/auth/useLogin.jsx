@@ -1,15 +1,14 @@
-import endPoints from "@/hooks/EndPoints/endPoints";
-import queryKeys from "@/hooks/EndPoints/queryKeys";
-import usePostData from "@/hooks/curdsHook/usePostData";
+import endPoints from "@/src/hooks/EndPoints/endPoints";
+import queryKeys from "@/src/hooks/EndPoints/queryKeys";
+import usePostData from "@/src/hooks/curdsHook/usePostData";
+import { setAuthToken } from "@/src/services/cookies";
 
-import { setAuthCookie } from "@/services/cookies";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useRouter } from "expo-router";
 const useLogin = () => {
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const navigate = useNavigate();
+const router = useRouter();
 
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.login,
@@ -26,7 +25,7 @@ const useLogin = () => {
       console.log("apiToken", apiToken);
 
       if (typeof apiToken === "string" && apiToken.length > 0) {
-        setAuthCookie(apiToken);
+        setAuthToken(apiToken);
       }
     }
 
@@ -38,7 +37,7 @@ const useLogin = () => {
         "Login failed";
       setErrorMsg(serverErr);
     }
-  }, [data, isSuccess, isError, error, navigate]);
+  }, [data, isSuccess, isError, error, router]);
 
   return {
     mutate,

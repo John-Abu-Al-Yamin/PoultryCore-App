@@ -3,7 +3,7 @@ import { Stack, Redirect } from "expo-router";
 import { checkAuthToken } from "@/src/services/cookies";
 import { useTheme } from "@/src/contexts/ThemeContext";
 
-export default function AuthLayout() {
+export default function SetupLayout() {
   const { colors } = useTheme();
   const [authState, setAuthState] = useState<"loading" | "authenticated" | "unauthenticated">("loading");
 
@@ -13,7 +13,7 @@ export default function AuthLayout() {
     });
   }, []);
 
-  if (authState === "authenticated") return <Redirect href="/" />;
+  if (authState === "unauthenticated") return <Redirect href="/(auth)/login" />;
 
   return (
     <Stack

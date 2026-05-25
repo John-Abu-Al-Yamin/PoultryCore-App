@@ -24,7 +24,7 @@ module.exports = {
         },
         background: {
           light: "#FFFFFF",
-          dark: "#242424",
+          dark: "#0C0C0C",
         },
         card: {
           light: "#FFFFFF",
@@ -37,6 +37,10 @@ module.exports = {
         muted: {
           light: "#F5F5F5",
           dark: "#3F3F3F",
+        },
+        mutedForeground: {
+          light: "#6B7280",
+          dark: "#9CA3AF",
         },
         border: {
           light: "#EAEAEA",
