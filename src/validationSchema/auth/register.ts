@@ -11,11 +11,9 @@ export const registerSchema = z
 
     password: z.string().min(6, "كلمة المرور لازم تكون 6 أحرف على الأقل"),
 
-    confirmPassword: z
-      .string()
-      .min(6, "تأكيد كلمة المرور مطلوب"),
+    password_confirmation: z.string().min(6, "تأكيد كلمة المرور مطلوب"),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.password_confirmation, {
     message: "كلمتا المرور غير متطابقتين",
-    path: ["confirmPassword"], 
+    path: ["password_confirmation"],
   });

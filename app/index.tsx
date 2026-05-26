@@ -1,9 +1,19 @@
-import { useEffect, useState } from "react";
-import { Text, View, Pressable, TouchableOpacity, ActivityIndicator } from "react-native";
-import { Redirect } from "expo-router";
+import { useState, useCallback } from "react";
+import {
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { Redirect, useFocusEffect } from "expo-router";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { toast } from "@/src/services/toast";
-import { checkAuthToken, getUser } from "@/src/services/cookies";
+import {
+  checkAuthToken,
+  getUser,
+  removeAuthToken,
+} from "@/src/services/cookies";
 
 type AuthState = "loading" | "authenticated" | "unauthenticated";
 
@@ -12,22 +22,26 @@ export default function Index() {
   const [authState, setAuthState] = useState<AuthState>("loading");
   const [setupDone, setSetupDone] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const hasToken = await checkAuthToken();
-      if (!hasToken) {
-        setAuthState("unauthenticated");
-        return;
-      }
-      setAuthState("authenticated");
-      const user = await getUser();
-      setSetupDone(user?.has_completed_setup ?? false);
-    })();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const hasToken = await checkAuthToken();
+        if (!hasToken) {
+          setAuthState("unauthenticated");
+          return;
+        }
+        setAuthState("authenticated");
+        const user = await getUser();
+        setSetupDone(user?.has_completed_setup ?? false);
+      })();
+    }, []),
+  );
 
-  if (authState === "unauthenticated") return <Redirect href="/(auth)/register" />;
+  if (authState === "unauthenticated")
+    return <Redirect href="/(auth)/register" />;
 
-  if (authState === "authenticated" && !setupDone) return <Redirect href="/(setup)/barn" />;
+  if (authState === "authenticated" && !setupDone)
+    return <Redirect href="/(setup)/barn" />;
 
   if (authState === "loading") {
     return (
@@ -39,7 +53,6 @@ export default function Index() {
 
   return (
     <View className="flex-1 items-center justify-center gap-4 bg-background-light dark:bg-background-dark">
-
       <Text className="text-lg text-text-light dark:text-text-dark">
         Current theme: {theme}
       </Text>
@@ -47,10 +60,16 @@ export default function Index() {
         onPress={toggleTheme}
         className="rounded-lg bg-primary-light px-6 py-3 dark:bg-primary-dark"
       >
-        <Text className="font-semibold text-white">
-          Toggle Theme
-        </Text>
+        <Text className="font-semibold text-white">Toggle Theme</Text>
       </Pressable>
+
+      <TouchableOpacity
+        onPress={removeAuthToken}
+        className="rounded-lg bg-primary-light px-6 py-3 dark:bg-primary-dark"
+      >
+        <Text className="font-semibold text-white">Logout</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => toast.success("تم اضافه  العتبر ب نجاح")}
         className="rounded-lg bg-secondary-light px-6 py-3 dark:bg-secondary-dark"

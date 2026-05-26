@@ -4,18 +4,12 @@ import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
 import useGetData from "@/src/hooks/curdsHook/useGetData";
 import usePutData from "@/src/hooks/curdsHook/usePutData";
 import usePostData from "@/src/hooks/curdsHook/usePostData";
-import { User } from "@/src/types/user";
 
-
-
-
-/* Main Units*/
-
-export const useGetAllUsers = (page = 1, limit = 20) => {
+export const useGetAllBarns = (page = 1, limit = 20) => {
   const { data, isPending, refetch, ...rest } = useGetData({
-    url: endPoints.users,
-    params: { page, limit },
-    queryKeys: [queryKeys.users, page, limit],
+    url: endPoints.barns,
+    params: { page: String(page), limit: String(limit) },
+    queryKeys: [queryKeys.barns, String(page), String(limit)],
   });
 
   return {
@@ -28,49 +22,32 @@ export const useGetAllUsers = (page = 1, limit = 20) => {
   };
 };
 
-
-export const useGetMe = () => {
-  const { data, isPending, refetch, ...rest } = useGetData<User>({
-    url: endPoints.user,
-    queryKeys: [queryKeys.user],
-  });
-
-  return {
-    data,
-    isPending,
-    isError: rest.error,
-    refetch,
-  };
-};
-
-export const useAddUser = () => {
+export const useAddBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
-    endPoints.users,
-    [queryKeys.addUsers],
-    [queryKeys.users, queryKeys.addUsers, queryKeys.profile]
+    endPoints.barns,
+    [queryKeys.addBarns],
+    [queryKeys.barns, queryKeys.addBarns ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useDeleteUser = () => {
+export const useDeleteBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
-    endPoints.users,
-    [queryKeys.deleteUsers],
-    [queryKeys.users, queryKeys.deleteUsers, queryKeys.profile]
+    endPoints.barns,
+    [queryKeys.deleteBarns],
+    [queryKeys.barns, queryKeys.deleteBarns ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useUpdateUser = () => {
+export const useUpdateBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
-    endPoints.users,
-    [queryKeys.updateUsers],
-    [queryKeys.users, queryKeys.updateUsers, queryKeys.profile]
+    endPoints.barns,
+    [queryKeys.updateBarns],
+    [queryKeys.barns, queryKeys.updateBarns, ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
-
-

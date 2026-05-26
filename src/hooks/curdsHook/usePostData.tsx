@@ -76,7 +76,13 @@ const usePostData = (
           } else if (typeof errorData.message === "string") {
             toast.error(errorData.message, { duration: 4000 });
           }
-        } else {
+        }
+
+        if (Array.isArray(errorData?.errors) && errorData.errors.length > 0) {
+          toast.error(errorData.errors[0].message, { duration: 4000 });
+        }
+
+        if (!errorData?.message && !Array.isArray(errorData?.errors)) {
           toast.error("حدث خطأ غير متوقع", { duration: 4000 });
         }
       }

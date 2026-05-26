@@ -44,7 +44,9 @@ function LoadingToast({ text1 }: BaseToastProps) {
     <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
       <View style={[styles.accent, rtl ? styles.accentRight : styles.accentLeft, { backgroundColor: colors.muted }]} />
       <View style={styles.iconWrap}>
-        <ActivityIndicator size={20} color={colors.primary} />
+        <View style={[styles.iconCircle, { backgroundColor: `${colors.muted}20` }]}>
+          <ActivityIndicator size={20} color={colors.primary} />
+        </View>
       </View>
       <Text style={[styles.text, { color: colors.text, fontFamily: "Tajawal" }]}>{text1}</Text>
     </View>

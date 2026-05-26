@@ -1,4 +1,5 @@
-import { View, TextInput, type TextInputProps, type ReactNode } from "react-native";
+import type { ReactNode } from "react";
+import { View, TextInput, type TextInputProps } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import FormError from "./FormError";
 

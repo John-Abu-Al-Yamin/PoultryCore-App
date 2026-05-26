@@ -3,23 +3,27 @@ import AppInput from "@/src/components/custom/AppInput";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { Eye, EyeOff, User, Phone, Lock } from "lucide-react-native";
+import { Link, router } from "expo-router";
+import { Eye, EyeOff, Lock, Phone, User } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-import { Link } from "expo-router";
 
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@/src/validationSchema/auth/register";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import type { z } from "zod";
+
+import useRegister from "@/src/hooks/Actions/auth/useRegister";
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function Register() {
   const { colors } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isPending, setIsPending] = useState(false);
+  const [showpassword_confirmation, setShowpassword_confirmation] =
+    useState(false);
+
+  const { mutate, isPending } = useRegister();
 
   const {
     control,
@@ -32,14 +36,23 @@ export default function Register() {
       name: "",
       phone: "",
       password: "",
-      confirmPassword: "",
+      password_confirmation: "",
     },
   });
 
   const onSubmit = (data: RegisterFormData) => {
-    setIsPending(true);
-    console.log("Register data:", JSON.stringify(data, null, 2));
-    setTimeout(() => setIsPending(false), 1500);
+    mutate(
+      { data },
+      {
+        onSuccess: () => {
+          console.log(" Registration successful:", data);
+          router.replace("/(setup)/barn");
+        },
+        onError: (error) => {
+          console.log("Registration failed:", error);
+        },
+      },
+    );
   };
 
   return (
@@ -145,15 +158,17 @@ export default function Register() {
           </AppText>
           <Controller
             control={control}
-            name="confirmPassword"
+            name="password_confirmation"
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 leftIcon={<Lock size={18} color={colors.mutedForeground} />}
                 rightIcon={
                   <Pressable
-                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                    onPress={() =>
+                      setShowpassword_confirmation(!showpassword_confirmation)
+                    }
                   >
-                    {showConfirmPassword ? (
+                    {showpassword_confirmation ? (
                       <EyeOff size={18} color={colors.mutedForeground} />
                     ) : (
                       <Eye size={18} color={colors.mutedForeground} />
@@ -161,8 +176,8 @@ export default function Register() {
                   </Pressable>
                 }
                 placeholder="أعد إدخال كلمة المرور"
-                secureTextEntry={!showConfirmPassword}
-                error={errors.confirmPassword?.message}
+                secureTextEntry={!showpassword_confirmation}
+                error={errors.password_confirmation?.message}
                 textAlign="right"
                 value={value}
                 onBlur={onBlur}

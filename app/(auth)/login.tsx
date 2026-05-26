@@ -12,8 +12,9 @@ import useLogin from "@/src/hooks/Actions/auth/useLogin";
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/src/validationSchema/auth/login";
 import type { z } from "zod";
+import { loginSchema } from "@/src/validationSchema/auth/login";
+import { router } from "expo-router";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -41,7 +42,7 @@ export default function Login() {
       { data: data },
       {
         onSuccess: () => {
-          console.log("Login successful, navigating to home...");
+          router.replace("/(setup)/barn");
         },
         onError: (error) => {
           console.log("Login failed:", error);
@@ -49,7 +50,7 @@ export default function Login() {
         
       },
     );
-    console.log("Login data:", data);
+    // console.log("Login data:", data);
   };
 
   return (

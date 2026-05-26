@@ -9,7 +9,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "@expo-google-fonts/tajawal";
 import { ThemeProvider, useTheme } from "@/src/contexts/ThemeContext";
 import TanstackProvider from "@/src/providers/TanstackProvider";
-// import { toastConfig } from "@/src/components/ToastConfig";
+import { toastConfig } from "@/src/components/ToastConfig";
 
 import { fonts, setDefaultFont } from "@/src/config/fonts";
 import { enableRTL } from "@/src/config/rtl";
@@ -59,7 +59,7 @@ export default function RootLayout() {
           <ThemeProvider>
             <ThemeAwareStatusBar />
             <ThemedStack />
-            {/* <Toast config={toastConfig} /> */}
+            <Toast config={toastConfig} />
           </ThemeProvider>
         </TanstackProvider>
       </SafeAreaView>

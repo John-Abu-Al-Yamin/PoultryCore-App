@@ -4,18 +4,12 @@ import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
 import useGetData from "@/src/hooks/curdsHook/useGetData";
 import usePutData from "@/src/hooks/curdsHook/usePutData";
 import usePostData from "@/src/hooks/curdsHook/usePostData";
-import { User } from "@/src/types/user";
 
-
-
-
-/* Main Units*/
-
-export const useGetAllUsers = (page = 1, limit = 20) => {
+export const useGetAllBatches = (page = 1, limit = 20) => {
   const { data, isPending, refetch, ...rest } = useGetData({
-    url: endPoints.users,
-    params: { page, limit },
-    queryKeys: [queryKeys.users, page, limit],
+    url: endPoints.batches,
+    params: { page: String(page), limit: String(limit) },
+    queryKeys: [queryKeys.batches, String(page), String(limit)],
   });
 
   return {
@@ -28,49 +22,32 @@ export const useGetAllUsers = (page = 1, limit = 20) => {
   };
 };
 
-
-export const useGetMe = () => {
-  const { data, isPending, refetch, ...rest } = useGetData<User>({
-    url: endPoints.user,
-    queryKeys: [queryKeys.user],
-  });
-
-  return {
-    data,
-    isPending,
-    isError: rest.error,
-    refetch,
-  };
-};
-
-export const useAddUser = () => {
+export const useAddBatch = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
-    endPoints.users,
-    [queryKeys.addUsers],
-    [queryKeys.users, queryKeys.addUsers, queryKeys.profile]
+    endPoints.batches,
+    [queryKeys.addBatches],
+    [queryKeys.batches, queryKeys.addBatches, queryKeys.user],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useDeleteUser = () => {
+export const useDeleteBatch = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
-    endPoints.users,
-    [queryKeys.deleteUsers],
-    [queryKeys.users, queryKeys.deleteUsers, queryKeys.profile]
+    endPoints.batches,
+    [queryKeys.deleteBatches],
+    [queryKeys.batches, queryKeys.deleteBatches ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useUpdateUser = () => {
+export const useUpdateBatch = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
-    endPoints.users,
-    [queryKeys.updateUsers],
-    [queryKeys.users, queryKeys.updateUsers, queryKeys.profile]
+    endPoints.batches,
+    [queryKeys.updateBatches],
+    [queryKeys.batches, queryKeys.updateBatches, ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
-
-
