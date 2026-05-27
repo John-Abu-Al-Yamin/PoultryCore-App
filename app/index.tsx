@@ -1,61 +1,17 @@
-import { useState, useCallback } from "react";
-import {
-  Text,
-  View,
-  Pressable,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import { Redirect, useFocusEffect } from "expo-router";
+import { Text, View, Pressable, TouchableOpacity } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { toast } from "@/src/services/toast";
-import {
-  checkAuthToken,
-  getUser,
-  removeAuthToken,
-} from "@/src/services/cookies";
-
-type AuthState = "loading" | "authenticated" | "unauthenticated";
+import { removeAuthToken } from "@/src/services/cookies";
 
 export default function Index() {
   const { theme, toggleTheme } = useTheme();
-  const [authState, setAuthState] = useState<AuthState>("loading");
-  const [setupDone, setSetupDone] = useState(false);
-
-  useFocusEffect(
-    useCallback(() => {
-      (async () => {
-        const hasToken = await checkAuthToken();
-        if (!hasToken) {
-          setAuthState("unauthenticated");
-          return;
-        }
-        setAuthState("authenticated");
-        const user = await getUser();
-        setSetupDone(user?.has_completed_setup ?? false);
-      })();
-    }, []),
-  );
-
-  if (authState === "unauthenticated")
-    return <Redirect href="/(auth)/register" />;
-
-  if (authState === "authenticated" && !setupDone)
-    return <Redirect href="/(setup)/barn" />;
-
-  if (authState === "loading") {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
 
   return (
     <View className="flex-1 items-center justify-center gap-4 bg-background-light dark:bg-background-dark">
       <Text className="text-lg text-text-light dark:text-text-dark">
         Current theme: {theme}
       </Text>
+
       <Pressable
         onPress={toggleTheme}
         className="rounded-lg bg-primary-light px-6 py-3 dark:bg-primary-dark"
@@ -71,7 +27,7 @@ export default function Index() {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => toast.success("تم اضافه  العتبر ب نجاح")}
+        onPress={() => toast.success("تم اضافه العنبر بنجاح")}
         className="rounded-lg bg-secondary-light px-6 py-3 dark:bg-secondary-dark"
       >
         <Text className="text-sm text-text-light dark:text-text-dark">
