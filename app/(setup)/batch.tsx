@@ -7,7 +7,6 @@ import AppText from "@/src/components/custom/AppText";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { useGetAllBarns } from "@/src/hooks/Actions/barn/useCurdsBarn";
 import { useAddBatch } from "@/src/hooks/Actions/batch/useCurdBatch";
-import { useGetMe } from "@/src/hooks/Actions/users/useCurdsUser";
 import { setUser } from "@/src/services/cookies";
 import { batchSchema } from "@/src/validationSchema/batch/batch";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,10 +16,17 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { View } from "react-native";
 import type { z } from "zod";
 
+import { useQueryClient } from "@tanstack/react-query";
+import getRequest from "@/src/hooks/handleRequest/GetRequest";
+import endPoints from "@/src/hooks/EndPoints/endPoints";
+import queryKeys from "@/src/hooks/EndPoints/queryKeys";
+import type { User } from "@/src/types/user";
+
 type BatchFormData = z.infer<typeof batchSchema>;
 
 const Batch = () => {
   const { colors } = useTheme();
+  const queryClient = useQueryClient();
 
   const {
     control,
@@ -40,11 +46,7 @@ const Batch = () => {
   });
 
   const { data: barns, isPending: barnsIsPending } = useGetAllBarns();
-  const {
-    data: userData,
-    isPending: userIsPending,
-    refetch: refetchUser,
-  } = useGetMe();
+  const { mutate, isPending } = useAddBatch();
 
   const startDate = useWatch({ control, name: "start_date" });
   const minEndDate = startDate ? new Date(startDate) : undefined;
@@ -58,31 +60,32 @@ const Batch = () => {
     value: barn.id,
   }));
 
-  const { mutate, isPending } = useAddBatch();
-
   const onSubmit = (data: BatchFormData) => {
-    mutate(
-      {
-        data: {
-          ...data,
-          barn_id: Number(data.barn_id),
-          initial_quantity: Number(data.initial_quantity),
-        },
+    mutate({
+      data: {
+        ...data,
+        barn_id: Number(data.barn_id),
+        initial_quantity: Number(data.initial_quantity),
       },
-      {
-        onSuccess: async () => {
-          try {
-            const { data: refreshedUserData } = await refetchUser();
-            const user = refreshedUserData?.data?.data;
-            await setUser(user);
-            console.log("userdata", user);
-            router.replace("/");
-          } catch {
-            console.log("Error updating user data after adding batch");
-          }
-        },
+      onSuccess: async () => {
+        try {
+          const refreshedUserData = await queryClient.fetchQuery({
+            queryKey: [queryKeys.user],
+            queryFn: () => getRequest(endPoints.user),
+          }) as { data: { data: User } };
+
+          const user = refreshedUserData.data.data;
+
+          await setUser(user);
+
+          console.log("userdata", user);
+
+          router.replace("/");
+        } catch (error) {
+          console.log("Error updating user data after adding batch", error);
+        }
       },
-    );
+    });
   };
 
   return (
@@ -95,18 +98,22 @@ const Batch = () => {
           <View className="w-12 h-12 bg-secondary-light dark:bg-secondary-dark border border-border-light dark:border-border-dark rounded-xl items-center justify-center mb-4">
             <Tags size={24} color={colors.text} />
           </View>
+
           <AppText variant="h1" className="text-center">
             بيانات الدفعة
           </AppText>
+
           <AppText variant="body" muted className="text-center mt-1">
             أدخل بيانات الدفعة الجديدة
           </AppText>
         </View>
 
+        {/* Barn */}
         <View className="mb-5">
           <AppText variant="label" className="mb-2">
             العنبر
           </AppText>
+
           <Controller
             control={control}
             name="barn_id"
@@ -127,10 +134,12 @@ const Batch = () => {
           />
         </View>
 
+        {/* Poultry type */}
         <View className="mb-5">
           <AppText variant="label" className="mb-2">
             نوع الدواجن
           </AppText>
+
           <Controller
             control={control}
             name="poultry_type"
@@ -148,10 +157,12 @@ const Batch = () => {
           />
         </View>
 
+        {/* Quantity */}
         <View className="mb-5">
           <AppText variant="label" className="mb-2">
             الكمية الابتدائية
           </AppText>
+
           <Controller
             control={control}
             name="initial_quantity"
@@ -170,6 +181,7 @@ const Batch = () => {
           />
         </View>
 
+        {/* Start date */}
         <View className="mb-5">
           <Controller
             control={control}
@@ -188,6 +200,7 @@ const Batch = () => {
           />
         </View>
 
+        {/* End date */}
         <View className="mb-5">
           <Controller
             control={control}
@@ -207,10 +220,12 @@ const Batch = () => {
           />
         </View>
 
+        {/* Notes */}
         <View className="mb-4">
           <AppText variant="label" className="mb-2">
             ملاحظات
           </AppText>
+
           <Controller
             control={control}
             name="notes"
