@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Calendar, FileText, Hash, Tags, Warehouse } from "lucide-react-native";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { useEffect } from "react";
 import { View } from "react-native";
 import type { z } from "zod";
 
@@ -31,6 +32,7 @@ const Batch = () => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<BatchFormData>({
     resolver: zodResolver(batchSchema),
@@ -49,7 +51,21 @@ const Batch = () => {
   const { mutate, isPending } = useAddBatch();
 
   const startDate = useWatch({ control, name: "start_date" });
-  const minEndDate = startDate ? new Date(startDate) : undefined;
+  const endDate = useWatch({ control, name: "end_date" });
+
+  const parsedStart = startDate ? new Date(startDate) : undefined;
+  const parsedEnd = endDate ? new Date(endDate) : undefined;
+
+  const minEndDate = parsedStart;
+  const maxStartDate = parsedEnd;
+
+  useEffect(() => {
+    if (!startDate || !endDate) return;
+    if (new Date(endDate) < new Date(startDate)) {
+      setValue("end_date", "", { shouldValidate: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startDate]);
 
   const barnsData = barns as
     | { data: { data: { id: number; name: string }[] } }
@@ -80,7 +96,7 @@ const Batch = () => {
 
           console.log("userdata", user);
 
-          router.replace("/");
+          router.replace("/(tabs)/home");
         } catch (error) {
           console.log("Error updating user data after adding batch", error);
         }
@@ -195,6 +211,7 @@ const Batch = () => {
                 onChange={onChange}
                 onBlur={onBlur}
                 error={errors.start_date?.message}
+                maximumDate={maxStartDate}
               />
             )}
           />

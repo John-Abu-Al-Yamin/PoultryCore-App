@@ -2,7 +2,6 @@ import { Stack, router } from "expo-router";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { useAuthGuard } from "@/src/hooks/useAuthGuard";
 import { useEffect } from "react";
-import { View, ActivityIndicator } from "react-native";
 
 export default function SetupLayout() {
   const { colors } = useTheme();
@@ -18,16 +17,7 @@ export default function SetupLayout() {
     }
   }, [isLoading, isAuthenticated, hasCompletedSetup]);
 
-  if (isLoading) {
-    return (
-      <View
-        className="flex-1 items-center justify-center bg-background-light dark:bg-background-dark"
-      >
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
-
+  if (isLoading) return null;
   if (!isAuthenticated || hasCompletedSetup) return null;
 
   return (

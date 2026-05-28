@@ -99,30 +99,57 @@ export default function AppSelect<T = string | number>({
     const isSelected = item.value === value;
     return (
       <Pressable
-        className={`flex-row items-center py-3.5 px-4 ${
-          isSelected
-            ? "bg-primary-light dark:bg-primary-dark"
-            : "active:bg-muted-light dark:active:bg-muted-dark"
-        }`}
+        style={{
+          backgroundColor: isSelected ? colors.muted : undefined,
+          borderRadius: isSelected ? 8 : undefined,
+        }}
+        className="flex-row items-center py-3.5 px-4 mx-2 active:bg-muted-light dark:active:bg-muted-dark"
         onPress={() => handleSelect(item)}
       >
         <AppText
-          className={`flex-1 text-right ${
-            isSelected
-              ? "text-background-light dark:text-background-dark font-medium"
-              : ""
-          }`}
+          style={{
+            fontWeight: isSelected ? "600" : undefined,
+          }}
+          className="flex-1 text-right"
         >
           {item.label}
         </AppText>
         {isSelected && (
-          <View className="w-5 h-5 rounded-full border-2 border-background-light dark:border-background-dark items-center justify-center ms-2">
-            <View className="w-2.5 h-2.5 rounded-full bg-background-light dark:bg-background-dark" />
+          <View
+            style={{
+              width: 20,
+              height: 20,
+              borderRadius: 10,
+              borderWidth: 2,
+              borderColor: colors.primary,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            className="ms-2"
+          >
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                backgroundColor: colors.primary,
+              }}
+            />
           </View>
         )}
       </Pressable>
     );
   };
+
+  const renderSeparator = () => (
+    <View
+      style={{
+        height: 1,
+        backgroundColor: colors.border,
+        marginHorizontal: 12,
+      }}
+    />
+  );
 
   return (
     <View className={containerClassName}>
@@ -227,6 +254,7 @@ export default function AppSelect<T = string | number>({
                 data={filteredOptions}
                 renderItem={renderItem}
                 keyExtractor={(item) => String(item.value)}
+                ItemSeparatorComponent={renderSeparator}
                 ListEmptyComponent={
                   <View className="py-10 items-center">
                     <AppText muted className="text-center">

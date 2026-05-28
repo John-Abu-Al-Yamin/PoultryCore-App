@@ -43,4 +43,16 @@ export const batchSchema = z.object({
     }),
 
   notes: z.string().optional().or(z.literal("")),
+}).superRefine((data, ctx) => {
+  if (data.end_date && data.start_date) {
+    const start = new Date(data.start_date);
+    const end = new Date(data.end_date);
+    if (end < start) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "تاريخ النهاية يجب أن لا يكون قبل تاريخ البداية",
+        path: ["end_date"],
+      });
+    }
+  }
 });

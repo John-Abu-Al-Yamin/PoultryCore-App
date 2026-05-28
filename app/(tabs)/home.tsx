@@ -1,15 +1,15 @@
-import { Link, router } from "expo-router";
-
+import { router } from "expo-router";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
+import { TouchableOpacity, View } from "react-native";
 import { removeAuthToken } from "@/src/services/cookies";
-import { Pressable, TouchableOpacity, View } from "react-native";
 
 export default function Home() {
-  const handleLogout = async () => {
-    await removeAuthToken();
-    router.replace("/(auth)/login");
+  const handleLogout = () => {
+    removeAuthToken();
+    router.replace("/login");
   };
+
   return (
     <AppScreen
       className="bg-background-light dark:bg-background-dark"
@@ -21,6 +21,14 @@ export default function Home() {
           مرحباً بك في التطبيق
         </AppText>
       </View>
+      <TouchableOpacity
+        onPress={handleLogout}
+        className="mt-6 bg-red-500 px-4 py-2 rounded"
+      >
+        <AppText variant="body" className="text-white">
+          تسجيل الخروج
+        </AppText>
+      </TouchableOpacity>
     </AppScreen>
   );
 }
