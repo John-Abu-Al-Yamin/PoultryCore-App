@@ -3,18 +3,18 @@ import AppInput from "@/src/components/custom/AppInput";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { useTheme } from "@/src/contexts/ThemeContext";
+import { Link } from "expo-router";
 import { Eye, EyeOff, Lock, Phone } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-import { Link } from "expo-router";
 
 import useLogin from "@/src/hooks/Actions/auth/useLogin";
 
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { z } from "zod";
 import { loginSchema } from "@/src/validationSchema/auth/login";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
+import type { z } from "zod";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -47,7 +47,6 @@ export default function Login() {
         onError: (error) => {
           console.log("Login failed:", error);
         },
-        
       },
     );
     // console.log("Login data:", data);
@@ -148,6 +147,7 @@ export default function Login() {
             </Pressable>
           </Link>
         </View>
+        
       </View>
     </AppScreen>
   );
