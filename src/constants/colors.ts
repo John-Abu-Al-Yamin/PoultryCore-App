@@ -13,16 +13,16 @@ export const lightColors = {
 };
 
 export const darkColors = {
-  primary: "#EAEAEA",
-  secondary: "#3F3F3F",
-  background: "#242424",
+  primary: "#ffffff",
+  secondary: "#474747",
+  background: "#121414",
   card: "#111111",
-  text: "#FAFAFA",
-  muted: "#3F3F3F",
-  mutedForeground: "#9CA3AF",
-  border: "#FFFFFF1A",
+  text: "#e2e2e2",
+  muted: "#1e2020",
+  mutedForeground: "#c4c7c8",
+  border: "#444748",
   success: "#22c55e",
-  error: "#f87171",
+  error: "#ffb4ab",
   warning: "#fbbf24",
 };
 

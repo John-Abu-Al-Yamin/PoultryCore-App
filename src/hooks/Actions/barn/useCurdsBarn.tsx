@@ -22,11 +22,30 @@ export const useGetAllBarns = (page = 1, limit = 20) => {
   };
 };
 
+export const useGetBarnById = (id: string) => {
+  const { data, isPending, refetch, ...rest } = useGetData({
+    url: `${endPoints.barns}/${id}`,
+    params: {
+      id,
+    },
+
+    queryKeys: [queryKeys.barns, id],
+  });
+
+  return {
+    data,
+    isPending,
+    isError: rest.error,
+    refetch,
+    // page,
+  };
+};
+
 export const useAddBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.barns,
     [queryKeys.addBarns],
-    [queryKeys.barns, queryKeys.addBarns ],
+    [queryKeys.barns, queryKeys.addBarns],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -36,7 +55,7 @@ export const useDeleteBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.barns,
     [queryKeys.deleteBarns],
-    [queryKeys.barns, queryKeys.deleteBarns ],
+    [queryKeys.barns, queryKeys.deleteBarns],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -46,7 +65,7 @@ export const useUpdateBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     endPoints.barns,
     [queryKeys.updateBarns],
-    [queryKeys.barns, queryKeys.updateBarns, ],
+    [queryKeys.barns, queryKeys.updateBarns],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

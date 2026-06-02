@@ -1,19 +1,20 @@
-import { router } from "expo-router";
 import { Pressable, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { ArrowUpFromLine, HandCoins, ShoppingCart, TrendingUp } from "lucide-react-native";
 
 const LINKS = [
-  { href: "/(tabs)/finance/expenses", title: "المصروفات", icon: ArrowUpFromLine, description: "تسجيل وإدارة المصروفات" },
-  { href: "/(tabs)/finance/payments", title: "المدفوعات", icon: HandCoins, description: "المدفوعات والتحصيلات" },
-  { href: "/(tabs)/finance/purchases", title: "المشتريات", icon: ShoppingCart, description: "إدارة فواتير الشراء" },
-  { href: "/(tabs)/finance/sales", title: "المبيعات", icon: TrendingUp, description: "إدارة فواتير البيع" },
+  { screen: "expenses", title: "المصروفات", icon: ArrowUpFromLine, description: "تسجيل وإدارة المصروفات" },
+  { screen: "payments", title: "المدفوعات", icon: HandCoins, description: "المدفوعات والتحصيلات" },
+  { screen: "purchases", title: "المشتريات", icon: ShoppingCart, description: "إدارة فواتير الشراء" },
+  { screen: "sales", title: "المبيعات", icon: TrendingUp, description: "إدارة فواتير البيع" },
 ] as const;
 
 export default function FinanceScreen() {
   const { colors } = useTheme();
+  const navigation = useNavigation<any>();
 
   return (
     <AppScreen
@@ -30,8 +31,8 @@ export default function FinanceScreen() {
       <View className="flex-row flex-wrap">
         {LINKS.map((link) => (
           <Pressable
-            key={link.href}
-            onPress={() => router.push(link.href)}
+            key={link.screen}
+            onPress={() => navigation.navigate(link.screen)}
             className="w-1/2 p-2 active:opacity-70"
           >
             <View className="bg-card-light dark:bg-card-dark rounded-2xl p-5 items-center border border-border-light dark:border-border-dark min-h-[140px] justify-center">

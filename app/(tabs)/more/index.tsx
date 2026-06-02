@@ -1,19 +1,20 @@
-import { router } from "expo-router";
 import { Pressable, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Warehouse, Users, Truck, Settings } from "lucide-react-native";
 
 const LINKS = [
-  { href: "/(tabs)/more/barn", title: "العنبر", icon: Warehouse, description: "إدارة العنابر والمخازن" },
-  { href: "/(tabs)/more/customers", title: "العملاء", icon: Users, description: "إدارة العملاء والمبيعات" },
-  { href: "/(tabs)/more/suppliers", title: "الموردين", icon: Truck, description: "إدارة الموردين والمشتريات" },
-  { href: "/(tabs)/more/settings", title: "الإعدادات", icon: Settings, description: "إعدادات التطبيق" },
+  { screen: "barn", title: "العنبر", icon: Warehouse, description: "إدارة العنابر والمخازن" },
+  { screen: "customers", title: "العملاء", icon: Users, description: "إدارة العملاء والمبيعات" },
+  { screen: "suppliers", title: "الموردين", icon: Truck, description: "إدارة الموردين والمشتريات" },
+  { screen: "settings", title: "الإعدادات", icon: Settings, description: "إعدادات التطبيق" },
 ] as const;
 
 export default function MoreScreen() {
   const { colors } = useTheme();
+  const navigation = useNavigation<any>();
 
   return (
     <AppScreen
@@ -30,8 +31,8 @@ export default function MoreScreen() {
       <View className="flex-row flex-wrap">
         {LINKS.map((link) => (
           <Pressable
-            key={link.href}
-            onPress={() => router.push(link.href)}
+            key={link.screen}
+            onPress={() => navigation.navigate(link.screen)}
             className="w-1/2 p-2 active:opacity-70"
           >
             <View className="bg-card-light dark:bg-card-dark rounded-2xl p-5 items-center border border-border-light dark:border-border-dark min-h-[140px] justify-center">

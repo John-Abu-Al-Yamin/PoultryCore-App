@@ -16,15 +16,15 @@ module.exports = {
       colors: {
         primary: {
           light: "#111111",
-          dark: "#EAEAEA",
+          dark: "#ffffff",
         },
         secondary: {
           light: "#F5F5F5",
-          dark: "#3F3F3F",
+          dark: "#474747",
         },
         background: {
           light: "#FFFFFF",
-          dark: "#0C0C0C",
+          dark: "#121414",
         },
         card: {
           light: "#FFFFFF",
@@ -32,19 +32,19 @@ module.exports = {
         },
         text: {
           light: "#242424",
-          dark: "#FAFAFA",
+          dark: "#e2e2e2",
         },
         muted: {
           light: "#F5F5F5",
-          dark: "#3F3F3F",
+          dark: "#1e2020",
         },
         mutedForeground: {
           light: "#6B7280",
-          dark: "#9CA3AF",
+          dark: "#c4c7c8",
         },
         border: {
           light: "#EAEAEA",
-          dark: "#FFFFFF1A",
+          dark: "#444748",
         },
         success: {
           light: "#16a34a",
@@ -52,7 +52,7 @@ module.exports = {
         },
         error: {
           light: "#9a3412",
-          dark: "#f87171",
+          dark: "#ffb4ab",
         },
         warning: {
           light: "#eab308",
