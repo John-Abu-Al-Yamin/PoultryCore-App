@@ -1,10 +1,9 @@
+import { View } from "react-native";
 import { Stack, router } from "expo-router";
-import { useTheme } from "@/src/contexts/ThemeContext";
 import { useAuthGuard } from "@/src/hooks/useAuthGuard";
 import { useEffect } from "react";
 
 export default function SetupLayout() {
-  const { colors } = useTheme();
   const { isLoading, isAuthenticated, hasCompletedSetup } = useAuthGuard();
 
   useEffect(() => {
@@ -17,14 +16,17 @@ export default function SetupLayout() {
     }
   }, [isLoading, isAuthenticated, hasCompletedSetup]);
 
-  if (isLoading) return null;
-  if (!isAuthenticated || hasCompletedSetup) return null;
+  if (isLoading || !isAuthenticated || hasCompletedSetup) {
+    return (
+      <View className="flex-1 bg-background-light dark:bg-background-dark" />
+    );
+  }
 
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: colors.background },
+        contentStyle: { backgroundColor: "transparent" },
       }}
     />
   );

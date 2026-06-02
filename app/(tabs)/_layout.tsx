@@ -1,6 +1,8 @@
-import { Stack, router } from "expo-router";
+import { Tabs, router } from "expo-router";
 import { useAuthGuard } from "@/src/hooks/useAuthGuard";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { TABS } from "@/src/constants/tabs";
+import FloatingTabBar from "@/src/components/custom/FloatingTabBar";
 
 export default function TabsLayout() {
   const { isLoading, isAuthenticated, hasCompletedSetup } = useAuthGuard();
@@ -18,5 +20,14 @@ export default function TabsLayout() {
   if (isLoading) return null;
   if (!isAuthenticated || !hasCompletedSetup) return null;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Tabs
+      screenOptions={{ headerShown: false }}
+      tabBar={(props) => <FloatingTabBar {...props} />}
+    >
+      {TABS?.map((tab) => (
+        <Tabs.Screen key={tab.name} name={tab.name} />
+      ))}
+    </Tabs>
+  );
 }

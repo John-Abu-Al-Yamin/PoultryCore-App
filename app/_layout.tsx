@@ -25,12 +25,11 @@ function ThemeAwareStatusBar() {
 }
 
 function ThemedStack() {
-  const { colors } = useTheme();
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: colors.background },
+        contentStyle: { backgroundColor: "transparent" },
       }}
     />
   );

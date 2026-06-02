@@ -25,7 +25,7 @@ export default function Home() {
         onPress={handleLogout}
         className="mt-6 bg-red-500 px-4 py-2 rounded"
       >
-        <AppText variant="body" className="text-white">
+        <AppText variant="body" >
           تسجيل الخروج
         </AppText>
       </TouchableOpacity>
