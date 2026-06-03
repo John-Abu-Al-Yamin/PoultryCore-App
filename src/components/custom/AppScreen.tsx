@@ -1,6 +1,7 @@
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import Constants from "expo-constants";
 import type { ReactNode } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface AppScreenProps {
   children: ReactNode;
@@ -15,8 +16,13 @@ export default function AppScreen({
   scrollable = true,
   contentContainerClassName = "",
 }: AppScreenProps) {
+  const insets = useSafeAreaInsets();
+  // Add enough padding to clear the floating tab bar (approx 85-90px)
+  const bottomPadding = scrollable ? insets.bottom + 90 : 0;
+
   const inner = scrollable ? (
     <ScrollView
+      contentContainerStyle={{ paddingBottom: bottomPadding }}
       contentContainerClassName={`flex-grow ${contentContainerClassName}`}
       keyboardShouldPersistTaps="handled"
       className={className}
@@ -24,7 +30,7 @@ export default function AppScreen({
       {children}
     </ScrollView>
   ) : (
-    <View className={`flex-1 ${className}`}>{children}</View>
+    <View className={`flex-1 ${className}`} style={{ paddingBottom: bottomPadding }}>{children}</View>
   );
 
   return (

@@ -51,12 +51,12 @@ export default function AppError({
           <TouchableOpacity
             onPress={onRetry}
             activeOpacity={0.7}
-            className="flex-row items-center gap-2 px-6 py-3 rounded-xl bg-primary-light dark:bg-primary-dark"
+            className="flex-row items-center gap-2 px-6 py-3 rounded-xl bg-primary-dark dark:bg-primary-light"
           >
             <RefreshCw size={18} color={colors.background} />
             <AppText
               variant="body"
-              className="text-background-light dark:text-background-dark"
+              className="text-background-dark dark:text-background-light"
             >
               إعادة المحاولة
             </AppText>

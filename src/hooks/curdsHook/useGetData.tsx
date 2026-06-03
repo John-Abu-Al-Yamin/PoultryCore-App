@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import getRequest from "../handleRequest/GetRequest";
 import type { UseGetDataOptions } from "@/src/types";
+import type { AxiosResponse } from "axios";
 
-const useGetData = ({
+const useGetData = <T = unknown>({
   url = "",
   queryKeys = [],
   enabled = true,
@@ -10,9 +11,9 @@ const useGetData = ({
   other = {},
 }: UseGetDataOptions = {}) => {
   const GetDataRequest = () =>
-    getRequest(url, undefined, { params: { ...params } });
+    getRequest<T>(url, undefined, { params: { ...params } });
 
-  const responses = useQuery({
+  const responses = useQuery<AxiosResponse<T>>({
     queryKey: [...queryKeys, params.page, params.limit],
     queryFn: GetDataRequest,
     enabled: typeof enabled === "function" ? (enabled as () => boolean)() : !!enabled,

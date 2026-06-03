@@ -21,6 +21,14 @@ export interface Barn {
   batches?: Batch[];
 }
 
+export interface BarnListItem {
+  id: number;
+  name: string;
+  location: string;
+  capacity: number;
+  batches_count: number;
+}
+
 export interface Batch {
   id: number;
   user_id: number;

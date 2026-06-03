@@ -4,9 +4,10 @@ import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
 import useGetData from "@/src/hooks/curdsHook/useGetData";
 import usePutData from "@/src/hooks/curdsHook/usePutData";
 import usePostData from "@/src/hooks/curdsHook/usePostData";
+import type { ApiResponse, Barn, BarnListItem } from "@/src/types/api";
 
 export const useGetAllBarns = (page = 1, limit = 20) => {
-  const { data, isPending, refetch, ...rest } = useGetData({
+  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<BarnListItem[]>>({
     url: endPoints.barns,
     params: { page: String(page), limit: String(limit) },
     queryKeys: [queryKeys.barns, String(page), String(limit)],
@@ -23,7 +24,7 @@ export const useGetAllBarns = (page = 1, limit = 20) => {
 };
 
 export const useGetBarnById = (id: string) => {
-  const { data, isPending, refetch, ...rest } = useGetData({
+  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<Barn>>({
     url: `${endPoints.barns}/${id}`,
     params: {
       id,
@@ -37,7 +38,6 @@ export const useGetBarnById = (id: string) => {
     isPending,
     isError: rest.error,
     refetch,
-    // page,
   };
 };
 

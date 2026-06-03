@@ -22,6 +22,7 @@ import getRequest from "@/src/hooks/handleRequest/GetRequest";
 import endPoints from "@/src/hooks/EndPoints/endPoints";
 import queryKeys from "@/src/hooks/EndPoints/queryKeys";
 import type { User } from "@/src/types/user";
+import type { ApiResponse } from "@/src/types/api";
 
 type BatchFormData = z.infer<typeof batchSchema>;
 
@@ -67,11 +68,7 @@ const Batch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate]);
 
-  const barnsData = barns as
-    | { data: { data: { id: number; name: string }[] } }
-    | undefined;
-
-  const barnOptions = (barnsData?.data?.data ?? []).map((barn) => ({
+  const barnOptions = (barns?.data?.data ?? []).map((barn) => ({
     label: barn.name,
     value: barn.id,
   }));
@@ -87,8 +84,8 @@ const Batch = () => {
         try {
           const refreshedUserData = await queryClient.fetchQuery({
             queryKey: [queryKeys.user],
-            queryFn: () => getRequest(endPoints.user),
-          }) as { data: { data: User } };
+            queryFn: () => getRequest<ApiResponse<User>>(endPoints.user),
+          });
 
           const user = refreshedUserData.data.data;
 

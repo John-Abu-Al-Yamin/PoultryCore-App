@@ -24,7 +24,7 @@ module.exports = {
         },
         background: {
           light: "#FFFFFF",
-          dark: "#121414",
+          dark: "#000000",
         },
         card: {
           light: "#FFFFFF",

@@ -1,6 +1,8 @@
+import React, { useEffect } from "react";
 import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import Animated, {
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -28,15 +30,17 @@ function TabItem({
 }) {
   const IconComponent = tab.icon;
 
+  const scale = useSharedValue(isFocused ? 1 : 0.88);
+
+  useEffect(() => {
+    scale.value = withSpring(isFocused ? 1 : 0.88, {
+      damping: 16,
+      stiffness: 260,
+    });
+  }, [isFocused, scale]);
+
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scale: withSpring(isFocused ? 1 : 0.88, {
-          damping: 16,
-          stiffness: 260,
-        }),
-      },
-    ],
+    transform: [{ scale: scale.value }],
   }));
 
   const isDark = theme === "dark";
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: "row",
     marginHorizontal: 16,
-    marginBottom: 8,
+    marginBottom: 0,
     borderRadius: 28,
     paddingVertical: 8,
     paddingHorizontal: 8,
