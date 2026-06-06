@@ -1,10 +1,5 @@
-import React, { useEffect } from "react";
-import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
+import React, { useEffect, useRef } from "react";
+import { View, Text, Pressable, StyleSheet, Platform, Animated } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { TABS } from "@/src/constants/tabs";
@@ -30,18 +25,20 @@ function TabItem({
 }) {
   const IconComponent = tab.icon;
 
-  const scale = useSharedValue(isFocused ? 1 : 0.88);
+  const scale = useRef(new Animated.Value(isFocused ? 1 : 0.88)).current;
 
   useEffect(() => {
-    scale.value = withSpring(isFocused ? 1 : 0.88, {
+    Animated.spring(scale, {
+      toValue: isFocused ? 1 : 0.88,
       damping: 16,
       stiffness: 260,
-    });
+      useNativeDriver: true,
+    }).start();
   }, [isFocused, scale]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
+  const animatedStyle = {
+    transform: [{ scale }],
+  };
 
   const isDark = theme === "dark";
   const activeBg = isDark ? "#FFFFFF" : "#000000";

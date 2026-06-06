@@ -1,12 +1,5 @@
-import { useEffect } from "react";
-import { View } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-  Easing,
-} from "react-native-reanimated";
+import { useEffect, useRef } from "react";
+import { View, Animated, Easing } from "react-native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import AppText from "./AppText";
 import { Loader } from "lucide-react-native";
@@ -21,23 +14,28 @@ export default function AppLoading({
   fullScreen = false,
 }: AppLoadingProps) {
   const { colors } = useTheme();
-  const rotation = useSharedValue(0);
+  const rotation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    rotation.value = withRepeat(
-      withTiming(360, { duration: 1000, easing: Easing.linear }),
-      -1,
-    );
+    Animated.loop(
+      Animated.timing(rotation, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    ).start();
   }, []);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
-  }));
+  const spin = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
 
   const content = (
     <View className="items-center justify-center gap-4">
       <Animated.View
-        style={animatedStyle}
+        style={{ transform: [{ rotate: spin }] }}
         className="w-14 h-14 rounded-2xl items-center justify-center bg-secondary-light dark:bg-secondary-dark"
       >
         <Loader size={28} color={colors.text} />

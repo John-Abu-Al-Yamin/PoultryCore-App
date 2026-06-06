@@ -15,7 +15,7 @@ import {
     Plus,
     Warehouse,
 } from "lucide-react-native";
-import { Pressable, TouchableOpacity, View, Text } from "react-native";
+import { FlatList, Pressable, TouchableOpacity, View, Text } from "react-native";
 
 const BarnPage = () => {
   const { data: barns, isPending, isError, refetch } = useGetAllBarns();
@@ -54,32 +54,39 @@ const BarnPage = () => {
   return (
     <AppScreen
       className="bg-background-light dark:bg-background-dark"
-      contentContainerClassName="px-4 pt-4 pb-8"
+      scrollable={false}
     >
-      <View className="flex-row items-center justify-between mb-6">
-        <AppText variant="h1">قائمة العنابر</AppText>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          className="bg-primary-light dark:bg-primary-dark px-4 py-2 rounded-xl flex-row items-center gap-1.5"
-          onPress={() => router.push("/more/barn/add")}
-        >
-          <Plus size={16} color={colors.background} />
-          <Text className="text-background-light dark:text-background-dark font-bold text-sm">
-            إضافة عنبر
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {barnsList.length === 0 && (
-        <AppText variant="body" muted className="text-center mt-4">
-          لا توجد عنابر
-        </AppText>
-      )}
-
-      <View className="gap-4">
-        {barnsList?.map((barn) => (
+      <FlatList
+        data={barnsList}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ 
+          paddingHorizontal: 16, 
+          paddingTop: 16, 
+          paddingBottom: 100,
+          gap: 16 
+        }}
+        ListHeaderComponent={
+          <View className="flex-row items-center justify-between mb-6">
+            <AppText variant="h1">قائمة العنابر</AppText>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              className="bg-primary-light dark:bg-primary-dark px-4 py-2 rounded-xl flex-row items-center gap-1.5"
+              onPress={() => router.push("/more/barn/add")}
+            >
+              <Plus size={16} color={colors.background} />
+              <Text className="text-background-light dark:text-background-dark font-bold text-sm">
+                إضافة عنبر
+              </Text>
+            </TouchableOpacity>
+          </View>
+        }
+        ListEmptyComponent={
+          <AppText variant="body" muted className="text-center mt-4">
+            لا توجد عنابر
+          </AppText>
+        }
+        renderItem={({ item: barn }) => (
           <Pressable
-            key={barn.id}
             onPress={() => router.push(`/more/barn/${barn.id}`)}
             className="active:opacity-80 active:scale-[0.98] transition-all"
           >
@@ -165,8 +172,8 @@ const BarnPage = () => {
               </View>
             </Card>
           </Pressable>
-        ))}
-      </View>
+        )}
+      />
     </AppScreen>
   );
 };

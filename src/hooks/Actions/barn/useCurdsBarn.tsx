@@ -7,7 +7,9 @@ import usePostData from "@/src/hooks/curdsHook/usePostData";
 import type { ApiResponse, Barn, BarnListItem } from "@/src/types/api";
 
 export const useGetAllBarns = (page = 1, limit = 20) => {
-  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<BarnListItem[]>>({
+  const { data, isPending, refetch, ...rest } = useGetData<
+    ApiResponse<BarnListItem[]>
+  >({
     url: endPoints.barns,
     params: { page: String(page), limit: String(limit) },
     queryKeys: [queryKeys.barns, String(page), String(limit)],
@@ -51,21 +53,21 @@ export const useAddBarn = () => {
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useDeleteBarn = () => {
-  const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
-    endPoints.barns,
-    [queryKeys.deleteBarns],
-    [queryKeys.barns, queryKeys.deleteBarns],
+export const useUpdateBarn = (id: string) => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
+    `${endPoints.barns}/${id}`,
+    [queryKeys.barns, id],
+    queryKeys.barns,
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useUpdateBarn = () => {
-  const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
+export const useDeleteBarn = (id: string) => {
+  const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.barns,
-    [queryKeys.updateBarns],
-    [queryKeys.barns, queryKeys.updateBarns],
+    [queryKeys.deleteBarns],
+    [queryKeys.barns, queryKeys.deleteBarns],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
