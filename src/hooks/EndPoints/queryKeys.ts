@@ -11,6 +11,17 @@ const queryKeys: Record<string, string> = {
   deleteBatches: "/batches/delete",
   updateBatches: "/batches/update",
 
+  customers: "/customers",
+  addCustomers: "/customers/add",
+  deleteCustomers: "/customers/delete",
+  updateCustomers: "/customers/update",
+
+  suppliers: "/suppliers",
+  addSuppliers: "/suppliers/add",
+  deleteSuppliers: "/suppliers/delete",
+  updateSuppliers: "/suppliers/update",
+  
+
 };
 
 export default queryKeys;

@@ -43,7 +43,25 @@ export interface Batch {
   updated_at: string;
 }
 
+export interface Customer {
+  id: number;
+  user_id: number;
+  name: string;
+  phone: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
+}
 
+export interface Supplier {
+  id: number;
+  user_id: number;
+  name: string;
+  phone: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
+}
 
 export interface MutationVariables {
   data?: Record<string, unknown>;
