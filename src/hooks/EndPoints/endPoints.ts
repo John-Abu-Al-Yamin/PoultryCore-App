@@ -3,6 +3,7 @@ const endPoints: Record<string, string> = {
   register: "/register",
   barns: "/barns",
   batches: "/batches",
+  dashboard: "/dashboard",
 
   user: "/user",
   customers: "/customers",

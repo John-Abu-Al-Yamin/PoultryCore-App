@@ -3,8 +3,8 @@ import AppInput from "@/src/components/custom/AppInput";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { useTheme } from "@/src/contexts/ThemeContext";
-import { MapPin, Phone, User } from "lucide-react-native";
-import { View } from "react-native";
+import { ContactRound, MapPin, Phone, User } from "lucide-react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import { supplierSchema } from "@/src/validationSchema/supplier/supplier";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { useAddSupplier } from "@/src/hooks/Actions/suppliers/useCurdSuppliers";
+import { useContactPicker } from "@/src/hooks/useContactPicker";
 import { router } from "expo-router";
 import { toast } from "@/src/services/toast";
 
@@ -23,6 +24,7 @@ export default function AddSupplierPage() {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<SupplierFormData>({
     resolver: zodResolver(supplierSchema),
@@ -35,6 +37,7 @@ export default function AddSupplierPage() {
   });
 
   const { mutate, isPending } = useAddSupplier();
+  const { pickContact } = useContactPicker();
 
   const onSubmit = (formData: SupplierFormData) => {
     mutate(
@@ -46,7 +49,7 @@ export default function AddSupplierPage() {
         },
         onError: (error: any) => {
           const errorMessage = error?.response?.data?.message || "فشل في إضافة المورد";
-          toast.error(errorMessage);
+          // toast.error(errorMessage);
         },
       },
     );
@@ -92,22 +95,35 @@ export default function AddSupplierPage() {
           <AppText variant="label" className="mb-2">
             رقم الهاتف
           </AppText>
-          <Controller
-            control={control}
-            name="phone"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <AppInput
-                keyboardType="phone-pad"
-                rightIcon={<Phone size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل رقم الهاتف"
-                error={errors.phone?.message}
-                textAlign="right"
-                value={value}
-                onBlur={onBlur}
-                onChangeText={onChange}
+          <View className="flex-row gap-2">
+            <View className="flex-1">
+              <Controller
+                control={control}
+                name="phone"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <AppInput
+                    keyboardType="phone-pad"
+                    rightIcon={<Phone size={18} color={colors.mutedForeground} />}
+                    placeholder="أدخل رقم الهاتف"
+                    error={errors.phone?.message}
+                    textAlign="right"
+                    value={value}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                  />
+                )}
               />
-            )}
-          />
+            </View>
+            <TouchableOpacity
+              onPress={async () => {
+                const phone = await pickContact();
+                if (phone) setValue("phone", phone);
+              }}
+              className="w-11 h-11 rounded-xl bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark items-center justify-center self-end mb-0.5"
+            >
+              <ContactRound size={18} color={colors.text} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Address */}

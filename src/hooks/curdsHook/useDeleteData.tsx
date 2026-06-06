@@ -44,19 +44,16 @@ const useDeleteData = (
       context?: MutationContext
     ) => {
       const errData = axios.isAxiosError(error) ? error.response?.data : null;
-      const errors = errData?.errors;
-      const message = errData?.message || "حدث خطأ ما";
 
-      if (errors && typeof errors === "object") {
-        for (const key in errors) {
-          if (errors[key]) {
-            toast.error(errors[key], { duration: 2000 });
-          }
-        }
-        return;
+      if (Array.isArray(errData?.errors) && errData.errors.length > 0) {
+        errData.errors.forEach((err: { field: string; message: string }) => {
+          toast.error(err.message, { duration: 4000 });
+        });
+      } else if (typeof errData?.message === "string") {
+        toast.error(errData.message, { duration: 5000 });
+      } else {
+        toast.error("حدث خطأ ما", { duration: 5000 });
       }
-
-      toast.error(message, { duration: 5000 });
     },
   });
 

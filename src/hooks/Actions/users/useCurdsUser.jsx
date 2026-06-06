@@ -11,6 +11,23 @@ import { User } from "@/src/types/user";
 
 /* Main Units*/
 
+
+export const useGetDashboard = (page = 1, limit = 20) => {
+  const { data, isPending, refetch, ...rest } = useGetData({
+    url: endPoints.dashboard,
+    params: { page, limit },
+    queryKeys: [queryKeys.dashboard, page, limit],
+  });
+
+  return {
+    data,
+    isPending,
+    isError: rest.error,
+    refetch,
+    page,
+    limit,
+  };
+};
 export const useGetAllUsers = (page = 1, limit = 20) => {
   const { data, isPending, refetch, ...rest } = useGetData({
     url: endPoints.users,

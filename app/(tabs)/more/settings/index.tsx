@@ -1,0 +1,147 @@
+import { useEffect, useState } from "react";
+import { Linking, ScrollView, Switch, Alert, View } from "react-native";
+import { router } from "expo-router";
+import {
+  HelpCircle,
+  LogOut,
+  Mail,
+  Moon,
+  Phone,
+  Sun,
+  User,
+  AlertTriangle,
+  MessageCircle,
+} from "lucide-react-native";
+import { useTheme } from "@/src/contexts/ThemeContext";
+import AppScreen from "@/src/components/custom/AppScreen";
+import AppText from "@/src/components/custom/AppText";
+import SettingsSection from "@/src/components/settings/SettingsSection";
+import SettingsRow from "@/src/components/settings/SettingsRow";
+import { getUser, removeAuthToken, removeUser } from "@/src/services/cookies";
+import type { User as UserType } from "@/src/types";
+
+export default function SettingsPage() {
+  const { colors, theme, toggleTheme } = useTheme();
+  const [user, setUser] = useState<UserType | null>(null);
+
+  useEffect(() => {
+    getUser().then(setUser);
+  }, []);
+
+  const handleLogout = () => {
+    Alert.alert("تسجيل الخروج", "هل أنت متأكد من رغبتك في تسجيل الخروج؟", [
+      { text: "إلغاء", style: "cancel" },
+      {
+        text: "تسجيل الخروج",
+        style: "destructive",
+        onPress: async () => {
+          await removeAuthToken();
+          await removeUser();
+          router.replace("/(auth)/login");
+        },
+      },
+    ]);
+  };
+
+  return (
+    <AppScreen
+      className="bg-background-light dark:bg-background-dark"
+      contentContainerClassName="px-4 pt-4 pb-12"
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View className="mb-8 items-center">
+          <View className="w-24 h-24 rounded-full bg-muted-light dark:bg-muted-dark items-center justify-center border-4 border-white dark:border-card-dark shadow-sm">
+            <User size={48} color={colors.primary} />
+          </View>
+          <AppText variant="h2" className="mt-4">
+            إعدادات الحساب
+          </AppText>
+          <AppText variant="caption" muted>
+            إدارة تفضيلاتك ومعلوماتك
+          </AppText>
+        </View>
+
+        {/* Personal Information */}
+        <SettingsSection title="معلومات شخصية">
+          <SettingsRow
+            icon={<User size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
+            label="الاسم"
+            description={user?.name || "---"}
+          />
+          <View className="h-[1px] bg-border-light dark:bg-border-dark mx-4" />
+          <SettingsRow
+            icon={<Mail size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
+            label="البريد الإلكتروني"
+            description={user?.email || "---"}
+          />
+          <View className="h-[1px] bg-border-light dark:bg-border-dark mx-4" />
+          <SettingsRow
+            icon={<Phone size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
+            label="رقم الهاتف"
+            description={user?.phone || "---"}
+          />
+        </SettingsSection>
+
+        {/* Appearance */}
+        <SettingsSection title="المظهر">
+          <SettingsRow
+            icon={theme === "dark" ? <Moon size={20} color="#FFFFFF" /> : <Sun size={20} color="#000000" />}
+            label="الوضع الليلي"
+            description={theme === "dark" ? "مفعل" : "معطل"}
+            rightAction={
+              <Switch
+                value={theme === "dark"}
+                onValueChange={toggleTheme}
+                trackColor={{
+                  false: colors.mutedForeground,
+                  true: colors.primary,
+                }}
+                thumbColor={colors.background}
+              />
+            }
+          />
+        </SettingsSection>
+
+        {/* Support */}
+        <SettingsSection title="الدعم">
+          <SettingsRow
+            icon={<MessageCircle size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
+            label="تواصل معنا"
+            description="راسلنا لأي استفسار"
+            onPress={() => Linking.openURL("https://wa.me/201286976691")}
+          />
+          <SettingsRow
+            icon={<AlertTriangle size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
+            label="الإبلاغ عن مشكلة"
+            description="أبلغنا عن أي مشكلة تواجهها"
+            onPress={() => Linking.openURL("https://wa.me/201286976691")}
+          />
+          <SettingsRow
+            icon={<HelpCircle size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
+            label="الأسئلة الشائعة"
+            description="أجوبة لأكثر الأسئلة شيوعاً"
+            onPress={() => router.push("/more/settings/faq")}
+          />
+        </SettingsSection>
+
+        {/* Logout */}
+        <View className="mt-2">
+          <SettingsSection>
+            <SettingsRow
+              icon={<LogOut size={20} color="#ef4444" />}
+              label="تسجيل الخروج"
+              destructive
+              onPress={handleLogout}
+            />
+          </SettingsSection>
+        </View>
+
+        <View className="items-center mt-4">
+          <AppText variant="caption" muted>
+            الإصدار 1.0.0
+          </AppText>
+        </View>
+      </ScrollView>
+    </AppScreen>
+  );
+}

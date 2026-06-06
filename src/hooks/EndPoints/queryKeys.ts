@@ -21,6 +21,7 @@ const queryKeys: Record<string, string> = {
   deleteSuppliers: "/suppliers/delete",
   updateSuppliers: "/suppliers/update",
   
+  dashboard: "/dashboard",
 
 };
 

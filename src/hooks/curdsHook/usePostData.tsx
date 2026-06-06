@@ -68,21 +68,13 @@ const usePostData = (
           ? error.response?.data
           : null;
 
-        if (errorData?.message) {
-          if (typeof errorData.message === "object") {
-            Object.values(errorData.message).forEach((msg) => {
-              toast.error(msg as string, { duration: 4000 });
-            });
-          } else if (typeof errorData.message === "string") {
-            toast.error(errorData.message, { duration: 4000 });
-          }
-        }
-
         if (Array.isArray(errorData?.errors) && errorData.errors.length > 0) {
-          toast.error(errorData.errors[0].message, { duration: 4000 });
-        }
-
-        if (!errorData?.message && !Array.isArray(errorData?.errors)) {
+          errorData.errors.forEach((err: { field: string; message: string }) => {
+            toast.error(err.message, { duration: 4000 });
+          });
+        } else if (typeof errorData?.message === "string") {
+          toast.error(errorData.message, { duration: 4000 });
+        } else {
           toast.error("حدث خطأ غير متوقع", { duration: 4000 });
         }
       }

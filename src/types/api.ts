@@ -76,3 +76,57 @@ export interface MutationVariables {
 export interface MutationContext {
   loadingToastId?: string | number;
 }
+
+export interface DashboardCounts {
+  barns: number;
+  active_batches: number;
+  batches: number;
+  purchases: number;
+  payments: number;
+  suppliers: number;
+  customers: number;
+  sales: number;
+  deaths: number;
+  expenses: number;
+}
+
+export interface DashboardFinancial {
+  total_purchases_cost: number;
+  total_sales_revenue: number;
+  total_expenses: number;
+  total_paid_to_suppliers: number;
+  total_received_from_customers: number;
+  outstanding_supplier_dues: number;
+  outstanding_customer_debts: number;
+  net_revenue: number;
+}
+
+export interface DashboardProduction {
+  total_current_poultry: number;
+  active_poultry: number;
+  total_deaths: number;
+  active_batches: unknown[];
+}
+
+export interface DashboardAlerts {
+  low_stock_batches: unknown[];
+  suppliers_with_dues: unknown[];
+  customers_with_debts: unknown[];
+  recent_deaths_7_days: number;
+  batches_ending_soon: unknown[];
+  unpaid_purchases: number;
+  unpaid_sales: number;
+}
+
+export interface DashboardData {
+  counts: DashboardCounts;
+  financial_summary: DashboardFinancial;
+  production_insights: DashboardProduction;
+  alerts: DashboardAlerts;
+  recent: {
+    purchases: unknown[];
+    payments: unknown[];
+    batches: unknown[];
+    sales: unknown[];
+  };
+}
