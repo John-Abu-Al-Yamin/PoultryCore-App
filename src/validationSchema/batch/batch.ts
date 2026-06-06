@@ -15,15 +15,6 @@ export const batchSchema = z.object({
     .min(1, "نوع الدواجن مطلوب")
     .max(255, "نوع الدواجن يجب ألا يزيد عن 255 حرف"),
 
-  initial_quantity: z
-    .union([z.string(), z.number()])
-    .refine((val) => {
-      const num = Number(val);
-      return Number.isInteger(num) && num >= 1;
-    }, {
-      message: "الكمية الابتدائية يجب أن تكون رقمًا صحيحًا وأكبر من 0",
-    }),
-
   start_date: z
     .string()
     .min(1, "تاريخ البداية مطلوب")

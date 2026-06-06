@@ -5,6 +5,12 @@ import Toast from "react-native-toast-message";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 import { useFonts } from "@expo-google-fonts/tajawal";
 import { ThemeProvider, useTheme } from "@/src/contexts/ThemeContext";

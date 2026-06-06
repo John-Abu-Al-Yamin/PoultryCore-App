@@ -43,6 +43,8 @@ export interface Batch {
   updated_at: string;
 }
 
+
+
 export interface MutationVariables {
   data?: Record<string, unknown>;
   url?: string;
