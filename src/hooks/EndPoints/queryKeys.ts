@@ -32,6 +32,13 @@ const queryKeys: Record<string, string> = {
   addPayments: "/payments/add",
   deletePayments: "/payments/delete",
   updatePayments: "/payments/update",
+
+  sales: "/sales",
+  addSales: "/sales/add",
+  deleteSales: "/sales/delete",
+  updateSales: "/sales/update",
+
+  
   
 
 };

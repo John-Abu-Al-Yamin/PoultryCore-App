@@ -1,0 +1,71 @@
+import endPoints from "@/src/hooks/EndPoints/endPoints";
+import queryKeys from "@/src/hooks/EndPoints/queryKeys";
+import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
+import useGetData from "@/src/hooks/curdsHook/useGetData";
+import usePutData from "@/src/hooks/curdsHook/usePutData";
+import usePostData from "@/src/hooks/curdsHook/usePostData";
+import type { ApiResponse, Payment } from "@/src/types/api";
+
+export const useGetAllPayments = (page = 1, limit = 20) => {
+  const { data, isPending, refetch, ...rest } = useGetData<
+    ApiResponse<Payment[]>
+  >({
+    url: endPoints.payments,
+    params: { page: String(page), limit: String(limit) },
+    queryKeys: [queryKeys.payments, String(page), String(limit)],
+  });
+
+  return {
+    data,
+    isPending,
+    isError: rest.error,
+    refetch,
+    page,
+    limit,
+  };
+};
+
+export const useGetPaymentById = (id: string) => {
+  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<Payment>>({
+    url: `${endPoints.payments}/${id}`,
+    params: { id },
+    queryKeys: [queryKeys.payments, id],
+  });
+
+  return {
+    data,
+    isPending,
+    isError: rest.error,
+    refetch,
+  };
+};
+
+export const useAddPayment   = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
+    endPoints.payments,
+    [queryKeys.addPayments],
+    [queryKeys.payments, queryKeys.addPayments, queryKeys.user],
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
+
+export const useDeletePayment = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
+    endPoints.payments,
+    [queryKeys.deletePayments],
+    [queryKeys.payments, queryKeys.deletePayments],
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
+
+export const useUpdatePayment = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
+    endPoints.payments,
+    [queryKeys.updatePayments],
+    [queryKeys.payments, queryKeys.updatePayments],
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};

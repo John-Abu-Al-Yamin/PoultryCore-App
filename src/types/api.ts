@@ -172,3 +172,48 @@ export interface Purchase {
   batch: Batch;
   payments: PurchasePayment[];
 }
+
+export interface Sale {
+  id: number;
+  sale_number: string | null;
+  user_id: number;
+  batch_id: number;
+  customer_id: number;
+  quantity: number;
+  unit_price: string;
+  total_price: string;
+  paid_amount: string;
+  status: string;
+  sale_date: string;
+  payment_type: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  customer: Customer;
+  batch: Batch;
+}
+
+export interface Payment {
+  id: number;
+  receipt_number: string | null;
+  user_id: number;
+  type: string;
+  supplier_id: number | null;
+  purchase_id: number | null;
+  customer_id: number | null;
+  sale_id: number | null;
+  amount: string;
+  payment_date: string;
+  payment_method: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  supplier: Supplier | null;
+  purchase: Purchase | null;
+  customer: Customer | null;
+  sale: Sale | null;
+}
+
+
+export interface Sales {}
