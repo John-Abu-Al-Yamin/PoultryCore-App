@@ -8,6 +8,11 @@ const endPoints: Record<string, string> = {
   user: "/user",
   customers: "/customers",
   suppliers: "/suppliers",
+
+  purchases: "/purchases",
+  payments: "/payments",
+  expenses: "/expenses",
+  sales: "/sales",
 };
 
 export default endPoints;

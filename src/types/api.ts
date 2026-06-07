@@ -59,6 +59,7 @@ export interface Supplier {
   name: string;
   phone: string;
   address: string;
+  total_dues: string;
   created_at: string;
   updated_at: string;
 }
@@ -129,4 +130,45 @@ export interface DashboardData {
     batches: unknown[];
     sales: unknown[];
   };
+}
+
+export interface PurchasePayment {
+  id: number;
+  receipt_number: string | null;
+  user_id: number;
+  type: string;
+  supplier_id: number | null;
+  purchase_id: number | null;
+  customer_id: number | null;
+  sale_id: number | null;
+  amount: string;
+  payment_date: string;
+  payment_method: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+}
+
+export interface Purchase {
+  id: number;
+  purchase_number: string | null;
+  user_id: number;
+  supplier_id: number;
+  batch_id: number;
+  item_name: string;
+  quantity: number;
+  unit: string;
+  unit_price: string;
+  total_price: string;
+  paid_amount: string;
+  status: string;
+  purchase_date: string;
+  payment_type: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  supplier: Supplier;
+  batch: Batch;
+  payments: PurchasePayment[];
 }

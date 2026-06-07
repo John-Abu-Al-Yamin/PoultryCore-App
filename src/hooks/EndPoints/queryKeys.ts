@@ -23,6 +23,17 @@ const queryKeys: Record<string, string> = {
   
   dashboard: "/dashboard",
 
+  purchases: "/purchases",
+  addPurchases: "/purchases/add",
+  deletePurchases: "/purchases/delete",
+  updatePurchases: "/purchases/update",
+
+  payments: "/payments",
+  addPayments: "/payments/add",
+  deletePayments: "/payments/delete",
+  updatePayments: "/payments/update",
+  
+
 };
 
 export default queryKeys;
