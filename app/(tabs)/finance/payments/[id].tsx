@@ -180,12 +180,9 @@ const PaymentDetailPage = () => {
   return (
     <AppScreen
       className="bg-background-light dark:bg-background-dark"
-      scrollable={false}
+      contentContainerClassName="px-4 pt-8 pb-12"
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName="px-4 pt-6 pb-8"
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header Section */}
         <View className="flex-row items-start justify-between mb-6">
           <View className="flex-1">
@@ -196,10 +193,19 @@ const PaymentDetailPage = () => {
             >
               رقم العملية #{paymentData?.id}
             </AppText>
-            <View className="flex-row items-center gap-2 mb-2">
-              <AppText variant="h1" className="flex-1">
+            <View className="mb-2">
+              <AppText variant="h1">
                 {Number(paymentData?.amount || 0).toLocaleString()} ج.م
               </AppText>
+            </View>
+          
+            <View className="flex-row items-center gap-1.5 ">
+              <Calendar size={14} color={colors.mutedForeground} />
+              <AppText variant="caption" muted>
+                {formatDate(paymentData?.payment_date || "")}
+              </AppText>
+            </View>
+              <View className="flex-row items-center gap-2 mt-2">
               <View
                 className={`flex-row items-center gap-1.5 px-3 py-1 rounded-full ${type.badgeClass}`}
               >
@@ -209,12 +215,6 @@ const PaymentDetailPage = () => {
                   {type.label}
                 </AppText>
               </View>
-            </View>
-            <View className="flex-row items-center gap-1.5">
-              <Calendar size={14} color={colors.mutedForeground} />
-              <AppText variant="caption" muted>
-                {formatDate(paymentData?.payment_date || "")}
-              </AppText>
             </View>
           </View>
 

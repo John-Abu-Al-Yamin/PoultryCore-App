@@ -177,20 +177,23 @@ export interface Sale {
   id: number;
   sale_number: string | null;
   user_id: number;
-  batch_id: number;
   customer_id: number;
+  batch_id: number;
+  item_name: string;
   quantity: number;
+  unit: string;
   unit_price: string;
   total_price: string;
   paid_amount: string;
+  payment_type: string;
   status: string;
   sale_date: string;
-  payment_type: string;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
   customer: Customer;
   batch: Batch;
+  payments: PurchasePayment[];
 }
 
 export interface Payment {
@@ -214,6 +217,3 @@ export interface Payment {
   customer: Customer | null;
   sale: Sale | null;
 }
-
-
-export interface Sales {}

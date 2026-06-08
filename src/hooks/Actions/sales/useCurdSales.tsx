@@ -4,11 +4,11 @@ import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
 import useGetData from "@/src/hooks/curdsHook/useGetData";
 import usePutData from "@/src/hooks/curdsHook/usePutData";
 import usePostData from "@/src/hooks/curdsHook/usePostData";
-import type { ApiResponse, Sales } from "@/src/types/api";
+import type { ApiResponse, Sale } from "@/src/types/api";
 
 export const useGetAllSales = (page = 1, limit = 20) => {
   const { data, isPending, refetch, ...rest } = useGetData<
-    ApiResponse<Sales[]>
+    ApiResponse<Sale[]>
   >({
     url: endPoints.sales,
     params: { page: String(page), limit: String(limit) },
@@ -26,7 +26,7 @@ export const useGetAllSales = (page = 1, limit = 20) => {
 };
 
 export const useGetSaleById = (id: string) => {
-  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<Sales>>({
+  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<Sale>>({
     url: `${endPoints.sales}/${id}`,
     params: { id },
     queryKeys: [queryKeys.sales, id],
