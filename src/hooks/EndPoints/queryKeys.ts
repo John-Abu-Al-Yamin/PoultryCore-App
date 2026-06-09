@@ -43,6 +43,11 @@ const queryKeys: Record<string, string> = {
   deleteExpenses: "/expenses/delete",
   updateExpenses: "/expenses/update",
 
+  deaths: "/deaths",
+  addDeaths: "/deaths/add",
+  deleteDeaths: "/deaths/delete",
+  updateDeaths: "/deaths/update",
+
 };
 
 export default queryKeys;

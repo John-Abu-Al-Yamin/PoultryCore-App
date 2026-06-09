@@ -12,6 +12,7 @@ import {
   Clock,
   Layers,
   Plus,
+  Skull,
   Warehouse,
 } from "lucide-react-native";
 import { FlatList, Pressable, TouchableOpacity, View, Text } from "react-native";
@@ -101,16 +102,28 @@ const BatchesPage = () => {
         ListHeaderComponent={
           <View className="flex-row items-center justify-between mb-6">
             <AppText variant="h1">الدفعات</AppText>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              className="bg-primary-light dark:bg-primary-dark px-4 py-2 rounded-xl flex-row items-center gap-1.5"
-              onPress={() => router.push("/batches/add")}
-            >
-              <Plus size={16} color={colors.background} />
-              <Text className="text-background-light dark:text-background-dark font-bold text-sm">
-                إضافة دفعة
-              </Text>
-            </TouchableOpacity>
+            <View className="flex-row items-center gap-2">
+              <TouchableOpacity
+                activeOpacity={0.8}
+                className="bg-error-light/10 dark:bg-error-dark/10 border border-error-light/20 dark:border-error-dark/20 px-3 py-2 rounded-xl flex-row items-center gap-1.5"
+                onPress={() => router.push("/batches/deaths")}
+              >
+                <Skull size={16} color="#ef4444" />
+                <Text className="text-error-light dark:text-error-dark font-bold text-sm">
+                  النفوق
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                className="bg-primary-light dark:bg-primary-dark px-4 py-2 rounded-xl flex-row items-center gap-1.5"
+                onPress={() => router.push("/batches/add")}
+              >
+                <Plus size={16} color={colors.background} />
+                <Text className="text-background-light dark:text-background-dark font-bold text-sm">
+                  إضافة دفعة
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         }
         ListEmptyComponent={

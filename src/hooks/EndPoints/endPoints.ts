@@ -13,6 +13,7 @@ const endPoints: Record<string, string> = {
   payments: "/payments",
   expenses: "/expenses",
   sales: "/sales",
+  deaths: "/deaths",
 };
 
 export default endPoints;

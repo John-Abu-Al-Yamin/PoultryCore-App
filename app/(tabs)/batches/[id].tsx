@@ -5,6 +5,7 @@ import {
   ChevronRight,
   ClipboardList,
   DollarSign,
+  Skull,
   NotebookText,
   Warehouse,
   Edit2,
@@ -25,6 +26,7 @@ import {
   useDeleteBatch,
 } from "@/src/hooks/Actions/batch/useCurdBatch";
 import { useGetAllExpenses } from "@/src/hooks/Actions/expenses/useCurdExpenses";
+import { useGetAllDeaths } from "@/src/hooks/Actions/deaths/useCurdDeaths";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { useState } from "react";
 import { toast } from "@/src/services/toast";
@@ -79,6 +81,7 @@ const BatchDetailPage = () => {
     refetch,
   } = useGetBatchById(id || "");
   const { data: expenses, isPending: expensesIsPending } = useGetAllExpenses();
+  const { data: deathsData, isPending: deathsIsPending } = useGetAllDeaths();
   const { mutate: deleteBatch, isPending: isDeleting } = useDeleteBatch();
   const { colors } = useTheme();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -89,6 +92,16 @@ const BatchDetailPage = () => {
   );
   const totalExpenses = batchExpenses.reduce(
     (sum, expense) => sum + Number(expense.amount || 0),
+    0,
+  );
+
+  const deathsRaw = deathsData?.data?.data;
+  const allDeaths = Array.isArray(deathsRaw) ? deathsRaw : [];
+  const batchDeaths = allDeaths.filter(
+    (death) => Number(death.batch_id) === Number(id),
+  );
+  const totalDeaths = batchDeaths.reduce(
+    (sum, death) => sum + Number(death.quantity || 0),
     0,
   );
 
@@ -412,6 +425,119 @@ const BatchDetailPage = () => {
                         />
                         <AppText variant="caption" muted numberOfLines={1}>
                           {expense.notes}
+                        </AppText>
+                      </View>
+                    )}
+                  </View>
+                </Card>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        {/* Deaths */}
+        <View className="mb-3 flex-row items-center justify-between mt-4">
+          <View className="flex-row items-center gap-2">
+            <View className="w-1.5 h-6 rounded-full bg-error-light dark:bg-error-dark" />
+            <Skull size={18} color={colors.text} />
+            <AppText variant="h3">نفوق الدفعة</AppText>
+          </View>
+          <TouchableOpacity
+            onPress={() => router.push("/batches/deaths/add")}
+            className="px-3 py-1.5 rounded-full bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark"
+          >
+            <AppText variant="caption" className="font-bold">
+              إضافة
+            </AppText>
+          </TouchableOpacity>
+        </View>
+
+        <View className="bg-error-light dark:bg-error-dark rounded-[28px] p-5 mb-4 shadow-sm">
+          <View className="flex-row items-center justify-between">
+            <View>
+              <AppText inverse variant="caption" className="opacity-70 mb-1">
+                إجمالي النفوق
+              </AppText>
+              <AppText inverse className="text-3xl font-bold">
+                {totalDeaths.toLocaleString()}{" "}
+                <AppText inverse variant="bodySmall" className="opacity-70">
+                  طائر
+                </AppText>
+              </AppText>
+            </View>
+            <View className="w-12 h-12 rounded-2xl bg-white/20 items-center justify-center">
+              <Skull size={24} color="white" />
+            </View>
+          </View>
+          <View className="h-[1px] bg-white/10 my-4" />
+          <View className="flex-row items-center gap-2">
+            <View className="w-2 h-2 rounded-full bg-red-300" />
+            <AppText inverse variant="caption" className="opacity-70">
+              {batchDeaths.length} حالة نفوق مسجلة لهذه الدفعة
+            </AppText>
+          </View>
+        </View>
+
+        {deathsIsPending ? (
+          <Card className="mb-6">
+            <View className="p-6 items-center">
+              <AppText muted>جاري تحميل حالات النفوق...</AppText>
+            </View>
+          </Card>
+        ) : batchDeaths.length === 0 ? (
+          <View className="bg-muted-light dark:bg-muted-dark rounded-2xl p-8 items-center justify-center border border-dashed border-border-light dark:border-border-dark mb-6">
+            <Skull size={32} color={colors.mutedForeground} />
+            <AppText muted className="mt-3 text-center">
+              لا توجد حالات نفوق مسجلة لهذه الدفعة
+            </AppText>
+          </View>
+        ) : (
+          <View className="gap-3 mb-6">
+            {batchDeaths.map((death) => (
+              <TouchableOpacity
+                key={death.id}
+                activeOpacity={0.85}
+                onPress={() =>
+                  router.push(`/batches/deaths/${death.id}` as any)
+                }
+              >
+                <Card className="overflow-hidden">
+                  <View className="p-4">
+                    <View className="flex-row items-center justify-between mb-3">
+                      <View className="flex-row items-center gap-3 flex-1">
+                        <View className="w-11 h-11 rounded-2xl bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 items-center justify-center">
+                          <Skull size={20} color="#ef4444" />
+                        </View>
+                        <View className="flex-1">
+                          <View className="flex-row items-center gap-2 mb-1">
+                            <AppText className="font-bold text-lg">
+                              {Number(death.quantity).toLocaleString()} طائر
+                            </AppText>
+                            <View className="px-2 py-0.5 rounded-md bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20">
+                              <AppText className="text-[10px] font-bold text-red-600 dark:text-red-400">
+                                {death.reason}
+                              </AppText>
+                            </View>
+                          </View>
+                          <View className="flex-row items-center gap-1.5">
+                            <Calendar size={13} color={colors.mutedForeground} />
+                            <AppText variant="caption" muted>
+                              {formatDate(death.date)}
+                            </AppText>
+                          </View>
+                        </View>
+                      </View>
+                      <ChevronRight size={20} color={colors.mutedForeground} />
+                    </View>
+
+                    {death.notes && (
+                      <View className="pt-3 border-t border-border-light/50 dark:border-border-dark/50 flex-row items-center gap-2">
+                        <ClipboardList
+                          size={14}
+                          color={colors.mutedForeground}
+                        />
+                        <AppText variant="caption" muted numberOfLines={1}>
+                          {death.notes}
                         </AppText>
                       </View>
                     )}

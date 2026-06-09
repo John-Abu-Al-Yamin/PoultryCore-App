@@ -211,6 +211,20 @@ export interface Expense {
   batch: Batch;
 }
 
+export interface Death {
+  id: number;
+  user_id: number;
+  batch_id: number;
+  quantity: number;
+  reason: string;
+  date: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  batch: Batch;
+}
+
 export interface Payment {
   id: number;
   receipt_number: string | null;
