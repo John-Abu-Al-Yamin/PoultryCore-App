@@ -67,8 +67,8 @@ const typeConfig: Record<
 
 const methodLabels: Record<string, string> = {
   cash: "نقداً",
-  bank_transfer: "تحويل بنكي",
-  cheque: "شيك",
+  wallet: "محفظة إلكترونية",
+  instapay: "انستاباي",
 };
 
 const InfoRow = ({
@@ -219,6 +219,12 @@ const PaymentDetailPage = () => {
           </View>
 
           <View className="flex-row gap-2">
+            <TouchableOpacity
+              onPress={() => router.push(`/finance/payments/edit/${id}` as any)}
+              className="w-11 h-11 rounded-2xl items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/20 dark:border-primary-dark/20"
+            >
+              <Edit2 size={20} color={colors.primary} />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setShowDeleteModal(true)}
               className="w-11 h-11 rounded-2xl items-center justify-center bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20"

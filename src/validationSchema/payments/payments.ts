@@ -32,6 +32,16 @@ export const paymentSchema = z
           message: "المورد مطلوب",
         });
       }
+      if (
+        !data.purchase_id ||
+        (typeof data.purchase_id === "string" && data.purchase_id.trim() === "")
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["purchase_id"],
+          message: "الفاتورة مطلوبة",
+        });
+      }
     }
     if (data.type === "from_customer") {
       if (
@@ -43,6 +53,16 @@ export const paymentSchema = z
           code: "custom",
           path: ["customer_id"],
           message: "العميل مطلوب",
+        });
+      }
+      if (
+        !data.sale_id ||
+        (typeof data.sale_id === "string" && data.sale_id.trim() === "")
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["sale_id"],
+          message: "الفاتورة مطلوبة",
         });
       }
     }

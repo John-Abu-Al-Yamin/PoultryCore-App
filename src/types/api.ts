@@ -49,6 +49,7 @@ export interface Customer {
   name: string;
   phone: string;
   address: string;
+  total_debts: string;
   created_at: string;
   updated_at: string;
 }
