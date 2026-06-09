@@ -12,6 +12,9 @@ import {
   Banknote,
   Building2,
   ChevronLeft,
+  CircleAlert,
+  CircleCheck,
+  Clock,
   Plus,
   User,
   Wallet,
@@ -67,6 +70,41 @@ const methodLabels: Record<string, string> = {
   bank_transfer: "تحويل بنكي",
   cheque: "شيك",
 };
+
+const statusConfig: Record<
+  string,
+  { label: string; icon: any; badgeClass: string; textClass: string; iconColor: string }
+> = {
+  paid: {
+    label: "مدفوع",
+    icon: CircleCheck,
+    badgeClass:
+      "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20",
+    textClass: "text-emerald-600 dark:text-emerald-400",
+    iconColor: "#10b981",
+  },
+  unpaid: {
+    label: "غير مدفوع",
+    icon: CircleAlert,
+    badgeClass:
+      "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20",
+    textClass: "text-rose-600 dark:text-rose-400",
+    iconColor: "#f43f5e",
+  },
+  partial: {
+    label: "مدفوع جزئياً",
+    icon: Clock,
+    badgeClass:
+      "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
+    textClass: "text-amber-600 dark:text-amber-400",
+    iconColor: "#f59e0b",
+  },
+};
+
+const getPaymentInvoiceStatus = (payment: Payment) =>
+  payment.type === "to_supplier"
+    ? payment.purchase?.status
+    : payment.sale?.status;
 
 const PaymentsPage = () => {
   const { data: payments, isPending, isError, refetch } = useGetAllPayments();
@@ -132,6 +170,10 @@ const PaymentsPage = () => {
           <View className="gap-4">
             {paymentsList.map((payment) => {
               const type = typeConfig[payment.type] || typeConfig.to_supplier;
+              const invoiceStatus = getPaymentInvoiceStatus(payment) || "unpaid";
+              const status =
+                statusConfig[invoiceStatus] || statusConfig.unpaid;
+              const StatusIcon = status.icon;
 
               return (
                 <Pressable
@@ -164,6 +206,16 @@ const PaymentsPage = () => {
                                   className={`text-[10px] font-bold ${type.textClass}`}
                                 >
                                   {type.label}
+                                </AppText>
+                              </View>
+                              <View
+                                className={`flex-row items-center gap-1 px-2 py-0.5 rounded-md ${status.badgeClass}`}
+                              >
+                                <StatusIcon size={12} color={status.iconColor} />
+                                <AppText
+                                  className={`text-[10px] font-bold ${status.textClass}`}
+                                >
+                                  {status.label}
                                 </AppText>
                               </View>
                             </View>

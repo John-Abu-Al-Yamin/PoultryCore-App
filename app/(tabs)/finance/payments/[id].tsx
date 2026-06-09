@@ -1,17 +1,16 @@
 import { View, TouchableOpacity, ScrollView, Linking } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import {
-  ArrowRightLeft,
   Building2,
   Calendar,
   ChevronRight,
+  CircleAlert,
+  CircleCheck,
+  Clock,
   CreditCard,
-  DollarSign,
   Edit2,
   ExternalLink,
   FileText,
-  Hash,
-  Info,
   MapPin,
   Phone,
   Receipt,
@@ -71,6 +70,36 @@ const methodLabels: Record<string, string> = {
   instapay: "انستاباي",
 };
 
+const statusConfig: Record<
+  string,
+  { label: string; icon: any; badgeClass: string; textClass: string; iconColor: string }
+> = {
+  paid: {
+    label: "مدفوع",
+    icon: CircleCheck,
+    badgeClass:
+      "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20",
+    textClass: "text-emerald-600 dark:text-emerald-400",
+    iconColor: "#10b981",
+  },
+  unpaid: {
+    label: "غير مدفوع",
+    icon: CircleAlert,
+    badgeClass:
+      "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20",
+    textClass: "text-rose-600 dark:text-rose-400",
+    iconColor: "#f43f5e",
+  },
+  partial: {
+    label: "مدفوع جزئياً",
+    icon: Clock,
+    badgeClass:
+      "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
+    textClass: "text-amber-600 dark:text-amber-400",
+    iconColor: "#f59e0b",
+  },
+};
+
 const InfoRow = ({
   label,
   value,
@@ -127,8 +156,14 @@ const PaymentDetailPage = () => {
   const customer = paymentData?.customer;
   const purchase = paymentData?.purchase;
   const sale = paymentData?.sale;
+  const relatedInvoiceStatus = isToSupplier ? purchase?.status : sale?.status;
+  const status = statusConfig[relatedInvoiceStatus || "unpaid"] || statusConfig.unpaid;
+  const StatusIcon = status.icon;
+  const isFullyPaid = relatedInvoiceStatus === "paid";
 
   const handleDelete = () => {
+    if (isFullyPaid) return;
+
     deletePayment(
       { id: id as string, url: `${endPoints.payments}/${id}` },
       {
@@ -215,21 +250,45 @@ const PaymentDetailPage = () => {
                   {type.label}
                 </AppText>
               </View>
+              <View
+                className={`flex-row items-center gap-1.5 px-3 py-1 rounded-full ${status.badgeClass}`}
+              >
+                <StatusIcon size={14} color={status.iconColor} />
+                <AppText className={`text-[12px] font-bold ${status.textClass}`}>
+                  {status.label}
+                </AppText>
+              </View>
             </View>
           </View>
 
           <View className="flex-row gap-2">
             <TouchableOpacity
               onPress={() => router.push(`/finance/payments/edit/${id}` as any)}
-              className="w-11 h-11 rounded-2xl items-center justify-center bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/20 dark:border-primary-dark/20"
+              disabled={isFullyPaid}
+              className={`w-11 h-11 rounded-2xl items-center justify-center ${
+                isFullyPaid
+                  ? "bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark opacity-40"
+                  : "bg-primary-light/10 dark:bg-primary-dark/10 border border-primary-light/20 dark:border-primary-dark/20"
+              }`}
             >
-              <Edit2 size={20} color={colors.primary} />
+              <Edit2
+                size={20}
+                color={isFullyPaid ? colors.mutedForeground : colors.primary}
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setShowDeleteModal(true)}
-              className="w-11 h-11 rounded-2xl items-center justify-center bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20"
+              disabled={isFullyPaid}
+              className={`w-11 h-11 rounded-2xl items-center justify-center ${
+                isFullyPaid
+                  ? "bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark opacity-40"
+                  : "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20"
+              }`}
             >
-              <Trash2 size={20} color="#f43f5e" />
+              <Trash2
+                size={20}
+                color={isFullyPaid ? colors.mutedForeground : "#f43f5e"}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -418,9 +477,21 @@ const PaymentDetailPage = () => {
                 className="flex-row items-center justify-between"
               >
                 <View className="flex-1">
-                  <AppText className="font-bold text-lg">
-                    {purchase.item_name}
-                  </AppText>
+                  <View className="flex-row items-center gap-2 mb-1">
+                    <AppText className="font-bold text-lg">
+                      {purchase.item_name}
+                    </AppText>
+                    <View
+                      className={`flex-row items-center gap-1 px-2 py-0.5 rounded-md ${status.badgeClass}`}
+                    >
+                      <StatusIcon size={12} color={status.iconColor} />
+                      <AppText
+                        className={`text-[10px] font-bold ${status.textClass}`}
+                      >
+                        {status.label}
+                      </AppText>
+                    </View>
+                  </View>
                   <AppText variant="caption" muted>
                     {Number(
                       purchase.total_price,
@@ -447,9 +518,21 @@ const PaymentDetailPage = () => {
                 className="flex-row items-center justify-between"
               >
                 <View className="flex-1">
-                  <AppText className="font-bold text-lg">
-                    فاتورة مبيعات #{sale.id}
-                  </AppText>
+                  <View className="flex-row items-center gap-2 mb-1">
+                    <AppText className="font-bold text-lg">
+                      فاتورة مبيعات #{sale.id}
+                    </AppText>
+                    <View
+                      className={`flex-row items-center gap-1 px-2 py-0.5 rounded-md ${status.badgeClass}`}
+                    >
+                      <StatusIcon size={12} color={status.iconColor} />
+                      <AppText
+                        className={`text-[10px] font-bold ${status.textClass}`}
+                      >
+                        {status.label}
+                      </AppText>
+                    </View>
+                  </View>
                   <AppText variant="caption" muted>
                     {Number(
                       sale.total_price,
