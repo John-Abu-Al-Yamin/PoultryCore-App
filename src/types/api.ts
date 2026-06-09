@@ -197,6 +197,20 @@ export interface Sale {
   payments: PurchasePayment[];
 }
 
+export interface Expense {
+  id: number;
+  user_id: number;
+  batch_id: number;
+  type: string;
+  amount: string;
+  date: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string | null;
+  batch: Batch;
+}
+
 export interface Payment {
   id: number;
   receipt_number: string | null;

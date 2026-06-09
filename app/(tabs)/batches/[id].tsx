@@ -2,11 +2,15 @@ import { View, TouchableOpacity, ScrollView } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import {
   Calendar,
+  ChevronRight,
+  ClipboardList,
+  DollarSign,
   NotebookText,
   Warehouse,
   Edit2,
   Bird,
   Clock,
+  ReceiptText,
   Trash2,
   Tags,
 } from "lucide-react-native";
@@ -20,9 +24,11 @@ import {
   useGetBatchById,
   useDeleteBatch,
 } from "@/src/hooks/Actions/batch/useCurdBatch";
+import { useGetAllExpenses } from "@/src/hooks/Actions/expenses/useCurdExpenses";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import { useState } from "react";
 import { toast } from "@/src/services/toast";
+import { expenseTypeOptions } from "@/src/constants/expenseTypes";
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -56,6 +62,14 @@ const poultryLabels: Record<string, string> = {
   duck: "بط",
 };
 
+const getExpenseTypeLabel = (type: string) => {
+  const option = expenseTypeOptions.find(
+    (item) => item.value.toLowerCase() === type.toLowerCase(),
+  );
+
+  return option?.label || type;
+};
+
 const BatchDetailPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const {
@@ -64,11 +78,19 @@ const BatchDetailPage = () => {
     isError,
     refetch,
   } = useGetBatchById(id || "");
+  const { data: expenses, isPending: expensesIsPending } = useGetAllExpenses();
   const { mutate: deleteBatch, isPending: isDeleting } = useDeleteBatch();
   const { colors } = useTheme();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const batchDetails = batch?.data?.data;
+  const batchExpenses = (expenses?.data?.data ?? []).filter(
+    (expense) => Number(expense.batch_id) === Number(id),
+  );
+  const totalExpenses = batchExpenses.reduce(
+    (sum, expense) => sum + Number(expense.amount || 0),
+    0,
+  );
 
   const handleDelete = () => {
     deleteBatch(
@@ -285,6 +307,119 @@ const BatchDetailPage = () => {
               </View>
             </View>
           </Card>
+        )}
+
+        {/* Expenses */}
+        <View className="mb-3 flex-row items-center justify-between">
+          <View className="flex-row items-center gap-2">
+            <View className="w-1.5 h-6 rounded-full bg-primary-light dark:bg-primary-dark" />
+            <ReceiptText size={18} color={colors.text} />
+            <AppText variant="h3">مصروفات الدفعة</AppText>
+          </View>
+          <TouchableOpacity
+            onPress={() => router.push("/finance/expenses/add")}
+            className="px-3 py-1.5 rounded-full bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark"
+          >
+            <AppText variant="caption" className="font-bold">
+              إضافة
+            </AppText>
+          </TouchableOpacity>
+        </View>
+
+        <View className="bg-primary-light dark:bg-primary-dark rounded-[28px] p-5 mb-4 shadow-sm">
+          <View className="flex-row items-center justify-between">
+            <View>
+              <AppText inverse variant="caption" className="opacity-70 mb-1">
+                إجمالي المصروفات
+              </AppText>
+              <AppText inverse className="text-3xl font-bold">
+                {totalExpenses.toLocaleString()}{" "}
+                <AppText inverse variant="bodySmall" className="opacity-70">
+                  ج.م
+                </AppText>
+              </AppText>
+            </View>
+            <View className="w-12 h-12 rounded-2xl bg-white/20 items-center justify-center">
+              <DollarSign size={24} color="white" />
+            </View>
+          </View>
+          <View className="h-[1px] bg-white/10 my-4" />
+          <View className="flex-row items-center gap-2">
+            <View className="w-2 h-2 rounded-full bg-amber-300" />
+            <AppText inverse variant="caption" className="opacity-70">
+              {batchExpenses.length} مصروف مسجل لهذه الدفعة
+            </AppText>
+          </View>
+        </View>
+
+        {expensesIsPending ? (
+          <Card className="mb-6">
+            <View className="p-6 items-center">
+              <AppText muted>جاري تحميل المصروفات...</AppText>
+            </View>
+          </Card>
+        ) : batchExpenses.length === 0 ? (
+          <View className="bg-muted-light dark:bg-muted-dark rounded-2xl p-8 items-center justify-center border border-dashed border-border-light dark:border-border-dark mb-6">
+            <ReceiptText size={32} color={colors.mutedForeground} />
+            <AppText muted className="mt-3 text-center">
+              لا توجد مصروفات مسجلة لهذه الدفعة
+            </AppText>
+          </View>
+        ) : (
+          <View className="gap-3 mb-6">
+            {batchExpenses.map((expense) => (
+              <TouchableOpacity
+                key={expense.id}
+                activeOpacity={0.85}
+                onPress={() =>
+                  router.push(`/finance/expenses/${expense.id}` as any)
+                }
+              >
+                <Card className="overflow-hidden">
+                  <View className="p-4">
+                    <View className="flex-row items-center justify-between mb-3">
+                      <View className="flex-row items-center gap-3 flex-1">
+                        <View className="w-11 h-11 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20 items-center justify-center">
+                          <ReceiptText size={20} color="#f59e0b" />
+                        </View>
+                        <View className="flex-1">
+                          <View className="flex-row items-center gap-2 mb-1">
+                            <AppText className="font-bold text-lg">
+                              {Number(expense.amount).toLocaleString()} ج.م
+                            </AppText>
+                            <View className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20">
+                              <AppText className="text-[10px] font-bold text-amber-600 dark:text-amber-400">
+                                {getExpenseTypeLabel(expense.type)}
+                              </AppText>
+                            </View>
+                          </View>
+                          <View className="flex-row items-center gap-1.5">
+                            <Calendar size={13} color={colors.mutedForeground} />
+                            <AppText variant="caption" muted>
+                              {formatDate(expense.date)}
+                            </AppText>
+                          </View>
+                        </View>
+                      </View>
+                      <ChevronRight size={20} color={colors.mutedForeground} />
+                    </View>
+
+                    {expense.notes && (
+                      <View className="pt-3 border-t border-border-light/50 dark:border-border-dark/50 flex-row items-center gap-2">
+                        <ClipboardList
+                          size={14}
+                          color={colors.mutedForeground}
+                        />
+                        <AppText variant="caption" muted numberOfLines={1}>
+                          {expense.notes}
+                        </AppText>
+                      </View>
+                    )}
+                  </View>
+                </Card>
+              </TouchableOpacity>
+            ))}
+          </View>
         )}
       </ScrollView>
 
