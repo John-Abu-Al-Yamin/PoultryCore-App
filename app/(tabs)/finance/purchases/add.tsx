@@ -26,6 +26,7 @@ import { toast } from "@/src/services/toast";
 import {
   poultryTypeOptions,
   paymentTypeOptions,
+  purchaseTypeOptions,
 } from "@/src/constants/poultryTypes";
 
 type PurchaseFormData = z.infer<typeof purchaseSchema>;
@@ -42,6 +43,7 @@ export default function AddPurchasePage() {
     mode: "onChange",
     defaultValues: {
       supplier_id: "",
+      type: "chicks",
       batch_id: "",
       item_name: "",
       quantity: "",
@@ -70,6 +72,7 @@ export default function AddPurchasePage() {
     mutate({
       data: {
         supplier_id: Number(data.supplier_id),
+        type: data.type,
         batch_id: Number(data.batch_id),
         item_name: data.item_name,
         quantity: Number(data.quantity),
@@ -145,6 +148,28 @@ export default function AddPurchasePage() {
                 onBlur={onBlur}
                 error={errors.batch_id?.message}
                 loading={batchesIsPending}
+              />
+            )}
+          />
+        </View>
+
+        {/* Type */}
+        <View className="mb-5">
+          <AppText variant="label" className="mb-2">
+            نوع المشتريات
+          </AppText>
+          <Controller
+            control={control}
+            name="type"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppSelect
+                leftIcon={<Bird size={18} color={colors.mutedForeground} />}
+                placeholder="اختار نوع المشتريات"
+                options={purchaseTypeOptions}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                error={errors.type?.message}
               />
             )}
           />

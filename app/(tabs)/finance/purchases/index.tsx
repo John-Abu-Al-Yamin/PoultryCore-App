@@ -13,6 +13,7 @@ import {
   CircleAlert,
   CircleCheck,
   Clock,
+  Layers,
   Package,
   Plus,
   ShoppingCart,
@@ -24,6 +25,29 @@ import {
   View,
   Text,
 } from "react-native";
+
+const typeConfig: Record<string, { label: string; badgeClass: string; textClass: string }> = {
+  chicks: {
+    label: "كتاكيت",
+    badgeClass: "bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20",
+    textClass: "text-sky-600 dark:text-sky-400",
+  },
+  feed: {
+    label: "علف",
+    badgeClass: "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
+    textClass: "text-amber-600 dark:text-amber-400",
+  },
+  medicine: {
+    label: "دوّا",
+    badgeClass: "bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20",
+    textClass: "text-purple-600 dark:text-purple-400",
+  },
+  other: {
+    label: "تاني",
+    badgeClass: "bg-gray-50 dark:bg-gray-500/10 border border-gray-100 dark:border-gray-500/20",
+    textClass: "text-gray-600 dark:text-gray-400",
+  },
+};
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -137,6 +161,7 @@ const PurchasesPage = () => {
         renderItem={({ item: purchase }) => {
           const status = statusConfig[purchase.status] || statusConfig.unpaid;
           const StatusIcon = status.icon;
+          const typeInfo = typeConfig[purchase.type] || typeConfig.other;
 
           return (
             <Pressable
@@ -162,6 +187,15 @@ const PurchasesPage = () => {
                             {purchase.item_name}
                           </AppText>
                           <View
+                            className={`flex-row items-center gap-1 px-2 py-0.5 rounded-md ${typeInfo.badgeClass}`}
+                          >
+                            <AppText
+                              className={`text-[10px] font-bold ${typeInfo.textClass}`}
+                            >
+                              {typeInfo.label}
+                            </AppText>
+                          </View>
+                          <View
                             className={`flex-row items-center gap-1 px-2 py-0.5 rounded-md ${status.badgeClass}`}
                           >
                             <StatusIcon size={12} color={status.iconColor} />
@@ -180,6 +214,13 @@ const PurchasesPage = () => {
                         </View>
                       </View>
                     </View>
+                  </View>
+
+                  <View className="flex-row items-center gap-1.5 mb-2">
+                    <Layers size={12} color={colors.mutedForeground} />
+                    <AppText variant="caption" muted>
+                      Batch #{purchase.batch_id} - {purchase.batch?.poultry_type || ""}
+                    </AppText>
                   </View>
 
                   <View className="flex-row gap-3">

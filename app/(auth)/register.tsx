@@ -45,7 +45,7 @@ export default function Register() {
       { data },
       {
         onSuccess: () => {
-          console.log(" Registration successful:", data);
+          // console.log(" Registration successful:", data);
           router.replace("/(setup)/barn");
         },
         onError: (error) => {

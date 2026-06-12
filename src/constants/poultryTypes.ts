@@ -13,6 +13,13 @@ export const poultryTypeOptions = [
   { label: "سمان", value: "سمان" },
 ];
 
+export const purchaseTypeOptions = [
+  { label: "كتاكيت", value: "chicks" },
+  { label: "علف", value: "feed" },
+  { label: "دوّا", value: "medicine" },
+  { label: "حاجه تاني", value: "other" },
+];
+
 export const paymentTypeOptions = [
   { label: "نقداً", value: "cash" },
   { label: "آجل", value: "credit" },

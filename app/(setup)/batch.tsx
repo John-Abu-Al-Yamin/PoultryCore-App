@@ -91,7 +91,7 @@ const Batch = () => {
 
           await setUser(user);
 
-          console.log("userdata", user);
+          // console.log("userdata", user);
 
           router.replace("/(tabs)/home");
         } catch (error) {

@@ -41,7 +41,7 @@ const Barn = () => {
       { data: data },
       {
         onSuccess: () => {
-          console.log("Registration successful:", data);
+          // console.log("barn successful:", data);
           router.replace("/(setup)/batch");
         },
         onError: (error) => {

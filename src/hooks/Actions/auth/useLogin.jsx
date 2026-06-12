@@ -18,12 +18,12 @@ const useLogin = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      console.log("🔥 token:", data?.data?.data?.token || data?.data?.token);
+      // console.log("🔥 token:", data?.data?.data?.token || data?.data?.token);
 
       const apiToken = data?.data?.data?.token || data?.data?.token;
 
-      console.log("login response", data?.data);
-      console.log("apiToken", apiToken);
+      // console.log("login response", data?.data);
+      // console.log("apiToken", apiToken);
 
       if (typeof apiToken === "string" && apiToken.length > 0) {
         setAuthToken(apiToken);

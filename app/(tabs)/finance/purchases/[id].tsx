@@ -71,6 +71,33 @@ const statusConfig: Record<
   },
 };
 
+const typeConfig: Record<string, { label: string; badgeClass: string; textClass: string; classification: string }> = {
+  chicks: {
+    label: "كتاكيت",
+    badgeClass: "bg-sky-50 dark:bg-sky-500/10 border border-sky-100 dark:border-sky-500/20",
+    textClass: "text-sky-600 dark:text-sky-400",
+    classification: "بيأثر على عدد الدفعة",
+  },
+  feed: {
+    label: "علف",
+    badgeClass: "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
+    textClass: "text-amber-600 dark:text-amber-400",
+    classification: "تكلفة تشغيلية",
+  },
+  medicine: {
+    label: "دوّا",
+    badgeClass: "bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20",
+    textClass: "text-purple-600 dark:text-purple-400",
+    classification: "تكلفة تشغيلية",
+  },
+  other: {
+    label: "تاني",
+    badgeClass: "bg-gray-50 dark:bg-gray-500/10 border border-gray-100 dark:border-gray-500/20",
+    textClass: "text-gray-600 dark:text-gray-400",
+    classification: "تكلفة تشغيلية",
+  },
+};
+
 const paymentTypeLabels: Record<string, string> = {
   cash: "نقداً",
   credit: "آجل",
@@ -375,9 +402,20 @@ const PurchaseDetailPage = () => {
         <Card className="p-4 mb-6">
           <InfoRow
             label="الدفعة المرتبطة"
-            value={purchaseDetails?.batch?.poultry_type || "---"}
+            value={`Batch #${purchaseDetails?.batch_id} - ${purchaseDetails?.batch?.poultry_type || "---"}`}
             icon={Layers}
             color={colors.primary}
+          />
+          <InfoRow
+            label="نوع المشتريات"
+            value={typeConfig[purchaseDetails?.type || ""]?.label || "---"}
+            icon={Package}
+          />
+          <InfoRow
+            label="نوع التكلفة"
+            value={typeConfig[purchaseDetails?.type || ""]?.classification || "---"}
+            icon={Info}
+            color={purchaseDetails?.type === "chicks" ? colors.primary : colors.mutedForeground}
           />
           <InfoRow
             label="الكمية"

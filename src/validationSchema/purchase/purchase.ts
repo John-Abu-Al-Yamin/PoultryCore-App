@@ -8,6 +8,10 @@ export const purchaseSchema = z.object({
       return Number.isInteger(num) && num > 0;
     }, { message: "المورد ضروري" }),
 
+  type: z.enum(['chicks', 'feed', 'medicine', 'other'], {
+    errorMap: () => ({ message: "نوع المشتريات ضروري" }),
+  }),
+
   batch_id: z
     .union([z.string(), z.number()])
     .refine((val) => {

@@ -157,6 +157,7 @@ export interface Purchase {
   user_id: number;
   supplier_id: number;
   batch_id: number;
+  type: 'chicks' | 'feed' | 'medicine' | 'other';
   item_name: string;
   quantity: number;
   unit: string;

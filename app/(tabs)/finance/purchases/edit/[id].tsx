@@ -34,6 +34,7 @@ import endPoints from "@/src/hooks/EndPoints/endPoints";
 import {
   poultryTypeOptions,
   paymentTypeOptions,
+  purchaseTypeOptions,
 } from "@/src/constants/poultryTypes";
 
 type PurchaseFormData = z.infer<typeof purchaseSchema>;
@@ -61,6 +62,7 @@ export default function EditPurchasePage() {
     mode: "onChange",
     defaultValues: {
       supplier_id: "",
+      type: "chicks",
       batch_id: "",
       item_name: "",
       quantity: "",
@@ -78,6 +80,7 @@ export default function EditPurchasePage() {
     if (purchaseData) {
       reset({
         supplier_id: purchaseData.supplier_id,
+        type: purchaseData.type,
         batch_id: purchaseData.batch_id,
         item_name: purchaseData.item_name,
         quantity: String(purchaseData.quantity),
@@ -106,6 +109,7 @@ export default function EditPurchasePage() {
         id: id as string,
         data: {
           supplier_id: Number(formData.supplier_id),
+          type: formData.type,
           batch_id: Number(formData.batch_id),
           item_name: formData.item_name,
           quantity: Number(formData.quantity),
@@ -215,6 +219,28 @@ export default function EditPurchasePage() {
                 onBlur={onBlur}
                 error={errors.batch_id?.message}
                 loading={batchesIsPending}
+              />
+            )}
+          />
+        </View>
+
+        {/* Type */}
+        <View className="mb-5">
+          <AppText variant="label" className="mb-2">
+            نوع المشتريات
+          </AppText>
+          <Controller
+            control={control}
+            name="type"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <AppSelect
+                leftIcon={<Bird size={18} color={colors.mutedForeground} />}
+                placeholder="اختار نوع المشتريات"
+                options={purchaseTypeOptions}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                error={errors.type?.message}
               />
             )}
           />

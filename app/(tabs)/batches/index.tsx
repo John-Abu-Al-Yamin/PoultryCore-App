@@ -7,15 +7,14 @@ import { useTheme } from "@/src/contexts/ThemeContext";
 import { useGetAllBatches } from "@/src/hooks/Actions/batch/useCurdBatch";
 import type { Batch } from "@/src/types/api";
 import { router } from "expo-router";
+import { Bird, Clock, Layers, Plus, Skull } from "lucide-react-native";
 import {
-  Bird,
-  Clock,
-  Layers,
-  Plus,
-  Skull,
-  Warehouse,
-} from "lucide-react-native";
-import { FlatList, Pressable, TouchableOpacity, View, Text } from "react-native";
+    FlatList,
+    Pressable,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 
 const formatDate = (dateStr: string) => {
   if (!dateStr) return "";
@@ -55,7 +54,7 @@ const BatchesPage = () => {
 
   const batchesList: Batch[] = batches?.data?.data || [];
 
-  console.log("batches:", batchesList);
+  // console.log("batches:", batchesList);
 
   if (isPending) {
     return (
@@ -152,16 +151,14 @@ const BatchesPage = () => {
                         <AppText variant="h3" className="leading-tight mb-0.5">
                           {poultryLabel}
                         </AppText>
-                        <View className="flex-row items-center gap-1.5">
-                          <Warehouse size={13} color={colors.mutedForeground} />
-                          <AppText variant="bodySmall" muted numberOfLines={1}>
-                            عنبر #{batch.barn_id}
-                          </AppText>
-                        </View>
                       </View>
                     </View>
-                    <View className={`px-2.5 py-1 rounded-md ${status.badgeClass}`}>
-                      <AppText className={`text-[10px] font-bold ${status.textClass}`}>
+                    <View
+                      className={`px-2.5 py-1 rounded-md ${status.badgeClass}`}
+                    >
+                      <AppText
+                        className={`text-[10px] font-bold ${status.textClass}`}
+                      >
                         {status.label}
                       </AppText>
                     </View>
@@ -173,14 +170,22 @@ const BatchesPage = () => {
                         <Bird size={14} color={colors.text} />
                       </View>
                       <View className="flex-1">
-                        <AppText variant="caption" muted className="mb-[2px] text-[10px]">
+                        <AppText
+                          variant="caption"
+                          muted
+                          className="mb-[2px] text-[10px]"
+                        >
                           الكمية
                         </AppText>
                         <View className="flex-row items-baseline gap-1">
                           <AppText className="font-bold text-sm leading-tight">
                             {batch.current_quantity.toLocaleString()}
                           </AppText>
-                          <AppText variant="caption" muted className="text-[10px]">
+                          <AppText
+                            variant="caption"
+                            muted
+                            className="text-[10px]"
+                          >
                             طائر
                           </AppText>
                         </View>
@@ -192,7 +197,11 @@ const BatchesPage = () => {
                         <Clock size={14} color={colors.text} />
                       </View>
                       <View className="flex-1">
-                        <AppText variant="caption" muted className="mb-[2px] text-[10px]">
+                        <AppText
+                          variant="caption"
+                          muted
+                          className="mb-[2px] text-[10px]"
+                        >
                           تاريخ البداية
                         </AppText>
                         <AppText className="font-bold text-sm leading-tight">

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Linking, ScrollView, Switch, Alert, View, Animated, TouchableOpacity } from "react-native";
+import { Linking, ScrollView, View, Animated, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import {
   HelpCircle,
@@ -15,6 +15,7 @@ import {
 import { useTheme } from "@/src/contexts/ThemeContext";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
+import AppDeleteModal from "@/src/components/custom/AppDeleteModal";
 import SettingsSection from "@/src/components/settings/SettingsSection";
 import SettingsRow from "@/src/components/settings/SettingsRow";
 import { getUser, removeAuthToken, removeUser } from "@/src/services/cookies";
@@ -90,24 +91,20 @@ function ThemeToggle({
 export default function SettingsPage() {
   const { colors, theme, toggleTheme } = useTheme();
   const [user, setUser] = useState<UserType | null>(null);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   useEffect(() => {
     getUser().then(setUser);
   }, []);
 
   const handleLogout = () => {
-    Alert.alert("تسجيل الخروج", "هل أنت متأكد إنك عايز تسجيل الخروج؟", [
-      { text: "إلغاء", style: "cancel" },
-      {
-        text: "تسجيل الخروج",
-        style: "destructive",
-        onPress: async () => {
-          await removeAuthToken();
-          await removeUser();
-          router.replace("/(auth)/login");
-        },
-      },
-    ]);
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = async () => {
+    await removeAuthToken();
+    await removeUser();
+    router.replace("/(auth)/login");
   };
 
   return (
@@ -194,6 +191,16 @@ export default function SettingsPage() {
           </AppText>
         </View>
       </ScrollView>
+
+      <AppDeleteModal
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onConfirm={confirmLogout}
+        title="تسجيل الخروج"
+        description="هل أنت متأكد إنك عايز تسجيل الخروج؟"
+        confirmText="تسجيل الخروج"
+        cancelText="إلغاء"
+      />
     </AppScreen>
   );
 }
