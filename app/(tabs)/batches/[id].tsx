@@ -14,6 +14,7 @@ import {
   ReceiptText,
   Trash2,
   Tags,
+  Lock,
 } from "lucide-react-native";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
@@ -24,6 +25,8 @@ import { Card } from "@/src/components/ui/Card";
 import {
   useGetBatchById,
   useDeleteBatch,
+  useBatchClose,
+  useBatchOpen,
 } from "@/src/hooks/Actions/batch/useCurdBatch";
 import { useGetAllExpenses } from "@/src/hooks/Actions/expenses/useCurdExpenses";
 import { useGetAllDeaths } from "@/src/hooks/Actions/deaths/useCurdDeaths";
@@ -83,8 +86,12 @@ const BatchDetailPage = () => {
   const { data: expenses, isPending: expensesIsPending } = useGetAllExpenses();
   const { data: deathsData, isPending: deathsIsPending } = useGetAllDeaths();
   const { mutate: deleteBatch, isPending: isDeleting } = useDeleteBatch();
+  const { mutate: closeBatch, isPending: isClosing } = useBatchClose(id || "");
+  const { mutate: openBatch, isPending: isOpening } = useBatchOpen(id || "");
   const { colors } = useTheme();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showCloseModal, setShowCloseModal] = useState(false);
+  const [showReopenModal, setShowReopenModal] = useState(false);
 
   const batchDetails = batch?.data?.data;
   const batchExpenses = (expenses?.data?.data ?? []).filter(
@@ -104,6 +111,40 @@ const BatchDetailPage = () => {
     (sum, death) => sum + Number(death.quantity || 0),
     0,
   );
+
+  const isClosed = batchDetails?.status === "closed";
+
+  const handleClose = () => {
+    closeBatch({ id: id as string }, {
+      onSuccess: () => {
+        setShowCloseModal(false);
+        toast.success("تم إغلاق الدفعة بنجاح");
+        refetch();
+      },
+      onError: (error: any) => {
+        setShowCloseModal(false);
+        const errorMessage =
+          error?.response?.data?.message || "فشل في إغلاق الدفعة";
+        toast.error(errorMessage);
+      },
+    });
+  };
+
+  const handleReopen = () => {
+    openBatch({ id: id as string }, {
+      onSuccess: () => {
+        setShowReopenModal(false);
+        toast.success("تم إعادة فتح الدفعة بنجاح");
+        refetch();
+      },
+      onError: (error: any) => {
+        setShowReopenModal(false);
+        const errorMessage =
+          error?.response?.data?.message || "فشل في إعادة فتح الدفعة";
+        toast.error(errorMessage);
+      },
+    });
+  };
 
   const handleDelete = () => {
     deleteBatch(
@@ -203,17 +244,34 @@ const BatchDetailPage = () => {
           </View>
 
           <View className="flex-row gap-2">
+            {isClosed ? (
+              <TouchableOpacity
+                onPress={() => setShowReopenModal(true)}
+                className="w-10 h-10 rounded-[14px] bg-green-50 dark:bg-green-950/30 border border-green-100 dark:border-green-900/50 items-center justify-center"
+              >
+                <Lock size={18} color="#16a34a" />
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TouchableOpacity
+                  onPress={() => setShowCloseModal(true)}
+                  className="w-10 h-10 rounded-[14px] bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/50 items-center justify-center"
+                >
+                  <Lock size={18} color="#d97706" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => router.push(`/batches/edit/${id}` as any)}
+                  className="w-10 h-10 rounded-[14px] bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark items-center justify-center"
+                >
+                  <Edit2 size={18} color={colors.text} />
+                </TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity
               onPress={() => setShowDeleteModal(true)}
               className="w-10 h-10 rounded-[14px] bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50 items-center justify-center"
             >
               <Trash2 size={18} color="#ef4444" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => router.push(`/batches/edit/${id}` as any)}
-              className="w-10 h-10 rounded-[14px] bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark items-center justify-center"
-            >
-              <Edit2 size={18} color={colors.text} />
             </TouchableOpacity>
           </View>
         </View>
@@ -329,14 +387,16 @@ const BatchDetailPage = () => {
             <ReceiptText size={18} color={colors.text} />
             <AppText variant="h3">مصروفات الدفعة</AppText>
           </View>
-          <TouchableOpacity
-            onPress={() => router.push("/finance/expenses/add")}
-            className="px-3 py-1.5 rounded-full bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark"
-          >
-            <AppText variant="caption" className="font-bold">
-              إضافة
-            </AppText>
-          </TouchableOpacity>
+          {!isClosed && (
+            <TouchableOpacity
+              onPress={() => router.push("/finance/expenses/add")}
+              className="px-3 py-1.5 rounded-full bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark"
+            >
+              <AppText variant="caption" className="font-bold">
+                إضافة
+              </AppText>
+            </TouchableOpacity>
+          )}
         </View>
 
         <View className="bg-primary-light dark:bg-primary-dark rounded-[28px] p-5 mb-4 shadow-sm">
@@ -442,17 +502,19 @@ const BatchDetailPage = () => {
             <Skull size={18} color={colors.text} />
             <AppText variant="h3">نفوق الدفعة</AppText>
           </View>
-          <TouchableOpacity
-            onPress={() => router.push("/batches/deaths/add")}
-            className="px-3 py-1.5 rounded-full bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark"
-          >
-            <AppText variant="caption" className="font-bold">
-              إضافة
-            </AppText>
-          </TouchableOpacity>
+          {!isClosed && (
+            <TouchableOpacity
+              onPress={() => router.push("/batches/deaths/add")}
+              className="px-3 py-1.5 rounded-full bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark"
+            >
+              <AppText variant="caption" className="font-bold">
+                إضافة
+              </AppText>
+            </TouchableOpacity>
+          )}
         </View>
 
-        <View className="bg-error-light dark:bg-error-dark rounded-[28px] p-5 mb-4 shadow-sm">
+        <View className="bg-primary-light dark:bg-primary-dark rounded-[28px] p-5 mb-4 shadow-sm">
           <View className="flex-row items-center justify-between">
             <View>
               <AppText inverse variant="caption" className="opacity-70 mb-1">
@@ -550,12 +612,30 @@ const BatchDetailPage = () => {
       </ScrollView>
 
       <AppDeleteModal
+        visible={showReopenModal}
+        onClose={() => setShowReopenModal(false)}
+        onConfirm={handleReopen}
+        loading={isOpening}
+        title="إعادة فتح الدفعة؟"
+        description={`هل أنت متأكد من رغبتك في إعادة فتح الدفعة رقم ${batchDetails?.id}؟ بعد إعادة الفتح، ستتمكن من إدارة جميع سجلات الدفعة مرة أخرى.`}
+        confirmText="إعادة فتح"
+      />
+      <AppDeleteModal
+        visible={showCloseModal}
+        onClose={() => setShowCloseModal(false)}
+        onConfirm={handleClose}
+        loading={isClosing}
+        title="إغلاق الدفعة؟"
+        description={`هل أنت متأكد من رغبتك في إغلاق الدفعة  ${batchDetails?.poultry_type}؟ بعد الإغلاق، لن تتمكن من إضافة أو تعديل أي سجلات لهذه الدفعة.`}
+        confirmText="إغلاق"
+      />
+      <AppDeleteModal
         visible={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف الدفعة؟"
-        description={`هل أنت متأكد من رغبتك في حذف الدفعة رقم ${batchDetails?.id}؟`}
+        description={`هل أنت متأكد من رغبتك في حذف الدفعة رقم ${batchDetails?.poultry_type}؟`}
       />
     </AppScreen>
   );

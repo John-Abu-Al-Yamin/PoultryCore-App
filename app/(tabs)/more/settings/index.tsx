@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Linking, ScrollView, Switch, Alert, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Linking, ScrollView, Switch, Alert, View, Animated, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import {
   HelpCircle,
@@ -19,6 +19,73 @@ import SettingsSection from "@/src/components/settings/SettingsSection";
 import SettingsRow from "@/src/components/settings/SettingsRow";
 import { getUser, removeAuthToken, removeUser } from "@/src/services/cookies";
 import type { User as UserType } from "@/src/types";
+
+const TOGGLE_WIDTH = 48;
+const TOGGLE_HEIGHT = 26;
+const THUMB_SIZE = 22;
+const THUMB_PADDING = 2;
+
+function ThemeToggle({
+  value,
+  onToggle,
+  colors,
+}: {
+  value: boolean;
+  onToggle: () => void;
+  colors: any;
+}) {
+  const animatedValue = useRef(new Animated.Value(value ? 1 : 0)).current;
+
+  const trackColor = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [colors.mutedForeground, colors.primary],
+  });
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: value ? 1 : 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  }, [value]);
+
+  const thumbLeft = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [
+      THUMB_PADDING,
+      TOGGLE_WIDTH - THUMB_SIZE - THUMB_PADDING,
+    ],
+  });
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={onToggle}
+    >
+      <Animated.View
+        style={{
+          width: TOGGLE_WIDTH,
+          height: TOGGLE_HEIGHT,
+          borderRadius: TOGGLE_HEIGHT / 2,
+          backgroundColor: trackColor,
+          padding: 0,
+        }}
+      >
+        <Animated.View
+          style={{
+            width: THUMB_SIZE,
+            height: THUMB_SIZE,
+            borderRadius: THUMB_SIZE / 2,
+            backgroundColor: colors.background,
+            position: "absolute",
+            top: (TOGGLE_HEIGHT - THUMB_SIZE) / 2,
+            left: thumbLeft,
+          }}
+        />
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
 
 export default function SettingsPage() {
   const { colors, theme, toggleTheme } = useTheme();
@@ -68,12 +135,7 @@ export default function SettingsPage() {
             label="الاسم"
             description={user?.name || "---"}
           />
-          <View className="h-[1px] bg-border-light dark:bg-border-dark mx-4" />
-          <SettingsRow
-            icon={<Mail size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
-            label="البريد الإلكتروني"
-            description={user?.email || "---"}
-          />
+          
           <View className="h-[1px] bg-border-light dark:bg-border-dark mx-4" />
           <SettingsRow
             icon={<Phone size={20} color={theme === "dark" ? "#FFFFFF" : "#000000"} />}
@@ -88,17 +150,7 @@ export default function SettingsPage() {
             icon={theme === "dark" ? <Moon size={20} color="#FFFFFF" /> : <Sun size={20} color="#000000" />}
             label="الوضع الليلي"
             description={theme === "dark" ? "مفعل" : "معطل"}
-            rightAction={
-              <Switch
-                value={theme === "dark"}
-                onValueChange={toggleTheme}
-                trackColor={{
-                  false: colors.mutedForeground,
-                  true: colors.primary,
-                }}
-                thumbColor={colors.background}
-              />
-            }
+            rightAction={<ThemeToggle value={theme === "dark"} onToggle={toggleTheme} colors={colors} />}
           />
         </SettingsSection>
 

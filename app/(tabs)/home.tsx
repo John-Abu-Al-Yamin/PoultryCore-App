@@ -5,7 +5,10 @@ import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
-import { useGetDashboard, useGetMe } from "@/src/hooks/Actions/users/useCurdsUser";
+import {
+  useGetDashboard,
+  useGetMe,
+} from "@/src/hooks/Actions/users/useCurdsUser";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import type { DashboardData, ApiResponse, User } from "@/src/types";
 import {
@@ -58,13 +61,13 @@ function StatCard({
 }) {
   const { colors } = useTheme();
   return (
-    <Pressable 
+    <Pressable
       onPress={onPress}
       className="flex-1 active:opacity-80 active:scale-[0.98]"
     >
       <Card className="p-4 border-none shadow-none bg-muted-light dark:bg-muted-dark">
         <View className="flex-row items-center gap-2 mb-2">
-          <View 
+          <View
             style={{ backgroundColor: `${color}15` }}
             className="p-1.5 rounded-lg"
           >
@@ -101,14 +104,13 @@ function FinRow({
   };
 
   return (
-    <View className={`flex-row items-center justify-between py-3 ${!isLast ? 'border-b border-border-light/50 dark:border-border-dark/50' : ''}`}>
+    <View
+      className={`flex-row items-center justify-between py-3 ${!isLast ? "border-b border-border-light/50 dark:border-border-dark/50" : ""}`}
+    >
       <AppText variant="bodySmall" muted>
         {label}
       </AppText>
-      <AppText
-        variant="body"
-        className={`font-semibold ${colorMap[type]}`}
-      >
+      <AppText variant="body" className={`font-semibold ${colorMap[type]}`}>
         {value} ج.م
       </AppText>
     </View>
@@ -120,9 +122,11 @@ export default function Home() {
   const { data: userData } = useGetMe();
   const { colors } = useTheme();
 
-  const response = data as AxiosResponse<ApiResponse<DashboardData>> | undefined;
+  const response = data as
+    | AxiosResponse<ApiResponse<DashboardData>>
+    | undefined;
   const dashboard = response?.data?.data;
-  
+
   const userResponse = userData as AxiosResponse<ApiResponse<User>> | undefined;
   const user = userResponse?.data?.data;
 
@@ -176,13 +180,17 @@ export default function Home() {
         {/* Welcome Header */}
         <View className="mb-8 flex-row justify-between items-center">
           <View>
-            <AppText variant="h1" className="mb-1">مرحباً، {user?.name || "مجدداً"}</AppText>
+            <AppText variant="h1" className="mb-1">
+              مرحباً، {user?.name || "مجدداً"}
+            </AppText>
             <View className="flex-row items-center gap-1.5">
               <Calendar size={14} color={colors.mutedForeground} />
-              <AppText variant="caption" muted>{formatDate()}</AppText>
+              <AppText variant="caption" muted>
+                {formatDate()}
+              </AppText>
             </View>
           </View>
-          <Pressable 
+          <Pressable
             onPress={() => router.push("/(tabs)/more")}
             className="w-10 h-10 rounded-full bg-muted-light dark:bg-muted-dark items-center justify-center border border-border-light dark:border-border-dark"
           >
@@ -210,9 +218,13 @@ export default function Home() {
         <View className="flex-row gap-3 mb-8">
           <StatCard
             icon={TrendingUp}
-            label="صافي الربح"
-            value={f(financial?.net_revenue ?? 0)}
-            color={colors.success}
+            label={
+              (financial?.net_revenue ?? 0) >= 0 ? "صافي الربح" : "صافي الخسارة"
+            }
+            value={f(Math.abs(financial?.net_revenue ?? 0))}
+            color={
+              (financial?.net_revenue ?? 0) >= 0 ? colors.success : colors.error
+            }
             onPress={() => router.push("/(tabs)/finance")}
           />
           <StatCard
@@ -220,6 +232,7 @@ export default function Home() {
             label="نفوق"
             value={f(alerts?.recent_deaths_7_days ?? 0)}
             color={colors.error}
+            onPress={() => router.push("/(tabs)/finance")}
           />
         </View>
 
@@ -230,11 +243,16 @@ export default function Home() {
               <CardTitle>الملخص المالي</CardTitle>
               <CardDescription>نظرة عامة على الأداء المالي</CardDescription>
             </View>
-            <Pressable 
+            <Pressable
               onPress={() => router.push("/(tabs)/finance")}
               className="flex-row items-center gap-1"
             >
-              <AppText variant="caption" className="text-primary-light dark:text-primary-dark font-medium">المزيد</AppText>
+              <AppText
+                variant="caption"
+                className="text-primary-light dark:text-primary-dark font-medium"
+              >
+                المزيد
+              </AppText>
               <ChevronLeft size={14} color={colors.primary} />
             </Pressable>
           </CardHeader>
@@ -246,36 +264,48 @@ export default function Home() {
             />
             <FinRow
               label="إجمالي التكاليف"
-              value={f((financial?.total_purchases_cost ?? 0) + (financial?.total_expenses ?? 0))}
+              value={f(
+                (financial?.total_purchases_cost ?? 0) +
+                  (financial?.total_expenses ?? 0),
+              )}
               type="error"
             />
             <FinRow
-              label="صافي الربح"
-              value={f(financial?.net_revenue ?? 0)}
-              type={ (financial?.net_revenue ?? 0) >= 0 ? "success" : "error"}
-              isLast={!( (financial?.outstanding_customer_debts ?? 0) > 0 || (financial?.outstanding_supplier_dues ?? 0) > 0 )}
+              label={
+                (financial?.net_revenue ?? 0) >= 0
+                  ? "صافي الربح"
+                  : "صافي الخسارة"
+              }
+              value={f(Math.abs(financial?.net_revenue ?? 0))}
+              type={(financial?.net_revenue ?? 0) >= 0 ? "success" : "error"}
+              isLast={
+                !(
+                  (financial?.outstanding_customer_debts ?? 0) > 0 ||
+                  (financial?.outstanding_supplier_dues ?? 0) > 0
+                )
+              }
             />
-            
+
             {(financial?.outstanding_customer_debts ?? 0) > 0 && (
-               <FinRow
-               label="ديون العملاء المستحقة"
-               value={f(financial?.outstanding_customer_debts ?? 0)}
-               type="warning"
-             />
+              <FinRow
+                label="ديون العملاء المستحقة"
+                value={f(financial?.outstanding_customer_debts ?? 0)}
+                type="warning"
+              />
             )}
             {(financial?.outstanding_supplier_dues ?? 0) > 0 && (
-               <FinRow
-               label="مستحقات الموردين"
-               value={f(financial?.outstanding_supplier_dues ?? 0)}
-               type="error"
-               isLast
-             />
+              <FinRow
+                label="مستحقات الموردين"
+                value={f(financial?.outstanding_supplier_dues ?? 0)}
+                type="error"
+                isLast
+              />
             )}
           </CardContent>
         </Card>
 
         {/* Alerts Section */}
-        {hasAlerts && (
+        {/* {hasAlerts && (
           <View className="mb-8">
             <AppText variant="h3" className="mb-4">تنبيهات هامة</AppText>
             <Card className="border-warning-light/30 dark:border-warning-dark/30">
@@ -315,30 +345,37 @@ export default function Home() {
                </View>
             </Card>
           </View>
-        )}
+        )} */}
 
         {/* Production Overview */}
         <View className="mb-8">
-           <AppText variant="h3" className="mb-4">نظرة سريعة</AppText>
-           <View className="flex-row gap-3">
-              <Card className="flex-1 p-4 items-center gap-2">
-                 <Building2 size={24} color={colors.primary} />
-                 <AppText variant="h3">{counts?.barns ?? 0}</AppText>
-                 <AppText variant="caption" muted>العنابر</AppText>
-              </Card>
-              <Card className="flex-1 p-4 items-center gap-2">
-                 <Users size={24} color={colors.primary} />
-                 <AppText variant="h3">{counts?.customers ?? 0}</AppText>
-                 <AppText variant="caption" muted>العملاء</AppText>
-              </Card>
-              <Card className="flex-1 p-4 items-center gap-2">
-                 <ShoppingCart size={24} color={colors.primary} />
-                 <AppText variant="h3">{counts?.suppliers ?? 0}</AppText>
-                 <AppText variant="caption" muted>الموردين</AppText>
-              </Card>
-           </View>
+          <AppText variant="h3" className="mb-4">
+            نظرة سريعة
+          </AppText>
+          <View className="flex-row gap-3">
+            <Card className="flex-1 p-4 items-center gap-2">
+              <Building2 size={24} color={colors.primary} />
+              <AppText variant="h3">{counts?.barns ?? 0}</AppText>
+              <AppText variant="caption" muted>
+                العنابر
+              </AppText>
+            </Card>
+            <Card className="flex-1 p-4 items-center gap-2">
+              <Users size={24} color={colors.primary} />
+              <AppText variant="h3">{counts?.customers ?? 0}</AppText>
+              <AppText variant="caption" muted>
+                العملاء
+              </AppText>
+            </Card>
+            <Card className="flex-1 p-4 items-center gap-2">
+              <ShoppingCart size={24} color={colors.primary} />
+              <AppText variant="h3">{counts?.suppliers ?? 0}</AppText>
+              <AppText variant="caption" muted>
+                الموردين
+              </AppText>
+            </Card>
+          </View>
         </View>
-
       </ScrollView>
     </AppScreen>
   );

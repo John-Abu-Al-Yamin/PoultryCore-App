@@ -1,9 +1,11 @@
-import { Pressable, View, TouchableOpacity } from "react-native";
+import { Pressable, View } from "react-native";
+import type { AxiosResponse } from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "@/src/contexts/ThemeContext";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
+import type { DashboardData, ApiResponse } from "@/src/types";
 import { 
   ArrowUpFromLine, 
   HandCoins, 
@@ -12,6 +14,7 @@ import {
   ChevronLeft,
   CircleDollarSign
 } from "lucide-react-native";
+import { useGetDashboard } from "@/src/hooks/Actions/users/useCurdsUser";
 
 const LINKS = [
   { screen: "expenses", title: "المصروفات", icon: ArrowUpFromLine, description: "تسجيل وإدارة المصروفات", color: "#ef4444" },
@@ -23,6 +26,11 @@ const LINKS = [
 export default function FinanceScreen() {
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
+    const { data, isPending, isError, refetch } = useGetDashboard();
+
+  const response = data as AxiosResponse<ApiResponse<DashboardData>> | undefined;
+  const dashboard = response?.data?.data;
+  const financial = dashboard?.financial_summary;
 
   return (
     <AppScreen
@@ -42,17 +50,60 @@ export default function FinanceScreen() {
         </AppText>
       </View>
 
-      {/* Stats Summary (Placeholder for future) */}
-      <View className="flex-row gap-3 mb-8">
-        <View className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm">
-          <AppText variant="caption" muted className="mb-1">إجمالي المبيعات</AppText>
-          <AppText variant="h3" className="text-success-light dark:text-success-dark">0.00 ر.س</AppText>
+      {/* Stats Summary */}
+      {isPending ? (
+        <View className="flex-row gap-3 mb-8">
+          {[1, 2, 3].map((i) => (
+            <View key={i} className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm opacity-50">
+              <AppText variant="caption" muted className="mb-1">جاري التحميل...</AppText>
+              <AppText variant="h3">---</AppText>
+            </View>
+          ))}
         </View>
-        <View className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm">
-          <AppText variant="caption" muted className="mb-1">إجمالي المصاريف</AppText>
-          <AppText variant="h3" className="text-error-light dark:text-error-dark">0.00 ر.س</AppText>
+      ) : (
+        <View className="flex-row gap-3 mb-8">
+          <View className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm">
+            <AppText variant="caption" muted className="mb-1">إجمالي المبيعات</AppText>
+            <AppText variant="h3" className="text-success-light dark:text-success-dark">
+              {financial?.total_sales_revenue?.toLocaleString() ?? "0"} ج.م
+            </AppText>
+          </View>
+          <View className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm">
+            <AppText variant="caption" muted className="mb-1">إجمالي المشتريات</AppText>
+            <AppText variant="h3" className="text-error-light dark:text-error-dark">
+              {financial?.total_purchases_cost?.toLocaleString() ?? "0"} ج.م
+            </AppText>
+          </View>
+          <View className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm">
+            <AppText variant="caption" muted className="mb-1">إجمالي المصاريف</AppText>
+            <AppText variant="h3" className="text-error-light dark:text-error-dark">
+              {financial?.total_expenses?.toLocaleString() ?? "0"} ج.م
+            </AppText>
+          </View>
         </View>
-      </View>
+      )}
+      {financial?.net_revenue != null && (
+        <View className="flex-row mb-8">
+          <View className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden">
+            <View
+              className={`absolute left-0 top-0 bottom-0 w-1.5 ${
+                financial.net_revenue >= 0
+                  ? "bg-success-light dark:bg-success-dark"
+                  : "bg-error-light dark:bg-error-dark"
+              }`}
+            />
+            <AppText variant="caption" muted className="mb-1">
+              {financial.net_revenue >= 0 ? "صافي الربح" : "صافي الخسارة"}
+            </AppText>
+            <AppText
+              variant="h3"
+              className={financial.net_revenue >= 0 ? "text-success-light dark:text-success-dark" : "text-error-light dark:text-error-dark"}
+            >
+              {Math.abs(financial.net_revenue).toLocaleString()} ج.م
+            </AppText>
+          </View>
+        </View>
+      )}
 
       {/* Quick Links Grid */}
       <View className="flex-row flex-wrap">
@@ -60,7 +111,7 @@ export default function FinanceScreen() {
           <Pressable
             key={link.screen}
             onPress={() => navigation.navigate(link.screen)}
-            className="w-1/2 p-1.5 active:opacity-70 active:scale-95 transition-all"
+            className="w-1/2 p-1.5 active:opacity-80 active:scale-[0.98]"
           >
             <Card className="p-5 h-[160px] justify-between">
               <View 

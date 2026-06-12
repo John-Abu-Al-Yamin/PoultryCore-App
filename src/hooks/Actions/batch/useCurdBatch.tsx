@@ -69,3 +69,22 @@ export const useUpdateBatch = () => {
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
+
+export const useBatchClose = (id: string) => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
+    `${endPoints.batches}/${id}/close`,
+    [queryKeys.updateBatches],
+    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns],
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
+export const useBatchOpen = (id: string) => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
+    `${endPoints.batches}/${id}/open`,
+    [queryKeys.updateBatches],
+    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns],
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
