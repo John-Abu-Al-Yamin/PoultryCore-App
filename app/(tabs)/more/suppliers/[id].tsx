@@ -41,12 +41,12 @@ const SupplierDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف المورد بنجاح");
+          toast.success("اتمسح المورد بنجاح");
           router.replace("/more/suppliers");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
-          const errorMessage = error?.response?.data?.message || "فشل في حذف المورد";
+          const errorMessage = error?.response?.data?.message || "حصل خطأ في مسح المورد";
           toast.error(errorMessage);
         },
       },
@@ -59,7 +59,7 @@ const SupplierDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المورد..." />
+        <AppLoading fullScreen message="بيت حمّل المورد..." />
       </AppScreen>
     );
   }
@@ -72,8 +72,8 @@ const SupplierDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات المورد."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات المورد."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -135,7 +135,7 @@ const SupplierDetailPage = () => {
             <View className="bg-muted-light dark:bg-muted-dark rounded-xl p-4 border border-border-light dark:border-border-dark">
               <View className="flex-row items-center justify-between mb-4">
                 <AppText variant="caption" muted>
-                  رقم الهاتف
+                  رقم التليفون
                 </AppText>
                 <View className="flex-row items-center gap-1.5">
                   <Phone size={14} color={colors.mutedForeground} />
@@ -168,8 +168,8 @@ const SupplierDetailPage = () => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         loading={isDeleting}
-        title="حذف المورد؟"
-        description={`هل أنت متأكد من رغبتك في حذف "${supplierDetails?.name}"؟`}
+        title="مسح المورد؟"
+        description={`هل أنت متأكد إنك عايز مسح "${supplierDetails?.name}"؟`}
       />
     </AppScreen>
   );

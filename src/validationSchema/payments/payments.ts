@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const paymentSchema = z
   .object({
-    type: z.string().min(1, "نوع الدفع مطلوب"),
+    type: z.string().min(1, "نوع الدفع ضروري"),
     supplier_id: z.union([z.string(), z.number()]).optional(),
     customer_id: z.union([z.string(), z.number()]).optional(),
     purchase_id: z.union([z.string(), z.number()]).optional(),
@@ -14,10 +14,10 @@ export const paymentSchema = z
           const num = typeof val === "string" ? Number(val) : val;
           return !isNaN(num) && num > 0;
         },
-        { message: "المبلغ يجب أن يكون رقمًا أكبر من 0" },
+        { message: "المبلغ لازم يكون رقم أكبر من 0" },
       ),
-    payment_date: z.string().min(1, "تاريخ الدفع مطلوب"),
-    payment_method: z.string().min(1, "طريقة الدفع مطلوبة"),
+    payment_date: z.string().min(1, "تاريخ الدفع ضروري"),
+    payment_method: z.string().min(1, "طريقة الدفع ضرورية"),
     notes: z.string().optional(),
   })
   .superRefine((data, ctx) => {
@@ -29,7 +29,7 @@ export const paymentSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["supplier_id"],
-          message: "المورد مطلوب",
+          message: "المورد ضروري",
         });
       }
       if (
@@ -39,7 +39,7 @@ export const paymentSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["purchase_id"],
-          message: "الفاتورة مطلوبة",
+          message: "الفاتورة ضرورية",
         });
       }
     }
@@ -52,7 +52,7 @@ export const paymentSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["customer_id"],
-          message: "العميل مطلوب",
+          message: "العميل ضروري",
         });
       }
       if (
@@ -62,7 +62,7 @@ export const paymentSchema = z
         ctx.addIssue({
           code: "custom",
           path: ["sale_id"],
-          message: "الفاتورة مطلوبة",
+          message: "الفاتورة ضرورية",
         });
       }
     }

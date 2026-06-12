@@ -62,7 +62,7 @@ export default function MoreScreen() {
           المزيد
         </AppText>
         <AppText variant="body" muted className="text-center">
-          إدارة كافة جوانب المزرعة في مكان واحد
+          إدارة كل جوانب المزرعة في مكان واحد
         </AppText>
       </View>
 

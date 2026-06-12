@@ -118,13 +118,13 @@ const BatchDetailPage = () => {
     closeBatch({ id: id as string }, {
       onSuccess: () => {
         setShowCloseModal(false);
-        toast.success("تم إغلاق الدفعة بنجاح");
+        toast.success("اتقفلت الدفعة بنجاح");
         refetch();
       },
       onError: (error: any) => {
         setShowCloseModal(false);
         const errorMessage =
-          error?.response?.data?.message || "فشل في إغلاق الدفعة";
+          error?.response?.data?.message || "حصل خطأ في إغلاق الدفعة";
         toast.error(errorMessage);
       },
     });
@@ -134,13 +134,13 @@ const BatchDetailPage = () => {
     openBatch({ id: id as string }, {
       onSuccess: () => {
         setShowReopenModal(false);
-        toast.success("تم إعادة فتح الدفعة بنجاح");
+        toast.success("اتفتحت الدفعة تاني بنجاح");
         refetch();
       },
       onError: (error: any) => {
         setShowReopenModal(false);
         const errorMessage =
-          error?.response?.data?.message || "فشل في إعادة فتح الدفعة";
+          error?.response?.data?.message || "حصل خطأ في إعادة فتح الدفعة";
         toast.error(errorMessage);
       },
     });
@@ -152,13 +152,13 @@ const BatchDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف الدفعة بنجاح");
+          toast.success("اتمسحت الدفعة بنجاح");
           router.replace("/batches");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف الدفعة";
+            error?.response?.data?.message || "حصل خطأ في حذف الدفعة";
           toast.error(errorMessage);
         },
       },
@@ -171,7 +171,7 @@ const BatchDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل الدفعة..." />
+        <AppLoading fullScreen message="بيت حمّل الدفعة..." />
       </AppScreen>
     );
   }
@@ -184,8 +184,8 @@ const BatchDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات الدفعة."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات الدفعة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -231,7 +231,7 @@ const BatchDetailPage = () => {
                 <AppText variant="bodySmall" muted>
                   {batchDetails?.barn_id
                     ? `عنبر #${batchDetails.barn_id}`
-                    : "غير محدد"}
+                    : "مش محدد"}
                 </AppText>
               </View>
               <View className="flex-row items-center gap-1.5">
@@ -428,14 +428,14 @@ const BatchDetailPage = () => {
         {expensesIsPending ? (
           <Card className="mb-6">
             <View className="p-6 items-center">
-              <AppText muted>جاري تحميل المصروفات...</AppText>
+              <AppText muted>بيت حمّل المصروفات...</AppText>
             </View>
           </Card>
         ) : batchExpenses.length === 0 ? (
           <View className="bg-muted-light dark:bg-muted-dark rounded-2xl p-8 items-center justify-center border border-dashed border-border-light dark:border-border-dark mb-6">
             <ReceiptText size={32} color={colors.mutedForeground} />
             <AppText muted className="mt-3 text-center">
-              لا توجد مصروفات مسجلة لهذه الدفعة
+              مفيش مصروفات مسجلة لهذه الدفعة
             </AppText>
           </View>
         ) : (
@@ -543,14 +543,14 @@ const BatchDetailPage = () => {
         {deathsIsPending ? (
           <Card className="mb-6">
             <View className="p-6 items-center">
-              <AppText muted>جاري تحميل حالات النفوق...</AppText>
+              <AppText muted>بيت حمّل حالات النفوق...</AppText>
             </View>
           </Card>
         ) : batchDeaths.length === 0 ? (
           <View className="bg-muted-light dark:bg-muted-dark rounded-2xl p-8 items-center justify-center border border-dashed border-border-light dark:border-border-dark mb-6">
             <Skull size={32} color={colors.mutedForeground} />
             <AppText muted className="mt-3 text-center">
-              لا توجد حالات نفوق مسجلة لهذه الدفعة
+              مفيش حالات نفوق مسجلة لهذه الدفعة
             </AppText>
           </View>
         ) : (
@@ -617,7 +617,7 @@ const BatchDetailPage = () => {
         onConfirm={handleReopen}
         loading={isOpening}
         title="إعادة فتح الدفعة؟"
-        description={`هل أنت متأكد من رغبتك في إعادة فتح الدفعة رقم ${batchDetails?.id}؟ بعد إعادة الفتح، ستتمكن من إدارة جميع سجلات الدفعة مرة أخرى.`}
+        description={`هل أنت متأكد إنك عايز تفتح الدفعة رقم ${batchDetails?.id} تاني؟ بعد الفتح، هتقدر تدير كل سجلات الدفعة من تاني.`}
         confirmText="إعادة فتح"
       />
       <AppDeleteModal
@@ -626,7 +626,7 @@ const BatchDetailPage = () => {
         onConfirm={handleClose}
         loading={isClosing}
         title="إغلاق الدفعة؟"
-        description={`هل أنت متأكد من رغبتك في إغلاق الدفعة  ${batchDetails?.poultry_type}؟ بعد الإغلاق، لن تتمكن من إضافة أو تعديل أي سجلات لهذه الدفعة.`}
+        description={`هل أنت متأكد إنك عايز تقفل الدفعة ${batchDetails?.poultry_type}؟ بعد القفل، مش هتقدر تضيف أو تعديل أي سجلات للدفعة دي.`}
         confirmText="إغلاق"
       />
       <AppDeleteModal
@@ -635,7 +635,7 @@ const BatchDetailPage = () => {
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف الدفعة؟"
-        description={`هل أنت متأكد من رغبتك في حذف الدفعة رقم ${batchDetails?.poultry_type}؟`}
+        description={`هل أنت متأكد إنك عايز تمسح الدفعة رقم ${batchDetails?.poultry_type}؟`}
       />
     </AppScreen>
   );

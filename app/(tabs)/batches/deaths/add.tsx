@@ -73,7 +73,7 @@ export default function AddDeath() {
       <View className="mb-6">
         <AppText variant="h1">تسجيل نفوق جديد</AppText>
         <AppText variant="body" muted className="mt-1">
-          أدخل بيانات حالة النفوق الجديدة
+           اكتب بيانات حالة النفوق الجديدة
         </AppText>
       </View>
 
@@ -178,7 +178,7 @@ export default function AddDeath() {
             name="notes"
             render={({ field: { onChange, value, onBlur } }) => (
               <AppInput
-                placeholder="أدخل أي ملاحظات إضافية"
+                placeholder="اكتب أي ملاحظات إضافية"
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}

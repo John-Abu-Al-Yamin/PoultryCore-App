@@ -41,12 +41,12 @@ const CustomerDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف العميل بنجاح");
+          toast.success("اتمسح العميل بنجاح");
           router.replace("/more/customers");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
-          const errorMessage = error?.response?.data?.message || "فشل في حذف العميل";
+          const errorMessage = error?.response?.data?.message || "حصل خطأ في مسح العميل";
           toast.error(errorMessage);
         },
       },
@@ -59,7 +59,7 @@ const CustomerDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل العميل..." />
+        <AppLoading fullScreen message="بيت حمّل العميل..." />
       </AppScreen>
     );
   }
@@ -72,8 +72,8 @@ const CustomerDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات العميل."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات العميل."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -135,7 +135,7 @@ const CustomerDetailPage = () => {
             <View className="bg-muted-light dark:bg-muted-dark rounded-xl p-4 border border-border-light dark:border-border-dark">
               <View className="flex-row items-center justify-between mb-4">
                 <AppText variant="caption" muted>
-                  رقم الهاتف
+                  رقم التليفون
                 </AppText>
                 <View className="flex-row items-center gap-1.5">
                   <Phone size={14} color={colors.mutedForeground} />
@@ -168,8 +168,8 @@ const CustomerDetailPage = () => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         loading={isDeleting}
-        title="حذف العميل؟"
-        description={`هل أنت متأكد من رغبتك في حذف "${customerDetails?.name}"؟`}
+        title="مسح العميل؟"
+        description={`هل أنت متأكد إنك عايز مسح "${customerDetails?.name}"؟`}
       />
     </AppScreen>
   );

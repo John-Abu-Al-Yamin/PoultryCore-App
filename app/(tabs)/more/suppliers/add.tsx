@@ -44,11 +44,11 @@ export default function AddSupplierPage() {
       { data: formData },
       {
         onSuccess: () => {
-          toast.success("تم إضافة المورد بنجاح");
+          toast.success("اتضافت المورد بنجاح");
           router.back();
         },
         onError: (error: any) => {
-          const errorMessage = error?.response?.data?.message || "فشل في إضافة المورد";
+          const errorMessage = error?.response?.data?.message || "حصل خطأ في إضافة المورد";
           // toast.error(errorMessage);
         },
       },
@@ -63,7 +63,7 @@ export default function AddSupplierPage() {
       <View className="mb-6">
         <AppText variant="h1">إضافة مورد جديد</AppText>
         <AppText variant="body" muted className="mt-1">
-          أدخل بيانات المورد الجديد لإضافته إلى النظام
+          اكتب بيانات المورد الجديد لإضافته إلى النظام
         </AppText>
       </View>
 
@@ -93,7 +93,7 @@ export default function AddSupplierPage() {
         {/* Phone */}
         <View className="mb-5">
           <AppText variant="label" className="mb-2">
-            رقم الهاتف
+            رقم التليفون
           </AppText>
           <View className="flex-row gap-2">
             <View className="flex-1">
@@ -104,7 +104,7 @@ export default function AddSupplierPage() {
                   <AppInput
                     keyboardType="phone-pad"
                     rightIcon={<Phone size={18} color={colors.mutedForeground} />}
-                    placeholder="أدخل رقم الهاتف"
+                    placeholder="اكتب رقم التليفون"
                     error={errors.phone?.message}
                     textAlign="right"
                     value={value}
@@ -137,7 +137,7 @@ export default function AddSupplierPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<MapPin size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل العنوان (اختياري)"
+                placeholder="اكتب العنوان (اختياري)"
                 error={errors.address?.message}
                 textAlign="right"
                 value={value || ""}

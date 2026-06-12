@@ -56,14 +56,14 @@ const statusConfig: Record<
     dotClass: "bg-emerald-600 dark:bg-emerald-400",
   },
   unpaid: {
-    label: "غير مدفوع",
+    label: "مش مدفوع",
     badgeClass:
       "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20",
     textClass: "text-rose-600 dark:text-rose-400",
     dotClass: "bg-rose-600 dark:bg-rose-400",
   },
   partial: {
-    label: "مدفوع جزئياً",
+    label: "مدفوع جزء منه",
     badgeClass:
       "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
     textClass: "text-amber-600 dark:text-amber-400",
@@ -137,13 +137,13 @@ const PurchaseDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف المشتريات بنجاح");
+          toast.success("اتمسحت المشتريات بنجاح");
           router.replace("/finance/purchases");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف المشتريات";
+            error?.response?.data?.message || "حصل خطأ في حذف المشتريات";
           toast.error(errorMessage);
         },
       },
@@ -156,7 +156,7 @@ const PurchaseDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المشتريات..." />
+        <AppLoading fullScreen message="بيت حمّل المشتريات..." />
       </AppScreen>
     );
   }
@@ -169,8 +169,8 @@ const PurchaseDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات المشتريات."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات المشتريات."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -328,7 +328,7 @@ const PurchaseDetailPage = () => {
                   {purchaseDetails?.supplier?.name || "---"}
                 </AppText>
                 <AppText variant="caption" muted>
-                  مورد معتمد
+                  مورّد
                 </AppText>
               </View>
             </View>
@@ -450,7 +450,7 @@ const PurchaseDetailPage = () => {
               color={colors.mutedForeground}
               className="mb-2 opacity-50"
             />
-            <AppText muted>لا توجد دفعات مسجلة بعد</AppText>
+            <AppText muted>مفيش دفعات مسجلة بعد</AppText>
           </View>
         )}
       </ScrollView>
@@ -461,7 +461,7 @@ const PurchaseDetailPage = () => {
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف المشتريات؟"
-        description={`هل أنت متأكد من رغبتك في حذف "${purchaseDetails?.item_name}"؟ سيتم حذف جميع البيانات المرتبطة بها.`}
+        description={`هل أنت متأكد إنك عايز تحذف "${purchaseDetails?.item_name}"؟ هيتحذف جميع البيانات المرتبطة بها.`}
       />
     </AppScreen>
   );

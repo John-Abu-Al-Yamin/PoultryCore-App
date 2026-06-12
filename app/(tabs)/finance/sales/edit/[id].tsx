@@ -117,12 +117,12 @@ export default function EditSalePage() {
       },
       {
         onSuccess: () => {
-          toast.success("تم تحديث بيانات المبيعات بنجاح");
+          toast.success("اتحدثت بيانات المبيعات بنجاح");
           router.back();
         },
         onError: (error: any) => {
           const errorMessage =
-            error?.response?.data?.message || "فشل في تحديث بيانات المبيعات";
+            error?.response?.data?.message || "حصل خطأ في تحديث بيانات المبيعات";
           toast.error(errorMessage);
         },
       },
@@ -132,7 +132,7 @@ export default function EditSalePage() {
   if (isFetching) {
     return (
       <AppScreen scrollable={false}>
-        <AppLoading fullScreen message="جاري تحميل بيانات المبيعات..." />
+        <AppLoading fullScreen message="بيت حمّل بيانات المبيعات..." />
       </AppScreen>
     );
   }
@@ -142,8 +142,8 @@ export default function EditSalePage() {
       <AppScreen scrollable={false}>
         <AppError
           fullScreen
-          title="فشل تحميل البيانات"
-          message="تعذر الوصول إلى بيانات المبيعات المطلوبة."
+          title="حصل خطأ في تحميل البيانات"
+          message="مقدرناش نوصل لـ بيانات المبيعات المطلوبة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -185,7 +185,7 @@ export default function EditSalePage() {
                 leftIcon={
                   <Users size={18} color={colors.mutedForeground} />
                 }
-                placeholder="اختر العميل"
+                placeholder="اختار العميل"
                 options={customerOptions}
                 value={value}
                 onChange={onChange}
@@ -208,7 +208,7 @@ export default function EditSalePage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppSelect
                 leftIcon={<Layers size={18} color={colors.mutedForeground} />}
-                placeholder="اختر الدفعة"
+                placeholder="اختار الدفعة"
                 options={batchOptions}
                 value={value}
                 onChange={onChange}
@@ -231,7 +231,7 @@ export default function EditSalePage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppSelect
                 leftIcon={<Bird size={18} color={colors.mutedForeground} />}
-                placeholder="اختر الصنف"
+                placeholder="اختار الصنف"
                 options={poultryTypeOptions}
                 value={value}
                 onChange={onChange}
@@ -303,7 +303,7 @@ export default function EditSalePage() {
                 leftIcon={
                   <DollarSign size={18} color={colors.mutedForeground} />
                 }
-                placeholder="اختر نوع الدفع"
+                placeholder="اختار نوع الدفع"
                 options={paymentTypeOptions}
                 value={value}
                 onChange={onChange}
@@ -322,7 +322,7 @@ export default function EditSalePage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppDatePicker
                 leftIcon={<Calendar size={18} color={colors.mutedForeground} />}
-                placeholder="اختر تاريخ البيع"
+                placeholder="اختار تاريخ البيع"
                 label="تاريخ البيع"
                 value={value}
                 onChange={onChange}

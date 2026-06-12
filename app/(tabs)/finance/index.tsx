@@ -55,7 +55,7 @@ export default function FinanceScreen() {
         <View className="flex-row gap-3 mb-8">
           {[1, 2, 3].map((i) => (
             <View key={i} className="flex-1 bg-card-light dark:bg-card-dark p-4 rounded-3xl border border-border-light dark:border-border-dark shadow-sm opacity-50">
-              <AppText variant="caption" muted className="mb-1">جاري التحميل...</AppText>
+              <AppText variant="caption" muted className="mb-1">بيت حمّل...</AppText>
               <AppText variant="h3">---</AppText>
             </View>
           ))}

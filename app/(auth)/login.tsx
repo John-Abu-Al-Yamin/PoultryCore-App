@@ -64,10 +64,10 @@ export default function Login() {
             <Lock size={24} color={colors.text} />
           </View>
           <AppText variant="h1" className="text-center">
-            مرحباً بعودتك
+            أهلاً بعودتك
           </AppText>
           <AppText variant="body" muted className="text-center mt-1">
-            أدخل بيانات الدخول الخاصة بك
+            اكتب بيانات الدخول بتاعتك
           </AppText>
         </View>
 
@@ -83,7 +83,7 @@ export default function Login() {
               <AppInput
                 keyboardType="phone-pad"
                 rightIcon={<Phone size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل رقم الموبيل"
+                placeholder="اكتب رقم الموبيل"
                 error={errors.phone?.message}
                 textAlign="right"
                 value={value}
@@ -114,7 +114,7 @@ export default function Login() {
                     )}
                   </Pressable>
                 }
-                placeholder="أدخل كلمة المرور"
+                placeholder="اكتب كلمة المرور"
                 secureTextEntry={!showPassword}
                 error={errors.password?.message}
                 textAlign="right"
@@ -128,13 +128,13 @@ export default function Login() {
 
         {/* ===== Submit ===== */}
         <AppButton loading={isPending} onPress={handleSubmit(onSubmit)}>
-          تسجيل الدخول
+          دخول
         </AppButton>
 
         {/* ===== Navigate to Register ===== */}
         <View className="flex-row justify-center items-center mt-6">
           <AppText variant="bodySmall" muted>
-            ليس لديك حساب؟
+            مش عندك حساب؟
           </AppText>
           <Link href="/register" asChild>
             <Pressable>
@@ -142,7 +142,7 @@ export default function Login() {
                 variant="bodySmall"
                 className="text-primary-light dark:text-primary-dark me-1"
               >
-                سجل الآن
+                سجل دلوقتي
               </AppText>
             </Pressable>
           </Link>

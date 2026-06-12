@@ -29,7 +29,7 @@ const BarnPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل العنابر..." />
+        <AppLoading fullScreen message="بيت حمّل العنابر..." />
       </AppScreen>
     );
   }
@@ -42,8 +42,8 @@ const BarnPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة العنابر. تحقق من اتصالك وحاول مرة أخرى."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة العنابر. تحقق من اتصالك وحاول تاني."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -82,7 +82,7 @@ const BarnPage = () => {
         }
         ListEmptyComponent={
           <AppText variant="body" muted className="text-center mt-4">
-            لا توجد عنابر
+            مفيش عنابر
           </AppText>
         }
         renderItem={({ item: barn }) => (

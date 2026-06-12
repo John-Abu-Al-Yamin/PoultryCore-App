@@ -48,7 +48,7 @@ export default function ExpensesPage() {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المصروفات..." />
+        <AppLoading fullScreen message="بيت حمّل المصروفات..." />
       </AppScreen>
     );
   }
@@ -61,8 +61,8 @@ export default function ExpensesPage() {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة المصروفات."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة المصروفات."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -80,7 +80,7 @@ export default function ExpensesPage() {
           <View>
             <AppText variant="h1">المصروفات</AppText>
             <AppText variant="bodySmall" muted className="mt-1">
-              متابعة مصروفات الدفعات
+              تابع مصروفات الدفعات
             </AppText>
           </View>
           <TouchableOpacity
@@ -99,7 +99,7 @@ export default function ExpensesPage() {
           <View className="bg-muted-light dark:bg-muted-dark rounded-2xl p-8 items-center justify-center border border-dashed border-border-light dark:border-border-dark mt-4">
             <ReceiptText size={34} color={colors.mutedForeground} />
             <AppText muted className="mt-3 text-center">
-              لا توجد مصروفات
+              مفيش مصروفات
             </AppText>
           </View>
         ) : (

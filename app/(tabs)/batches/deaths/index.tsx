@@ -46,7 +46,7 @@ export default function DeathsPage() {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل حالات النفوق..." />
+        <AppLoading fullScreen message="بيت حمّل حالات النفوق..." />
       </AppScreen>
     );
   }
@@ -59,8 +59,8 @@ export default function DeathsPage() {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة النفوق."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة النفوق."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -97,7 +97,7 @@ export default function DeathsPage() {
           <View className="bg-muted-light dark:bg-muted-dark rounded-2xl p-8 items-center justify-center border border-dashed border-border-light dark:border-border-dark mt-4">
             <Skull size={34} color={colors.mutedForeground} />
             <AppText muted className="mt-3 text-center">
-              لا توجد حالات نفوق مسجلة
+              مفيش حالات نفوق مسجلة
             </AppText>
           </View>
         ) : (

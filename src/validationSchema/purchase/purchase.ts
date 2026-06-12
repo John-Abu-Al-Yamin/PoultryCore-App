@@ -6,42 +6,42 @@ export const purchaseSchema = z.object({
     .refine((val) => {
       const num = Number(val);
       return Number.isInteger(num) && num > 0;
-    }, { message: "المورد مطلوب" }),
+    }, { message: "المورد ضروري" }),
 
   batch_id: z
     .union([z.string(), z.number()])
     .refine((val) => {
       const num = Number(val);
       return Number.isInteger(num) && num > 0;
-    }, { message: "الدفعة مطلوبة" }),
+    }, { message: "الدفعة ضرورية" }),
 
   item_name: z
     .string()
-    .min(1, "اسم الصنف مطلوب")
-    .max(255, "اسم الصنف يجب ألا يزيد عن 255 حرف"),
+    .min(1, "اسم الصنف ضروري")
+    .max(255, "اسم الصنف ما يزيدش عن 255 حرف"),
 
   quantity: z
     .union([z.string(), z.number()])
     .refine((val) => {
       const num = Number(val);
       return !isNaN(num) && num > 0;
-    }, { message: "الكمية مطلوبة ويجب أن تكون أكبر من 0" }),
+    }, { message: "الكمية ضرورية ولازم تكون أكبر من 0" }),
 
   unit_price: z
     .union([z.string(), z.number()])
     .refine((val) => {
       const num = Number(val);
       return !isNaN(num) && num >= 0;
-    }, { message: "سعر الوحدة مطلوب" }),
+    }, { message: "سعر الوحدة ضروري" }),
 
   purchase_date: z
     .string()
-    .min(1, "تاريخ الشراء مطلوب")
+    .min(1, "تاريخ الشراء ضروري")
     .refine((val) => !isNaN(Date.parse(val)), {
-      message: "تاريخ الشراء غير صحيح",
+      message: "تاريخ الشراء مش صحيح",
     }),
 
   payment_type: z
     .string()
-    .min(1, "نوع الدفع مطلوب"),
+    .min(1, "نوع الدفع ضروري"),
 });

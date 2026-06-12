@@ -56,14 +56,14 @@ const statusConfig: Record<
     dotClass: "bg-emerald-600 dark:bg-emerald-400",
   },
   unpaid: {
-    label: "غير مدفوع",
+    label: "مش مدفوع",
     badgeClass:
       "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20",
     textClass: "text-rose-600 dark:text-rose-400",
     dotClass: "bg-rose-600 dark:bg-rose-400",
   },
   partial: {
-    label: "مدفوع جزئياً",
+    label: "مدفوع جزء منه",
     badgeClass:
       "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
     textClass: "text-amber-600 dark:text-amber-400",
@@ -137,13 +137,13 @@ const SaleDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف المبيعات بنجاح");
+          toast.success("اتمسحت المبيعات بنجاح");
           router.replace("/finance/sales");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف المبيعات";
+            error?.response?.data?.message || "حصل خطأ في حذف المبيعات";
           toast.error(errorMessage);
         },
       },
@@ -156,7 +156,7 @@ const SaleDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المبيعات..." />
+        <AppLoading fullScreen message="بيت حمّل المبيعات..." />
       </AppScreen>
     );
   }
@@ -169,8 +169,8 @@ const SaleDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات المبيعات."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات المبيعات."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -450,7 +450,7 @@ const SaleDetailPage = () => {
               color={colors.mutedForeground}
               className="mb-2 opacity-50"
             />
-            <AppText muted>لا توجد دفعات مسجلة بعد</AppText>
+            <AppText muted>مفيش دفعات مسجلة بعد</AppText>
           </View>
         )}
       </ScrollView>
@@ -461,7 +461,7 @@ const SaleDetailPage = () => {
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف المبيعات؟"
-        description={`هل أنت متأكد من رغبتك في حذف "${saleDetails?.item_name}"؟ سيتم حذف جميع البيانات المرتبطة بها.`}
+        description={`هل أنت متأكد إنك عايز تحذف "${saleDetails?.item_name}"؟ هيتحذف جميع البيانات المرتبطة بها.`}
       />
     </AppScreen>
   );

@@ -73,13 +73,13 @@ const BarnDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف العنبر بنجاح");
+          toast.success("اتمسح العنبر بنجاح");
           router.replace("/more/barn");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف العنبر";
+            error?.response?.data?.message || "حصل خطأ في مسح العنبر";
           toast.error(errorMessage);
         },
       },
@@ -92,7 +92,7 @@ const BarnDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل العنبر..." />
+        <AppLoading fullScreen message="بيت حمّل العنبر..." />
       </AppScreen>
     );
   }
@@ -105,8 +105,8 @@ const BarnDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات العنبر."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات العنبر."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -252,7 +252,7 @@ const BarnDetailPage = () => {
               className="mb-3 opacity-50"
             />
             <AppText variant="body" muted>
-              لا توجد دفعات حالياً
+              مفيش دفعات حالياً
             </AppText>
           </View>
         }
@@ -331,8 +331,8 @@ const BarnDetailPage = () => {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         loading={isDeleting}
-        title="حذف العنبر؟"
-        description={`هل أنت متأكد من رغبتك في حذف "${branDetails?.name}"؟ سيتم حذف كافة البيانات المرتبطة بهذا العنبر، بما في ذلك الدفعات الخاصة به، بشكل نهائي.`}
+        title="مسح العنبر؟"
+        description={`هل أنت متأكد إنك عايز مسح "${branDetails?.name}"؟ هيتشاف كل البيانات المرتبطة بالعنبر ده، بما فيهم الدفعات بتاعته، نهائي.`}
       />
     </AppScreen>
   );

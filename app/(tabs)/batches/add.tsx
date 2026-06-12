@@ -72,11 +72,11 @@ export default function AddBatchPage() {
 
       },
       onSuccess: () => {
-        toast.success("تم إضافة الدفعة بنجاح");
+        toast.success("اتضافت الدفعة بنجاح");
         router.back();
       },
       onError: (error: any) => {
-        const errorMessage = error?.response?.data?.message || "فشل في إضافة الدفعة";
+        const errorMessage = error?.response?.data?.message || "حصل خطأ في إضافة الدفعة";
         toast.error(errorMessage);
       },
     });
@@ -90,7 +90,7 @@ export default function AddBatchPage() {
       <View className="mb-6">
         <AppText variant="h1">إضافة دفعة جديدة</AppText>
         <AppText variant="body" muted className="mt-1">
-          أدخل بيانات الدفعة الجديدة لإضافتها إلى النظام
+           اكتب بيانات الدفعة الجديدة عشان تضاف للنظام
         </AppText>
       </View>
 
@@ -129,7 +129,7 @@ export default function AddBatchPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<Tags size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل نوع الدواجن"
+                placeholder="اكتب نوع الدواجن"
                 error={errors.poultry_type?.message}
                 textAlign="right"
                 value={value}
@@ -191,7 +191,7 @@ export default function AddBatchPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<FileText size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل ملاحظات (اختياري)"
+                placeholder="اكتب ملاحظات (اختياري)"
                 error={errors.notes?.message}
                 textAlign="right"
                 multiline

@@ -78,12 +78,12 @@ export default function AddSalePage() {
         payment_type: data.payment_type,
       },
       onSuccess: () => {
-        toast.success("تم إضافة المبيعات بنجاح");
+        toast.success("اتضافت المبيعات بنجاح");
         router.back();
       },
       onError: (error: any) => {
         const errorMessage =
-          error?.response?.data?.message || "فشل في إضافة المبيعات";
+          error?.response?.data?.message || "حصل خطأ في إضافة المبيعات";
         toast.error(errorMessage);
       },
     });
@@ -97,7 +97,7 @@ export default function AddSalePage() {
       <View className="mb-6">
         <AppText variant="h1">إضافة مبيعات جديدة</AppText>
         <AppText variant="body" muted className="mt-1">
-          أدخل بيانات المبيعات الجديدة لإضافتها إلى النظام
+          اكتب بيانات المبيعات الجديدة لإضافتها إلى النظام
         </AppText>
       </View>
 
@@ -115,7 +115,7 @@ export default function AddSalePage() {
                 leftIcon={
                   <Users size={18} color={colors.mutedForeground} />
                 }
-                placeholder="اختر العميل"
+                placeholder="اختار العميل"
                 options={customerOptions}
                 value={value}
                 onChange={onChange}
@@ -138,7 +138,7 @@ export default function AddSalePage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppSelect
                 leftIcon={<Layers size={18} color={colors.mutedForeground} />}
-                placeholder="اختر الدفعة"
+                placeholder="اختار الدفعة"
                 options={batchOptions}
                 value={value}
                 onChange={onChange}
@@ -161,7 +161,7 @@ export default function AddSalePage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppSelect
                 leftIcon={<Bird size={18} color={colors.mutedForeground} />}
-                placeholder="اختر الصنف"
+                placeholder="اختار الصنف"
                 options={poultryTypeOptions}
                 value={value}
                 onChange={onChange}
@@ -233,7 +233,7 @@ export default function AddSalePage() {
                 leftIcon={
                   <DollarSign size={18} color={colors.mutedForeground} />
                 }
-                placeholder="اختر نوع الدفع"
+                placeholder="اختار نوع الدفع"
                 options={paymentTypeOptions}
                 value={value}
                 onChange={onChange}
@@ -252,7 +252,7 @@ export default function AddSalePage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppDatePicker
                 leftIcon={<Calendar size={18} color={colors.mutedForeground} />}
-                placeholder="اختر تاريخ البيع"
+                placeholder="اختار تاريخ البيع"
                 label="تاريخ البيع"
                 value={value}
                 onChange={onChange}

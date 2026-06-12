@@ -3,12 +3,12 @@ import { z } from "zod";
 export const barnSchema = z.object({
   name: z
     .string()
-    .min(1, "اسم العنبر مطلوب")
-    .max(255, "اسم العنبر لا يمكن أن يتجاوز 255 حرفًا"),
+    .min(1, "اسم العنبر ضروري")
+    .max(255, "اسم العنبر ما يزيدش عن 255 حرف"),
 
   location: z
     .string()
-    .max(255, "موقع العنبر لا يمكن أن يتجاوز 255 حرفًا")
+    .max(255, "موقع العنبر ما يزيدش عن 255 حرف")
     .optional()
     .or(z.literal("")),
 
@@ -21,7 +21,7 @@ export const barnSchema = z.object({
       return Number.isInteger(num) && num > 0;
     },
     {
-      message: "سعة العنبر يجب أن تكون رقمًا صحيحًا أكبر من 0",
+      message: "سعة العنبر لازم تكون رقم صحيح أكبر من 0",
     },
   ),
 

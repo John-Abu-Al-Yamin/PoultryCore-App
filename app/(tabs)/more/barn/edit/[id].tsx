@@ -78,12 +78,12 @@ export default function EditBarnPage() {
       },
       {
         onSuccess: () => {
-          toast.success("تم تحديث بيانات العنبر بنجاح");
+          toast.success("اتحدثت بيانات العنبر بنجاح");
           router.back();
         },
         onError: (error: any) => {
           const errorMessage =
-            error?.response?.data?.message || "فشل في تحديث بيانات العنبر";
+            error?.response?.data?.message || "حصل خطأ في تحديث بيانات العنبر";
           toast.error(errorMessage);
           console.log(error);
         },
@@ -94,7 +94,7 @@ export default function EditBarnPage() {
   if (isFetching) {
     return (
       <AppScreen scrollable={false}>
-        <AppLoading fullScreen message="جاري تحميل بيانات العنبر..." />
+        <AppLoading fullScreen message="بيت حمّل بيانات العنبر..." />
       </AppScreen>
     );
   }
@@ -104,8 +104,8 @@ export default function EditBarnPage() {
       <AppScreen scrollable={false}>
         <AppError
           fullScreen
-          title="فشل تحميل البيانات"
-          message="تعذر الوصول إلى بيانات العنبر المطلوبة."
+          title="حصل خطأ في تحميل البيانات"
+          message="مقدرناش نوصل لـ بيانات العنبر المطلوبة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -148,7 +148,7 @@ export default function EditBarnPage() {
                 rightIcon={
                   <Warehouse size={18} color={colors.mutedForeground} />
                 }
-                placeholder="أدخل اسم العنبر"
+                placeholder="اكتب اسم العنبر"
                 error={errors.name?.message}
                 textAlign="right"
                 value={value}
@@ -170,7 +170,7 @@ export default function EditBarnPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<MapPin size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل الموقع"
+                placeholder="اكتب الموقع"
                 error={errors.location?.message}
                 textAlign="right"
                 value={value || ""}
@@ -193,7 +193,7 @@ export default function EditBarnPage() {
               <AppInput
                 keyboardType="numeric"
                 rightIcon={<Hash size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل السعة"
+                placeholder="اكتب السعة"
                 error={errors.capacity?.message}
                 textAlign="right"
                 value={value?.toString() ?? ""}

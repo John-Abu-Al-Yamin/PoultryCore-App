@@ -96,7 +96,7 @@ export default function SettingsPage() {
   }, []);
 
   const handleLogout = () => {
-    Alert.alert("تسجيل الخروج", "هل أنت متأكد من رغبتك في تسجيل الخروج؟", [
+    Alert.alert("تسجيل الخروج", "هل أنت متأكد إنك عايز تسجيل الخروج؟", [
       { text: "إلغاء", style: "cancel" },
       {
         text: "تسجيل الخروج",
@@ -149,7 +149,7 @@ export default function SettingsPage() {
           <SettingsRow
             icon={theme === "dark" ? <Moon size={20} color="#FFFFFF" /> : <Sun size={20} color="#000000" />}
             label="الوضع الليلي"
-            description={theme === "dark" ? "مفعل" : "معطل"}
+            description={theme === "dark" ? "شغال" : "موقف"}
             rightAction={<ThemeToggle value={theme === "dark"} onToggle={toggleTheme} colors={colors} />}
           />
         </SettingsSection>

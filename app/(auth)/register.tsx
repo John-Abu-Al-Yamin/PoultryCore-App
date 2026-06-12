@@ -67,10 +67,10 @@ export default function Register() {
             <User size={24} color={colors.text} />
           </View>
           <AppText variant="h1" className="text-center">
-            إنشاء حساب جديد
+            عمل حساب جديد
           </AppText>
           <AppText variant="body" muted className="text-center mt-1">
-            أدخل بياناتك للتسجيل
+            اكتب بياناتك عشان تسجل
           </AppText>
         </View>
 
@@ -85,7 +85,7 @@ export default function Register() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<User size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل اسمك"
+                placeholder="اكتب اسمك"
                 error={errors.name?.message}
                 textAlign="right"
                 value={value}
@@ -108,7 +108,7 @@ export default function Register() {
               <AppInput
                 keyboardType="phone-pad"
                 rightIcon={<Phone size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل رقم الموبيل"
+                placeholder="اكتب رقم الموبيل"
                 error={errors.phone?.message}
                 textAlign="right"
                 value={value}
@@ -139,7 +139,7 @@ export default function Register() {
                     )}
                   </Pressable>
                 }
-                placeholder="أدخل كلمة المرور"
+                placeholder="اكتب كلمة المرور"
                 secureTextEntry={!showPassword}
                 error={errors.password?.message}
                 textAlign="right"
@@ -175,7 +175,7 @@ export default function Register() {
                     )}
                   </Pressable>
                 }
-                placeholder="أعد إدخال كلمة المرور"
+                placeholder="اكتب كلمة المرور تاني"
                 secureTextEntry={!showpassword_confirmation}
                 error={errors.password_confirmation?.message}
                 textAlign="right"
@@ -189,13 +189,13 @@ export default function Register() {
 
         {/* ===== Submit ===== */}
         <AppButton loading={isPending} onPress={handleSubmit(onSubmit)}>
-          إنشاء حساب
+          عمل حساب
         </AppButton>
 
         {/* ===== Navigate to Login ===== */}
         <View className="flex-row justify-center items-center mt-6">
           <AppText variant="bodySmall" muted>
-            لديك حساب بالفعل؟
+            عندك حساب قبل كده؟
           </AppText>
           <Link href="/login" asChild>
             <Pressable>
@@ -204,7 +204,7 @@ export default function Register() {
                 className="text-primary-light dark:text-primary-dark me-1"
               >
                 {" "}
-                تسجيل الدخول
+                دخول
               </AppText>
             </Pressable>
           </Link>

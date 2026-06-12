@@ -7,19 +7,19 @@ export const batchSchema = z.object({
       const num = Number(val);
       return Number.isInteger(num) && num > 0;
     }, {
-      message: "معرّف العنبر مطلوب ويجب أن يكون رقمًا صحيحًا",
+      message: "معرّف العنبر ضروري ولازم يكون رقم صحيح",
     }),
 
   poultry_type: z
     .string()
-    .min(1, "نوع الدواجن مطلوب")
-    .max(255, "نوع الدواجن يجب ألا يزيد عن 255 حرف"),
+    .min(1, "نوع الدواجن ضروري")
+    .max(255, "نوع الدواجن ما يزيدش عن 255 حرف"),
 
   start_date: z
     .string()
-    .min(1, "تاريخ البداية مطلوب")
+    .min(1, "تاريخ البداية ضروري")
     .refine((val) => !isNaN(Date.parse(val)), {
-      message: "تاريخ البداية غير صحيح",
+      message: "تاريخ البداية مش صحيح",
     }),
 
   end_date: z
@@ -30,7 +30,7 @@ export const batchSchema = z.object({
       if (!val || val === "") return true;
       return !isNaN(Date.parse(val));
     }, {
-      message: "تاريخ النهاية غير صحيح",
+      message: "تاريخ النهاية مش صحيح",
     }),
 
   notes: z.string().optional().or(z.literal("")),
@@ -41,7 +41,7 @@ export const batchSchema = z.object({
     if (end < start) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "تاريخ النهاية يجب أن لا يكون قبل تاريخ البداية",
+        message: "تاريخ النهاية ما يكونش قبل تاريخ البداية",
         path: ["end_date"],
       });
     }

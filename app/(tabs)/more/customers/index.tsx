@@ -22,7 +22,7 @@ const CustomersPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل العملاء..." />
+        <AppLoading fullScreen message="بيت حمّل العملاء..." />
       </AppScreen>
     );
   }
@@ -35,8 +35,8 @@ const CustomersPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة العملاء. تحقق من اتصالك وحاول مرة أخرى."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة العملاء. تحقق من اتصالك وحاول تاني."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -75,7 +75,7 @@ const CustomersPage = () => {
         }
         ListEmptyComponent={
           <AppText variant="body" muted className="text-center mt-4">
-            لا توجد عملاء
+            مفيش عملاء
           </AppText>
         }
         renderItem={({ item: customer }) => (

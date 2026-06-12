@@ -22,7 +22,7 @@ const SuppliersPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل الموردين..." />
+        <AppLoading fullScreen message="بيت حمّل الموردين..." />
       </AppScreen>
     );
   }
@@ -35,8 +35,8 @@ const SuppliersPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة الموردين. تحقق من اتصالك وحاول مرة أخرى."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة الموردين. تحقق من اتصالك وحاول تاني."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -75,7 +75,7 @@ const SuppliersPage = () => {
         }
         ListEmptyComponent={
           <AppText variant="body" muted className="text-center mt-4">
-            لا توجد موردين
+            مفيش موردين
           </AppText>
         }
         renderItem={({ item: supplier }) => (

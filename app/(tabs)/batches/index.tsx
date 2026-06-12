@@ -63,7 +63,7 @@ const BatchesPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل الدفعات..." />
+        <AppLoading fullScreen message="بيت حمّل الدفعات..." />
       </AppScreen>
     );
   }
@@ -76,8 +76,8 @@ const BatchesPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة الدفعات. تحقق من اتصالك وحاول مرة أخرى."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة الدفعات. تأكد من اتصالك وجرب تاني."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -128,7 +128,7 @@ const BatchesPage = () => {
         }
         ListEmptyComponent={
           <AppText variant="body" muted className="text-center mt-4">
-            لا توجد دفعات
+            مفيش دفعات
           </AppText>
         }
         renderItem={({ item: batch }) => {

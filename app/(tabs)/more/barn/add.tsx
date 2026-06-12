@@ -42,11 +42,11 @@ export default function AddBarnPage() {
       { data: formData },
       {
         onSuccess: () => {
-          toast.success("تم إضافة العنبر بنجاح");
+          toast.success("اتضافت العنبر بنجاح");
           router.back();
         },
         onError: (error: any) => {
-          const errorMessage = error?.response?.data?.message || "فشل في إضافة العنبر";
+          const errorMessage = error?.response?.data?.message || "حصل خطأ في إضافة العنبر";
           toast.error(errorMessage);
           console.log(error);
         },
@@ -62,7 +62,7 @@ export default function AddBarnPage() {
       <View className="mb-6">
         <AppText variant="h1">إضافة عنبر جديد</AppText>
         <AppText variant="body" muted className="mt-1">
-          أدخل بيانات العنبر الجديدة لإضافته إلى النظام
+          اكتب بيانات العنبر الجديدة لإضافته إلى النظام
         </AppText>
       </View>
 
@@ -125,7 +125,7 @@ export default function AddBarnPage() {
               <AppInput
                 keyboardType="numeric"
                 rightIcon={<Hash size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل عدد الطيور التي يستوعبها العنبر"
+                placeholder="اكتب عدد الطيور اللي يستوعبها العنبر"
                 error={errors.capacity?.message}
                 textAlign="right"
                 value={value?.toString() ?? ""}

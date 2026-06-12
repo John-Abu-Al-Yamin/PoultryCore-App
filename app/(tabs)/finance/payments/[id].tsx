@@ -169,13 +169,13 @@ const PaymentDetailPage = () => {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف الدفعة بنجاح");
+          toast.success("اتمسحت الدفعة بنجاح");
           router.replace("/finance/payments");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف الدفعة";
+            error?.response?.data?.message || "حصل خطأ في حذف الدفعة";
           toast.error(errorMessage);
         },
       },
@@ -188,7 +188,7 @@ const PaymentDetailPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل الدفعة..." />
+        <AppLoading fullScreen message="بيت حمّل الدفعة..." />
       </AppScreen>
     );
   }
@@ -201,8 +201,8 @@ const PaymentDetailPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات الدفعة."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات الدفعة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -432,7 +432,7 @@ const PaymentDetailPage = () => {
               )}
             </>
           ) : (
-            <AppText muted>لا توجد بيانات</AppText>
+            <AppText muted>مفيش بيانات</AppText>
           )}
         </Card>
 
@@ -553,7 +553,7 @@ const PaymentDetailPage = () => {
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف الدفعة؟"
-        description="هل أنت متأكد من رغبتك في حذف هذه الدفعة؟"
+        description="هل أنت متأكد إنك عايز تحذف الدفعة دي؟"
       />
     </AppScreen>
   );

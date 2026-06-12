@@ -47,13 +47,13 @@ const paymentTypeCards: {
   {
     value: "to_supplier",
     title: "دفع لمورد",
-    description: "تسجيل دفعة مرتبطة بمورد وفاتورة شراء",
+    description: "تسجيل دفعة تابعة لمورّد وفاتورة شراء",
     icon: Building2,
   },
   {
     value: "from_customer",
     title: "تحصيل من عميل",
-    description: "تسجيل تحصيل مرتبط بعميل وفاتورة بيع",
+    description: "تسجيل تحصيل تابعة لعميل وفاتورة بيع",
     icon: User,
   },
 ];
@@ -192,7 +192,7 @@ export default function EditPaymentPage() {
       data: payload,
       disableSuccessToast: true,
       onSuccess: () => {
-        toast.success("تم تحديث الدفعة بنجاح");
+        toast.success("اتحدثت الدفعة بنجاح");
         router.back();
       },
     });
@@ -201,7 +201,7 @@ export default function EditPaymentPage() {
   if (isFetching) {
     return (
       <AppScreen scrollable={false}>
-        <AppLoading fullScreen message="جاري تحميل بيانات الدفعة..." />
+        <AppLoading fullScreen message="بيت حمّل بيانات الدفعة..." />
       </AppScreen>
     );
   }
@@ -211,8 +211,8 @@ export default function EditPaymentPage() {
       <AppScreen scrollable={false}>
         <AppError
           fullScreen
-          title="فشل تحميل البيانات"
-          message="تعذر الوصول إلى بيانات الدفعة المطلوبة."
+          title="حصل خطأ في تحميل البيانات"
+          message="مقدرناش نوصل لـ بيانات الدفعة المطلوبة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -228,7 +228,7 @@ export default function EditPaymentPage() {
       <View className="mb-6">
         <AppText variant="h1">تعديل الدفعة</AppText>
         <AppText variant="body" muted className="mt-1">
-          قم بتعديل تفاصيل الدفعة
+          عدّل تفاصيل الدفعة
         </AppText>
       </View>
 
@@ -472,7 +472,7 @@ export default function EditPaymentPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<FileText size={18} color={colors.mutedForeground} />}
-                placeholder="أضف ملاحظات اختيارية"
+                placeholder="ضيف ملاحظات اختيارية"
                 error={errors.notes?.message}
                 textAlign="right"
                 value={String(value ?? "")}

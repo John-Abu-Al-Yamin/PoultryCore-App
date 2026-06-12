@@ -117,7 +117,7 @@ const Batch = () => {
           </AppText>
 
           <AppText variant="body" muted className="text-center mt-1">
-            أدخل بيانات الدفعة الجديدة
+            اكتب بيانات الدفعة الجديدة
           </AppText>
         </View>
 
@@ -159,7 +159,7 @@ const Batch = () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<Tags size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل نوع الدواجن"
+                placeholder="اكتب نوع الدواجن"
                 error={errors.poultry_type?.message}
                 textAlign="right"
                 value={value}
@@ -224,7 +224,7 @@ const Batch = () => {
                 rightIcon={
                   <FileText size={18} color={colors.mutedForeground} />
                 }
-                placeholder="أدخل ملاحظات (اختياري)"
+                placeholder="اكتب ملاحظات (اختياري)"
                 error={errors.notes?.message}
                 textAlign="right"
                 multiline

@@ -69,7 +69,7 @@ export default function AddExpense() {
       <View className="mb-6">
         <AppText variant="h1">إضافة مصروف جديد</AppText>
         <AppText variant="body" muted className="mt-1">
-          أدخل بيانات المصروف الجديد لإضافتها إلى النظام
+          اكتب بيانات المصروف الجديد عشان تضيفه في النظام
         </AppText>
       </View>
 
@@ -167,7 +167,7 @@ export default function AddExpense() {
             name="notes"
             render={({ field: { onChange, value, onBlur } }) => (
               <AppInput
-                placeholder="أدخل أي ملاحظات إضافية"
+                placeholder="اكتب أي ملاحظات إضافية"
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}

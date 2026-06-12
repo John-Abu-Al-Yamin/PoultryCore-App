@@ -113,12 +113,12 @@ export default function EditBatchPage() {
       },
       {
         onSuccess: () => {
-          toast.success("تم تحديث بيانات الدفعة بنجاح");
+          toast.success("اتحدثت بيانات الدفعة بنجاح");
           router.back();
         },
         onError: (error: any) => {
           const errorMessage =
-            error?.response?.data?.message || "فشل في تحديث بيانات الدفعة";
+            error?.response?.data?.message || "حصل خطأ في تحديث بيانات الدفعة";
           toast.error(errorMessage);
         },
       },
@@ -128,7 +128,7 @@ export default function EditBatchPage() {
   if (isFetching) {
     return (
       <AppScreen scrollable={false}>
-        <AppLoading fullScreen message="جاري تحميل بيانات الدفعة..." />
+        <AppLoading fullScreen message="بيت حمّل بيانات الدفعة..." />
       </AppScreen>
     );
   }
@@ -138,8 +138,8 @@ export default function EditBatchPage() {
       <AppScreen scrollable={false}>
         <AppError
           fullScreen
-          title="فشل تحميل البيانات"
-          message="تعذر الوصول إلى بيانات الدفعة المطلوبة."
+          title="حصل خطأ في تحميل البيانات"
+          message="مقدرناش نوصل لـ بيانات الدفعة المطلوبة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -202,7 +202,7 @@ export default function EditBatchPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<Tags size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل نوع الدواجن"
+                placeholder="اكتب نوع الدواجن"
                 error={errors.poultry_type?.message}
                 textAlign="right"
                 value={value}

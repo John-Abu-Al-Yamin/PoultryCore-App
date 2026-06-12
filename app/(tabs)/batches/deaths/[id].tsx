@@ -100,13 +100,13 @@ export default function DeathDetailPage() {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف حالة النفوق بنجاح");
+          toast.success("اتمسحت حالة النفوق بنجاح");
           router.replace("/batches/deaths");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف حالة النفوق";
+            error?.response?.data?.message || "حصل خطأ في حذف حالة النفوق";
           toast.error(errorMessage);
         },
       },
@@ -119,7 +119,7 @@ export default function DeathDetailPage() {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل حالة النفوق..." />
+        <AppLoading fullScreen message="بيت حمّل حالة النفوق..." />
       </AppScreen>
     );
   }
@@ -132,8 +132,8 @@ export default function DeathDetailPage() {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات حالة النفوق."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات حالة النفوق."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -280,7 +280,7 @@ export default function DeathDetailPage() {
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف حالة النفوق؟"
-        description={`هل أنت متأكد من رغبتك في حذف تسجيل النفوق "${death?.reason}"؟`}
+        description={`هل أنت متأكد إنك عايز تمسح تسجيل النفوق "${death?.reason}"؟`}
       />
     </AppScreen>
   );

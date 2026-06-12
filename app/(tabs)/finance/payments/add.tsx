@@ -40,13 +40,13 @@ const paymentTypeCards: {
   {
     value: "to_supplier",
     title: "دفع لمورد",
-    description: "تسجيل دفعة مرتبطة بمورد وفاتورة شراء",
+    description: "تسجيل دفعة تابعة لمورّد وفاتورة شراء",
     icon: Building2,
   },
   {
     value: "from_customer",
     title: "تحصيل من عميل",
-    description: "تسجيل تحصيل مرتبط بعميل وفاتورة بيع",
+    description: "تسجيل تحصيل تابعة لعميل وفاتورة بيع",
     icon: User,
   },
 ];
@@ -156,7 +156,7 @@ export default function AddPaymentPage() {
       data: payload,
       disableSuccessToast: true,
       onSuccess: () => {
-        toast.success("تمت إضافة الدفعة بنجاح");
+        toast.success("اتضافت الدفعة بنجاح");
         router.back();
       },
     });
@@ -412,7 +412,7 @@ export default function AddPaymentPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<FileText size={18} color={colors.mutedForeground} />}
-                placeholder="أضف ملاحظات اختيارية"
+                placeholder="ضيف ملاحظات اختيارية"
                 error={errors.notes?.message}
                 textAlign="right"
                 value={String(value ?? "")}

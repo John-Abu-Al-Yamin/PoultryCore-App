@@ -97,7 +97,7 @@ export default function EditExpense() {
       <View className="mb-6">
         <AppText variant="h1">تعديل مصروف</AppText>
         <AppText variant="body" muted className="mt-1">
-          قم بتعديل بيانات المصروف أدناه
+          عدّل بيانات المصروف تحت
         </AppText>
       </View>
 
@@ -195,7 +195,7 @@ export default function EditExpense() {
             name="notes"
             render={({ field: { onChange, value, onBlur } }) => (
               <AppInput
-                placeholder="أدخل أي ملاحظات إضافية"
+                placeholder="اكتب أي ملاحظات إضافية"
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}

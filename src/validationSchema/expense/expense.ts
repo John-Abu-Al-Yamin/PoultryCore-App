@@ -6,24 +6,24 @@ export const expenseSchema = z.object({
     .refine((val) => {
       const num = Number(val);
       return Number.isInteger(num) && num > 0;
-    }, { message: "الدفعة مطلوبة" }),
+    }, { message: "الدفعة ضرورية" }),
 
   type: z
     .string()
-    .min(1, "نوع المصروف مطلوب"),
+    .min(1, "نوع المصروف ضروري"),
 
   amount: z
     .union([z.string(), z.number()])
     .refine((val) => {
       const num = Number(val);
       return !isNaN(num) && num > 0;
-    }, { message: "المبلغ يجب أن يكون رقمًا أكبر من 0" }),
+    }, { message: "المبلغ لازم يكون رقم أكبر من 0" }),
 
   date: z
     .string()
-    .min(1, "تاريخ المصروف مطلوب")
+    .min(1, "تاريخ المصروف ضروري")
     .refine((val) => !isNaN(Date.parse(val)), {
-      message: "تاريخ المصروف غير صحيح",
+      message: "تاريخ المصروف مش صحيح",
     }),
 
   notes: z.string().optional(),

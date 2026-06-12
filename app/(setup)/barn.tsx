@@ -66,7 +66,7 @@ const Barn = () => {
             بيانات العنبر
           </AppText>
           <AppText variant="body" muted className="text-center mt-1">
-            أدخل بيانات العنبر الجديدة
+            اكتب بيانات العنبر الجديدة
           </AppText>
         </View>
 
@@ -83,7 +83,7 @@ const Barn = () => {
                 rightIcon={
                   <Warehouse size={18} color={colors.mutedForeground} />
                 }
-                placeholder="أدخل اسم العنبر"
+                placeholder="اكتب اسم العنبر"
                 error={errors.name?.message}
                 textAlign="right"
                 value={value}
@@ -105,7 +105,7 @@ const Barn = () => {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<MapPin size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل الموقع (اختياري)"
+                placeholder="اكتب الموقع (اختياري)"
                 error={errors.location?.message}
                 textAlign="right"
                 value={value}
@@ -128,7 +128,7 @@ const Barn = () => {
               <AppInput
                 keyboardType="numeric"
                 rightIcon={<Hash size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل السعة "
+                placeholder="اكتب السعة "
                 error={errors.capacity?.message}
                 textAlign="right"
                 value={value?.toString() ?? ""}
@@ -152,7 +152,7 @@ const Barn = () => {
                 rightIcon={
                   <FileText size={18} color={colors.mutedForeground} />
                 }
-                placeholder="أدخل ملاحظات (اختياري)"
+                placeholder="اكتب ملاحظات (اختياري)"
                 error={errors.notes?.message}
                 textAlign="right"
                 multiline

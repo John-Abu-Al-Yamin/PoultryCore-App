@@ -109,13 +109,13 @@ export default function ExpenseDetailPage() {
       {
         onSuccess: () => {
           setShowDeleteModal(false);
-          toast.success("تم حذف المصروف بنجاح");
+          toast.success("اتمسحت المصروف بنجاح");
           router.replace("/finance/expenses");
         },
         onError: (error: any) => {
           setShowDeleteModal(false);
           const errorMessage =
-            error?.response?.data?.message || "فشل في حذف المصروف";
+            error?.response?.data?.message || "حصل خطأ في حذف المصروف";
           toast.error(errorMessage);
         },
       },
@@ -128,7 +128,7 @@ export default function ExpenseDetailPage() {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المصروف..." />
+        <AppLoading fullScreen message="بيت حمّل المصروف..." />
       </AppScreen>
     );
   }
@@ -141,8 +141,8 @@ export default function ExpenseDetailPage() {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات المصروف."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات المصروف."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -290,7 +290,7 @@ export default function ExpenseDetailPage() {
         onConfirm={handleDelete}
         loading={isDeleting}
         title="حذف المصروف؟"
-        description={`هل أنت متأكد من رغبتك في حذف مصروف "${getExpenseTypeLabel(
+        description={`هل أنت متأكد إنك عايز تحذف مصروف "${getExpenseTypeLabel(
           expense?.type || "",
         )}"؟`}
       />

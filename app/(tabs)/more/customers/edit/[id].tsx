@@ -74,11 +74,11 @@ export default function EditCustomerPage() {
       },
       {
         onSuccess: () => {
-          toast.success("تم تحديث بيانات العميل بنجاح");
+          toast.success("اتحدثت بيانات العميل بنجاح");
           router.back();
         },
         onError: (error: any) => {
-          const errorMessage = error?.response?.data?.message || "فشل في تحديث بيانات العميل";
+          const errorMessage = error?.response?.data?.message || "حصل خطأ في تحديث بيانات العميل";
           // toast.error(errorMessage);
         },
       },
@@ -88,7 +88,7 @@ export default function EditCustomerPage() {
   if (isFetching) {
     return (
       <AppScreen scrollable={false}>
-        <AppLoading fullScreen message="جاري تحميل بيانات العميل..." />
+        <AppLoading fullScreen message="بيت حمّل بيانات العميل..." />
       </AppScreen>
     );
   }
@@ -98,8 +98,8 @@ export default function EditCustomerPage() {
       <AppScreen scrollable={false}>
         <AppError
           fullScreen
-          title="فشل تحميل البيانات"
-          message="تعذر الوصول إلى بيانات العميل المطلوبة."
+          title="حصل خطأ في تحميل البيانات"
+          message="مقدرناش نوصل لـ بيانات العميل المطلوبة."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -140,7 +140,7 @@ export default function EditCustomerPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<User size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل اسم العميل"
+                placeholder="اكتب اسم العميل"
                 error={errors.name?.message}
                 textAlign="right"
                 value={value}
@@ -154,7 +154,7 @@ export default function EditCustomerPage() {
         {/* Phone */}
         <View className="mb-5">
           <AppText variant="label" className="mb-2">
-            رقم الهاتف
+            رقم التليفون
           </AppText>
           <View className="flex-row gap-2">
             <View className="flex-1">
@@ -165,7 +165,7 @@ export default function EditCustomerPage() {
                   <AppInput
                     keyboardType="phone-pad"
                     rightIcon={<Phone size={18} color={colors.mutedForeground} />}
-                    placeholder="أدخل رقم الهاتف"
+                    placeholder="اكتب رقم التليفون"
                     error={errors.phone?.message}
                     textAlign="right"
                     value={value}
@@ -198,7 +198,7 @@ export default function EditCustomerPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <AppInput
                 rightIcon={<MapPin size={18} color={colors.mutedForeground} />}
-                placeholder="أدخل العنوان"
+                placeholder="اكتب العنوان"
                 error={errors.address?.message}
                 textAlign="right"
                 value={value || ""}

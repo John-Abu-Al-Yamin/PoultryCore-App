@@ -48,7 +48,7 @@ const statusConfig: Record<
     iconColor: "#10b981",
   },
   unpaid: {
-    label: "غير مدفوع",
+    label: "مش مدفوع",
     icon: CircleAlert,
     badgeClass:
       "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20",
@@ -56,7 +56,7 @@ const statusConfig: Record<
     iconColor: "#f43f5e",
   },
   partial: {
-    label: "مدفوع جزئياً",
+    label: "مدفوع جزء منه",
     icon: Clock,
     badgeClass:
       "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
@@ -78,7 +78,7 @@ const PurchasesPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المشتريات..." />
+        <AppLoading fullScreen message="بيت حمّل المشتريات..." />
       </AppScreen>
     );
   }
@@ -91,8 +91,8 @@ const PurchasesPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة المشتريات. تحقق من اتصالك وحاول مرة أخرى."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة المشتريات. تحقق من اتصالك وحاول مرة أخرى."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -131,7 +131,7 @@ const PurchasesPage = () => {
         }
         ListEmptyComponent={
           <AppText variant="body" muted className="text-center mt-4">
-            لا توجد مشتريات
+            مفيش مشتريات
           </AppText>
         }
         renderItem={({ item: purchase }) => {
@@ -175,7 +175,7 @@ const PurchasesPage = () => {
                         <View className="flex-row items-center gap-1.5">
                           <Package size={13} color={colors.mutedForeground} />
                           <AppText variant="bodySmall" muted numberOfLines={1}>
-                            {purchase.quantity} الكميه
+                            {purchase.quantity} الكمية
                           </AppText>
                         </View>
                       </View>

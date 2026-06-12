@@ -118,7 +118,7 @@ const PaymentsPage = () => {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل المدفوعات..." />
+        <AppLoading fullScreen message="بيت حمّل المدفوعات..." />
       </AppScreen>
     );
   }
@@ -131,8 +131,8 @@ const PaymentsPage = () => {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل قائمة المدفوعات."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل قائمة المدفوعات."
           onRetry={refetch}
           onBack={() => router.back()}
         />
@@ -164,7 +164,7 @@ const PaymentsPage = () => {
         {/* Payments list */}
         {paymentsList.length === 0 ? (
           <AppText variant="body" muted className="text-center mt-4">
-            لا توجد مدفوعات
+            مفيش مدفوعات
           </AppText>
         ) : (
           <View className="gap-4">

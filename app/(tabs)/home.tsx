@@ -150,7 +150,7 @@ export default function Home() {
         className="bg-background-light dark:bg-background-dark"
         scrollable={false}
       >
-        <AppLoading fullScreen message="جاري تحميل البيانات..." />
+        <AppLoading fullScreen message="بيت حمّل البيانات..." />
       </AppScreen>
     );
   }
@@ -163,8 +163,8 @@ export default function Home() {
       >
         <AppError
           fullScreen
-          title="فشل التحميل"
-          message="تعذر تحميل بيانات الرئيسية. تحقق من اتصالك وحاول مرة أخرى."
+          title="حصل خطأ في التحميل"
+          message="مقدرناش نحمل بيانات الرئيسية. تحقق من اتصالك وحاول تاني."
           onRetry={refetch}
         />
       </AppScreen>
@@ -181,7 +181,7 @@ export default function Home() {
         <View className="mb-8 flex-row justify-between items-center">
           <View>
             <AppText variant="h1" className="mb-1">
-              مرحباً، {user?.name || "مجدداً"}
+              أهلاً، {user?.name || "تاني"}
             </AppText>
             <View className="flex-row items-center gap-1.5">
               <Calendar size={14} color={colors.mutedForeground} />
@@ -241,7 +241,7 @@ export default function Home() {
           <CardHeader className="flex-row items-center justify-between pb-2">
             <View>
               <CardTitle>الملخص المالي</CardTitle>
-              <CardDescription>نظرة عامة على الأداء المالي</CardDescription>
+              <CardDescription>نظرة سريعة على الأداء المالي</CardDescription>
             </View>
             <Pressable
               onPress={() => router.push("/(tabs)/finance")}
