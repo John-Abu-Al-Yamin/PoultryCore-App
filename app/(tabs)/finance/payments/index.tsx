@@ -68,7 +68,7 @@ const typeConfig: Record<
 const methodLabels: Record<string, string> = {
   cash: "نقداً",
   bank_transfer: "تحويل بنكي",
-  cheque: "شيك",
+  wallet: "محفظة إلكترونية",
 };
 
 const statusConfig: Record<

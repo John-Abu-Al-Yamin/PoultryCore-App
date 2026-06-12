@@ -10,6 +10,9 @@ import { router } from "expo-router";
 import {
   Banknote,
   ChevronLeft,
+  CircleAlert,
+  CircleCheck,
+  Clock,
   Package,
   Plus,
   ShoppingCart,
@@ -34,24 +37,31 @@ const formatDate = (dateStr: string) => {
 
 const statusConfig: Record<
   string,
-  { label: string; badgeClass: string; textClass: string }
+  { label: string; icon: any; badgeClass: string; textClass: string; iconColor: string }
 > = {
   paid: {
     label: "مدفوع",
-    badgeClass: "bg-success-light dark:bg-success-dark",
-    textClass: "text-white dark:text-black",
+    icon: CircleCheck,
+    badgeClass:
+      "bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20",
+    textClass: "text-emerald-600 dark:text-emerald-400",
+    iconColor: "#10b981",
   },
   unpaid: {
     label: "غير مدفوع",
+    icon: CircleAlert,
     badgeClass:
-      "bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50",
-    textClass: "text-red-600 dark:text-red-400",
+      "bg-rose-50 dark:bg-rose-500/10 border border-rose-100 dark:border-rose-500/20",
+    textClass: "text-rose-600 dark:text-rose-400",
+    iconColor: "#f43f5e",
   },
   partial: {
     label: "مدفوع جزئياً",
+    icon: Clock,
     badgeClass:
-      "bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/50",
+      "bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20",
     textClass: "text-amber-600 dark:text-amber-400",
+    iconColor: "#f59e0b",
   },
 };
 
@@ -126,6 +136,7 @@ const PurchasesPage = () => {
         }
         renderItem={({ item: purchase }) => {
           const status = statusConfig[purchase.status] || statusConfig.unpaid;
+          const StatusIcon = status.icon;
 
           return (
             <Pressable
@@ -142,13 +153,25 @@ const PurchasesPage = () => {
                         <ShoppingCart size={20} color={colors.text} />
                       </View>
                       <View className="flex-1 justify-center">
-                        <AppText
-                          variant="h3"
-                          className="leading-tight mb-0.5"
-                          numberOfLines={1}
-                        >
-                          {purchase.item_name}
-                        </AppText>
+                        <View className="flex-row items-center gap-1.5 mb-0.5">
+                          <AppText
+                            variant="h3"
+                            className="leading-tight"
+                            numberOfLines={1}
+                          >
+                            {purchase.item_name}
+                          </AppText>
+                          <View
+                            className={`flex-row items-center gap-1 px-2 py-0.5 rounded-md ${status.badgeClass}`}
+                          >
+                            <StatusIcon size={12} color={status.iconColor} />
+                            <AppText
+                              className={`text-[10px] font-bold ${status.textClass}`}
+                            >
+                              {status.label}
+                            </AppText>
+                          </View>
+                        </View>
                         <View className="flex-row items-center gap-1.5">
                           <Package size={13} color={colors.mutedForeground} />
                           <AppText variant="bodySmall" muted numberOfLines={1}>
@@ -156,15 +179,6 @@ const PurchasesPage = () => {
                           </AppText>
                         </View>
                       </View>
-                    </View>
-                    <View
-                      className={`px-2.5 py-1 rounded-md ${status.badgeClass}`}
-                    >
-                      <AppText
-                        className={`text-[10px] font-bold ${status.textClass}`}
-                      >
-                        {status.label}
-                      </AppText>
                     </View>
                   </View>
 
