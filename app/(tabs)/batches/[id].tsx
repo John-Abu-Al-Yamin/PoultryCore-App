@@ -27,6 +27,7 @@ import {
   useDeleteBatch,
   useBatchClose,
   useBatchOpen,
+  useBatchCosts,
 } from "@/src/hooks/Actions/batch/useCurdBatch";
 import { useGetAllExpenses } from "@/src/hooks/Actions/expenses/useCurdExpenses";
 import { useGetAllDeaths } from "@/src/hooks/Actions/deaths/useCurdDeaths";
@@ -88,6 +89,10 @@ const BatchDetailPage = () => {
   const { mutate: deleteBatch, isPending: isDeleting } = useDeleteBatch();
   const { mutate: closeBatch, isPending: isClosing } = useBatchClose(id || "");
   const { mutate: openBatch, isPending: isOpening } = useBatchOpen(id || "");
+  const {
+    data: costsData,
+    isPending: costsIsPending,
+  } = useBatchCosts(id || "");
   const { colors } = useTheme();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -609,6 +614,126 @@ const BatchDetailPage = () => {
             ))}
           </View>
         )}
+
+        {/* Costs */}
+        <View className="mb-3 flex-row items-center justify-between mt-4">
+          <View className="flex-row items-center gap-2">
+            <View className="w-1.5 h-6 rounded-full bg-green-500" />
+            <DollarSign size={18} color={colors.text} />
+            <AppText variant="h3">تكاليف الدفعة</AppText>
+          </View>
+        </View>
+
+        {costsIsPending ? (
+          <Card className="mb-6">
+            <View className="p-6 items-center">
+              <AppText muted>بيت حمّل التكاليف...</AppText>
+            </View>
+          </Card>
+        ) : costsData?.data?.data ? (
+          <View className="mb-6 gap-3">
+            {/* Summary Card */}
+            <View className="bg-primary-light dark:bg-primary-dark rounded-[28px] p-5 shadow-sm">
+              <View className="flex-row items-center justify-between mb-4">
+                <AppText inverse variant="caption" className="opacity-70">
+                  إجمالي المشتريات
+                </AppText>
+                <AppText inverse className="text-xl font-bold">
+                  {costsData.data.data.summary.total_purchases.toLocaleString()}{" "}
+                  <AppText inverse variant="bodySmall" className="opacity-70">
+                    ج.م
+                  </AppText>
+                </AppText>
+              </View>
+              <View className="h-[1px] bg-white/10 mb-4" />
+              <View className="flex-row items-center justify-between mb-4">
+                <AppText inverse variant="caption" className="opacity-70">
+                  إجمالي الإيرادات
+                </AppText>
+                <AppText inverse className="text-xl font-bold">
+                  {costsData.data.data.summary.total_sales.toLocaleString()}{" "}
+                  <AppText inverse variant="bodySmall" className="opacity-70">
+                    ج.م
+                  </AppText>
+                </AppText>
+              </View>
+              <View className="h-[1px] bg-white/10 mb-4" />
+              <View className="flex-row items-center justify-between">
+                <AppText inverse variant="caption" className="opacity-70">
+                  صافي الربح / الخسارة
+                </AppText>
+                <AppText
+                  inverse
+                  className={`text-2xl font-bold ${
+                    costsData.data.data.summary.net >= 0
+                      ? "text-green-300"
+                      : "text-red-300"
+                  }`}
+                >
+                  {costsData.data.data.summary.net.toLocaleString()}{" "}
+                  <AppText inverse variant="bodySmall" className="opacity-70">
+                    ج.م
+                  </AppText>
+                </AppText>
+              </View>
+            </View>
+
+            {/* Purchases Breakdown */}
+            <Card>
+              <View className="p-4">
+                <AppText variant="h3" className="mb-3">
+                  تفاصيل المشتريات
+                </AppText>
+                {Object.entries(costsData.data.data.purchases).map(
+                  ([key, value]: [string, any]) => (
+                    <View key={key}>
+                      <View className="flex-row items-center justify-between py-2">
+                        <AppText variant="bodySmall" muted>
+                          {key === "chicks"
+                            ? "كتاكيت"
+                            : key === "feed"
+                            ? "أعلاف"
+                            : key === "medicine"
+                            ? "أدوية"
+                            : key === "other"
+                            ? "أخرى"
+                            : key}
+                        </AppText>
+                        <View className="flex-row items-center gap-2">
+                          <AppText className="font-bold">
+                            {value.total.toLocaleString()} ج.م
+                          </AppText>
+                          <AppText variant="caption" muted>
+                            ({value.count} عملية
+                            {value.quantity ? `, ${value.quantity} كمية` : ""})
+                          </AppText>
+                        </View>
+                      </View>
+                      <View className="h-[1px] bg-border-light/50 dark:bg-border-dark/50" />
+                    </View>
+                  ),
+                )}
+              </View>
+            </Card>
+
+            {/* Revenue */}
+            {costsData.data.data.revenue.total > 0 && (
+              <Card>
+                <View className="p-4">
+                  <View className="flex-row items-center justify-between">
+                    <AppText variant="h3">الإيرادات</AppText>
+                    <AppText className="font-bold text-lg text-green-600 dark:text-green-400">
+                      {costsData.data.data.revenue.total.toLocaleString()} ج.م
+                    </AppText>
+                  </View>
+                  <AppText variant="caption" muted>
+                    {costsData.data.data.revenue.count} عملية بيع
+                  </AppText>
+                </View>
+              </Card>
+            )}
+          </View>
+        ) : null}
       </ScrollView>
 
       <AppDeleteModal

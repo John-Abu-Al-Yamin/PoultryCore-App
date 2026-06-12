@@ -79,6 +79,25 @@ export interface MutationContext {
   loadingToastId?: string | number;
 }
 
+export interface BatchCosts {
+  batch_id: number;
+  summary: {
+    total_purchases: number;
+    total_sales: number;
+    net: number;
+  };
+  purchases: {
+    chicks: { total: number; count: number; quantity: number };
+    feed: { total: number; count: number; quantity: number };
+    medicine: { total: number; count: number; quantity: number };
+    other: { total: number; count: number; quantity: number };
+  };
+  revenue: {
+    total: number;
+    count: number;
+  };
+}
+
 export interface DashboardCounts {
   barns: number;
   active_batches: number;

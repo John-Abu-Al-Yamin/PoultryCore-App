@@ -4,7 +4,7 @@ import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
 import useGetData from "@/src/hooks/curdsHook/useGetData";
 import usePutData from "@/src/hooks/curdsHook/usePutData";
 import usePostData from "@/src/hooks/curdsHook/usePostData";
-import type { ApiResponse, Batch } from "@/src/types/api";
+import type { ApiResponse, Batch, BatchCosts } from "@/src/types/api";
 
 export const useGetAllBatches = (page = 1, limit = 20) => {
   const { data, isPending, refetch, ...rest } = useGetData<
@@ -87,4 +87,21 @@ export const useBatchOpen = (id: string) => {
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
+};
+
+
+
+export const useBatchCosts = (id: string) => {
+  const { data, isPending, refetch, ...rest } = useGetData<ApiResponse<BatchCosts>>({
+    url: `${endPoints.batches}/${id}/costs`,
+    params: { id },
+    queryKeys: [queryKeys.batches, id],
+  });
+
+  return {
+    data,
+    isPending,
+    isError: rest.error,
+    refetch,
+  };
 };
