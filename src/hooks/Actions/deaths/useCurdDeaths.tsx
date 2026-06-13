@@ -44,7 +44,10 @@ export const useAddDeath = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.deaths,
     [queryKeys.addDeaths],
-    [queryKeys.deaths, queryKeys.addDeaths, queryKeys.user],
+    [
+      queryKeys.deaths, queryKeys.addDeaths, queryKeys.user,
+      queryKeys.batches, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -54,7 +57,10 @@ export const useDeleteDeath = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.deaths,
     [queryKeys.deleteDeaths],
-    [queryKeys.deaths, queryKeys.deleteDeaths],
+    [
+      queryKeys.deaths, queryKeys.deleteDeaths,
+      queryKeys.batches, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +70,10 @@ export const useUpdateDeath = (id: string) => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     `${endPoints.deaths}/${id}`,
     [queryKeys.updateDeaths],
-    [queryKeys.deaths, queryKeys.updateDeaths],
+    [
+      queryKeys.deaths, queryKeys.updateDeaths,
+      queryKeys.batches, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

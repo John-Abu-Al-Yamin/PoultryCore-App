@@ -44,7 +44,10 @@ export const useAddCustomer = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.customers,
     [queryKeys.addCustomers],
-    [queryKeys.customers, queryKeys.addCustomers, queryKeys.user, queryKeys.barns],
+    [
+      queryKeys.customers, queryKeys.addCustomers, queryKeys.user,
+      queryKeys.barns, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -54,7 +57,7 @@ export const useDeleteCustomer = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.customers,
     [queryKeys.deleteCustomers],
-    [queryKeys.customers, queryKeys.deleteCustomers],
+    [queryKeys.customers, queryKeys.deleteCustomers, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +67,7 @@ export const useUpdateCustomer = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     endPoints.customers,
     [queryKeys.updateCustomers],
-    [queryKeys.customers, queryKeys.updateCustomers],
+    [queryKeys.customers, queryKeys.updateCustomers, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

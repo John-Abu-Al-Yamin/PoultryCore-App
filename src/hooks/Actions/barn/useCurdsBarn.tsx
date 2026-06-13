@@ -47,7 +47,7 @@ export const useAddBarn = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.barns,
     [queryKeys.addBarns],
-    [queryKeys.barns, queryKeys.addBarns],
+    [queryKeys.barns, queryKeys.addBarns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -57,7 +57,7 @@ export const useUpdateBarn = (id: string) => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     `${endPoints.barns}/${id}`,
     [queryKeys.barns, id],
-    queryKeys.barns,
+    [queryKeys.barns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -67,7 +67,7 @@ export const useDeleteBarn = (id: string) => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.barns,
     [queryKeys.deleteBarns],
-    [queryKeys.barns, queryKeys.deleteBarns],
+    [queryKeys.barns, queryKeys.deleteBarns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

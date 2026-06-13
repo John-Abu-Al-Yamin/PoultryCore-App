@@ -54,7 +54,7 @@ export const useDeleteBatch = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.batches,
     [queryKeys.deleteBatches],
-    [queryKeys.batches, queryKeys.deleteBatches, queryKeys.barns],
+    [queryKeys.batches, queryKeys.deleteBatches, queryKeys.barns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +64,7 @@ export const useUpdateBatch = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     endPoints.batches,
     [queryKeys.updateBatches],
-    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns],
+    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -74,7 +74,7 @@ export const useBatchClose = (id: string) => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     `${endPoints.batches}/${id}/close`,
     [queryKeys.updateBatches],
-    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns],
+    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -83,7 +83,7 @@ export const useBatchOpen = (id: string) => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     `${endPoints.batches}/${id}/open`,
     [queryKeys.updateBatches],
-    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns],
+    [queryKeys.batches, queryKeys.updateBatches, queryKeys.barns, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

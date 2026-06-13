@@ -44,7 +44,10 @@ export const useAddSale = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.sales,
     [queryKeys.addSales],
-    [queryKeys.sales, queryKeys.addSales, queryKeys.user],
+    [
+      queryKeys.sales, queryKeys.addSales, queryKeys.user,
+      queryKeys.batches, queryKeys.customers, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -54,7 +57,10 @@ export const useDeleteSale = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.sales,
     [queryKeys.deleteSales],
-    [queryKeys.sales, queryKeys.deleteSales],
+    [
+      queryKeys.sales, queryKeys.deleteSales,
+      queryKeys.batches, queryKeys.customers, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +70,10 @@ export const useUpdateSale = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     endPoints.sales,
     [queryKeys.updateSales],
-    [queryKeys.sales, queryKeys.updateSales],
+    [
+      queryKeys.sales, queryKeys.updateSales,
+      queryKeys.batches, queryKeys.customers, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

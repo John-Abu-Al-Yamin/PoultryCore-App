@@ -40,11 +40,16 @@ export const useGetPaymentById = (id: string) => {
   };
 };
 
-export const useAddPayment   = () => {
+export const useAddPayment = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.payments,
     [queryKeys.addPayments],
-    [queryKeys.payments, queryKeys.addPayments, queryKeys.user],
+    [
+      queryKeys.payments, queryKeys.addPayments, queryKeys.user,
+      queryKeys.purchases, queryKeys.sales,
+      queryKeys.suppliers, queryKeys.customers,
+      queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -54,7 +59,12 @@ export const useDeletePayment = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.payments,
     [queryKeys.deletePayments],
-    [queryKeys.payments, queryKeys.deletePayments],
+    [
+      queryKeys.payments, queryKeys.deletePayments,
+      queryKeys.purchases, queryKeys.sales,
+      queryKeys.suppliers, queryKeys.customers,
+      queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +74,12 @@ export const useUpdatePayment = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     endPoints.payments,
     [queryKeys.updatePayments],
-    [queryKeys.payments, queryKeys.updatePayments],
+    [
+      queryKeys.payments, queryKeys.updatePayments,
+      queryKeys.purchases, queryKeys.sales,
+      queryKeys.suppliers, queryKeys.customers,
+      queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

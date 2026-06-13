@@ -44,7 +44,7 @@ export const useAddSupplier = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.suppliers,
     [queryKeys.addSuppliers],
-    [queryKeys.suppliers, queryKeys.addSuppliers, queryKeys.user],
+    [queryKeys.suppliers, queryKeys.addSuppliers, queryKeys.user, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -54,7 +54,7 @@ export const useDeleteSupplier = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.suppliers,
     [queryKeys.deleteSuppliers],
-    [queryKeys.suppliers, queryKeys.deleteSuppliers],
+    [queryKeys.suppliers, queryKeys.deleteSuppliers, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +64,7 @@ export const useUpdateSupplier = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     endPoints.suppliers,
     [queryKeys.updateSuppliers],
-    [queryKeys.suppliers, queryKeys.updateSuppliers],
+    [queryKeys.suppliers, queryKeys.updateSuppliers, queryKeys.dashboard],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };

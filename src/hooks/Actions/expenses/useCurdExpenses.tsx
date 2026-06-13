@@ -44,7 +44,10 @@ export const useAddExpense = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.expenses,
     [queryKeys.addExpenses],
-    [queryKeys.expenses, queryKeys.addExpenses, queryKeys.user],
+    [
+      queryKeys.expenses, queryKeys.addExpenses, queryKeys.user,
+      queryKeys.batches, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -54,7 +57,10 @@ export const useDeleteExpense = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = useDeleteData(
     endPoints.expenses,
     [queryKeys.deleteExpenses],
-    [queryKeys.expenses, queryKeys.deleteExpenses],
+    [
+      queryKeys.expenses, queryKeys.deleteExpenses,
+      queryKeys.batches, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
@@ -64,7 +70,10 @@ export const useUpdateExpense = (id: string) => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePutData(
     `${endPoints.expenses}/${id}`,
     [queryKeys.updateExpenses],
-    [queryKeys.expenses, queryKeys.updateExpenses],
+    [
+      queryKeys.expenses, queryKeys.updateExpenses,
+      queryKeys.batches, queryKeys.dashboard,
+    ],
   );
 
   return { mutate, data, error, isPending, isSuccess, isError };
