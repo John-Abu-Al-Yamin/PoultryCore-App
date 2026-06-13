@@ -1,4 +1,4 @@
-# PoultryCore — Business Flows & User Stories
+# I want the app logo to be the app’s main logo, and the app name to be “Poultry Core”. — Business Flows & User Stories
 
 > **Audience:** Product owners, managers, investors, and non-technical stakeholders  
 > **Purpose:** Explain how the application works in plain, business-friendly language  

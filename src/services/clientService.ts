@@ -1,14 +1,15 @@
 import axios from "axios";
-import getAuthToken from "./cookies";
 import type { RequestConfig } from "../types/api";
+import getAuthToken from "./cookies";
 
 const clientApi = axios.create({
-  baseURL: "http://192.168.100.8:8000/api",
+  // baseURL: "http://192.168.100.8:8000/api",
+  baseURL: "https://poultrycore-api-production.up.railway.app/api",
 });
 
 export const request = async <T = unknown>(
   options: RequestConfig,
-  tokenOverride?: string
+  tokenOverride?: string,
 ) => {
   const token = tokenOverride ?? (await getAuthToken());
 

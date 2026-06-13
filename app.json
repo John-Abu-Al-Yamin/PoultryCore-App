@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "Poultry Core",
+    "slug": "poultry-core",
     "version": "1.0.0",
     "orientation": "portrait",
     "direction": "rtl",
-    "icon": "./assets/images/icon.png",
-    "scheme": "app",
+    "icon": "./assets/images/logo-app.png",
+    "scheme": "poultry-core",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
