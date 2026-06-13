@@ -4,24 +4,29 @@ import useDeleteData from "@/src/hooks/curdsHook/useDeleteData";
 import useGetData from "@/src/hooks/curdsHook/useGetData";
 import usePutData from "@/src/hooks/curdsHook/usePutData";
 import usePostData from "@/src/hooks/curdsHook/usePostData";
-import type { ApiResponse, Expense } from "@/src/types/api";
+import type { ApiPaginatedResponse, ApiResponse, Expense, Pagination } from "@/src/types/api";
 
 export const useGetAllExpenses = (page = 1, limit = 20) => {
   const { data, isPending, refetch, ...rest } = useGetData<
-    ApiResponse<Expense[]>
+    ApiPaginatedResponse<Expense[]>
   >({
     url: endPoints.expenses,
     params: { page: String(page), limit: String(limit) },
     queryKeys: [queryKeys.expenses, String(page), String(limit)],
+    other: { placeholderData: (prev: unknown) => prev },
   });
+
+  const pagination: Pagination | undefined = data?.data?.pagination;
 
   return {
     data,
     isPending,
+    isFetching: rest.isFetching,
     isError: rest.error,
     refetch,
     page,
     limit,
+    pagination,
   };
 };
 

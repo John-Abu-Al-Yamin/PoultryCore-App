@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -34,7 +36,8 @@ const formatDate = (dateStr: string) => {
 };
 
 export default function DeathsPage() {
-  const { data: deaths, isPending, isError, refetch } = useGetAllDeaths();
+  const [page, setPage] = useState(1);
+  const { data: deaths, isPending, isError, isFetching, refetch, pagination } = useGetAllDeaths(page);
   const { colors } = useTheme();
 
   const deathsRaw = deaths?.data?.data;
@@ -193,6 +196,18 @@ export default function DeathsPage() {
               </Pressable>
             ))}
           </View>
+        )}
+
+        {pagination && (
+          <AppPagination
+            currentPage={pagination.current_page}
+            lastPage={pagination.last_page}
+            total={pagination.total}
+            from={pagination.from}
+            to={pagination.to}
+            isLoading={isFetching}
+            onPageChange={setPage}
+          />
         )}
       </ScrollView>
     </AppScreen>

@@ -9,6 +9,19 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface Pagination {
+  current_page: number;
+  per_page: number;
+  total: number;
+  last_page: number;
+  from: number | null;
+  to: number | null;
+}
+
+export interface ApiPaginatedResponse<T> extends ApiResponse<T> {
+  pagination: Pagination;
+}
+
 export interface Barn {
   id: number;
   user_id: number;

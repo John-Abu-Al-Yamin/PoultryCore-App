@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -37,7 +39,8 @@ const getExpenseTypeLabel = (type: string) => {
 };
 
 export default function ExpensesPage() {
-  const { data, isPending, isError, refetch } = useGetAllExpenses();
+  const [page, setPage] = useState(1);
+  const { data, isPending, isError, isFetching, refetch, pagination } = useGetAllExpenses(page);
   const { colors } = useTheme();
 
   const expensesList: Expense[] = data?.data?.data || [];
@@ -180,6 +183,18 @@ export default function ExpensesPage() {
               </Pressable>
             ))}
           </View>
+        )}
+
+        {pagination && (
+          <AppPagination
+            currentPage={pagination.current_page}
+            lastPage={pagination.last_page}
+            total={pagination.total}
+            from={pagination.from}
+            to={pagination.to}
+            isLoading={isFetching}
+            onPageChange={setPage}
+          />
         )}
       </ScrollView>
     </AppScreen>

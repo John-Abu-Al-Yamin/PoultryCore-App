@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -107,7 +109,8 @@ const getPaymentInvoiceStatus = (payment: Payment) =>
     : payment.sale?.status;
 
 const PaymentsPage = () => {
-  const { data: payments, isPending, isError, refetch } = useGetAllPayments();
+  const [page, setPage] = useState(1);
+  const { data: payments, isPending, isError, isFetching, refetch, pagination } = useGetAllPayments(page);
   const { colors } = useTheme();
 
   const paymentsList: Payment[] = payments?.data?.data || [];
@@ -290,6 +293,18 @@ const PaymentsPage = () => {
               );
             })}
           </View>
+        )}
+
+        {pagination && (
+          <AppPagination
+            currentPage={pagination.current_page}
+            lastPage={pagination.last_page}
+            total={pagination.total}
+            from={pagination.from}
+            to={pagination.to}
+            isLoading={isFetching}
+            onPageChange={setPage}
+          />
         )}
       </ScrollView>
     </AppScreen>

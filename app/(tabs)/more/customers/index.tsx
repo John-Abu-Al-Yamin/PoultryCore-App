@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -11,7 +13,8 @@ import { ChevronLeft, MapPin, Phone, Plus, User } from "lucide-react-native";
 import { FlatList, Pressable, TouchableOpacity, View, Text } from "react-native";
 
 const CustomersPage = () => {
-  const { data: customers, isPending, isError, refetch } = useGetAllCustomers();
+  const [page, setPage] = useState(1);
+  const { data: customers, isPending, isError, isFetching, refetch, pagination } = useGetAllCustomers(page);
   const { colors } = useTheme();
 
   const customersList: Customer[] = customers?.data?.data || [];
@@ -119,6 +122,19 @@ const CustomersPage = () => {
             </Card>
           </Pressable>
         )}
+        ListFooterComponent={
+          pagination ? (
+            <AppPagination
+              currentPage={pagination.current_page}
+              lastPage={pagination.last_page}
+              total={pagination.total}
+              from={pagination.from}
+              to={pagination.to}
+              isLoading={isFetching}
+              onPageChange={setPage}
+            />
+          ) : null
+        }
       />
     </AppScreen>
   );

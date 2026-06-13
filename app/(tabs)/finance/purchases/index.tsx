@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -91,7 +93,8 @@ const statusConfig: Record<
 
 
 const PurchasesPage = () => {
-  const { data: purchases, isPending, isError, refetch } = useGetAllPurchases();
+  const [page, setPage] = useState(1);
+  const { data: purchases, isPending, isError, isFetching, refetch, pagination } = useGetAllPurchases(page);
   const { colors } = useTheme();
 
   const purchasesList: Purchase[] = purchases?.data?.data || [];
@@ -283,6 +286,19 @@ const PurchasesPage = () => {
             </Pressable>
           );
         }}
+        ListFooterComponent={
+          pagination ? (
+            <AppPagination
+              currentPage={pagination.current_page}
+              lastPage={pagination.last_page}
+              total={pagination.total}
+              from={pagination.from}
+              to={pagination.to}
+              isLoading={isFetching}
+              onPageChange={setPage}
+            />
+          ) : null
+        }
       />
     </AppScreen>
   );

@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -49,7 +51,8 @@ const poultryLabels: Record<string, string> = {
 };
 
 const BatchesPage = () => {
-  const { data: batches, isPending, isError, refetch } = useGetAllBatches();
+  const [page, setPage] = useState(1);
+  const { data: batches, isPending, isError, isFetching, refetch, pagination } = useGetAllBatches(page);
   const { colors } = useTheme();
 
   const batchesList: Batch[] = batches?.data?.data || [];
@@ -215,6 +218,19 @@ const BatchesPage = () => {
             </Pressable>
           );
         }}
+        ListFooterComponent={
+          pagination ? (
+            <AppPagination
+              currentPage={pagination.current_page}
+              lastPage={pagination.last_page}
+              total={pagination.total}
+              from={pagination.from}
+              to={pagination.to}
+              isLoading={isFetching}
+              onPageChange={setPage}
+            />
+          ) : null
+        }
       />
     </AppScreen>
   );

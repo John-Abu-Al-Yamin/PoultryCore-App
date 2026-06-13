@@ -1,5 +1,7 @@
+import { useState } from "react";
 import AppError from "@/src/components/custom/AppError";
 import AppLoading from "@/src/components/custom/AppLoading";
+import AppPagination from "@/src/components/custom/AppPagination";
 import AppScreen from "@/src/components/custom/AppScreen";
 import AppText from "@/src/components/custom/AppText";
 import { Card } from "@/src/components/ui/Card";
@@ -18,7 +20,8 @@ import {
 import { FlatList, Pressable, TouchableOpacity, View, Text } from "react-native";
 
 const BarnPage = () => {
-  const { data: barns, isPending, isError, refetch } = useGetAllBarns();
+  const [page, setPage] = useState(1);
+  const { data: barns, isPending, isError, isFetching, refetch, pagination } = useGetAllBarns(page);
   const { colors } = useTheme();
 
   const barnsList: Barn[] = barns?.data?.data || [];
@@ -173,6 +176,19 @@ const BarnPage = () => {
             </Card>
           </Pressable>
         )}
+        ListFooterComponent={
+          pagination ? (
+            <AppPagination
+              currentPage={pagination.current_page}
+              lastPage={pagination.last_page}
+              total={pagination.total}
+              from={pagination.from}
+              to={pagination.to}
+              isLoading={isFetching}
+              onPageChange={setPage}
+            />
+          ) : null
+        }
       />
     </AppScreen>
   );
